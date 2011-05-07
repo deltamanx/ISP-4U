@@ -2,15 +2,20 @@
 public abstract class AbstractGameObject 
 	implements GameObject 
 {
+	private World<GameObject> enclosingWorld;
 	private Pole objPole;
 	private int currentX;
 	private int currentY;
+	private int height;
+	private int width;
 	
-	public AbstractGameObject(Pole pole, int initX, int initY)
+	public AbstractGameObject(Pole pole, int initX, int initY, int height, int width)
 	{
 		setPole(pole);
-		currentX = initX;
-		currentY = initY;
+		setX(initX);
+		setY(initY);
+		this.height = height;
+		this.width = width;
 	}
 
 	public int getX() 
@@ -30,6 +35,16 @@ public abstract class AbstractGameObject
 	{
 		currentY = y;
 	}
+	
+	public int getHeight()
+	{
+		return height;
+	}
+	
+	public int getWidth()
+	{
+		return width;
+	}
 
 	public void setPole(Pole objPole)
 	{
@@ -40,5 +55,47 @@ public abstract class AbstractGameObject
 	{
 		return objPole;
 	}
+	
+	public void addSelfToWorld(World<GameObject> world)
+	{
+		enclosingWorld = world;
+		if(world.existsInWorld(this))
+			return;
+		world.addToWorld(this);
+	}
 
+	public World<GameObject> getEnclosingWorld()
+	{
+		return enclosingWorld;
+	}
+	
+	public void removeSelfFromWorld()
+	{
+		if (getEnclosingWorld() == null)
+			return;
+		getEnclosingWorld().removeFromWorld(this);
+		enclosingWorld = null;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int hash = 8;
+		hash = (getX() * 97) + hash;
+		hash = (getY() * 97) + hash;
+		hash = (getHeight() * 97) + hash;
+		hash = (getWidth() * 97) + hash;
+		hash = (getPole().getPole() * 97) + hash;
+		return hash;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (!(o instanceof AbstractGameObject))
+			return false;
+		if (hashCode() == o.hashCode())
+			return true;
+		return false;
+	}
 }
