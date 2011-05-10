@@ -8,14 +8,16 @@ public abstract class AbstractGameObject
 	private int currentY;
 	private int height;
 	private int width;
+	private double strength; //added for magnetic calculations.
 	
-	public AbstractGameObject(Pole pole, int initX, int initY, int height, int width)
+	public AbstractGameObject(Pole pole, int initX, int initY, int height, int width, double str)
 	{
 		setPole(pole);
 		setX(initX);
 		setY(initY);
 		this.height = height;
 		this.width = width;
+		strength = str;
 	}
 
 	public int getX() 
@@ -54,6 +56,11 @@ public abstract class AbstractGameObject
 	public Pole getPole()
 	{
 		return objPole;
+	}
+	
+	public double getStrength() 
+	{
+		return strength;
 	}
 	
 	public void addSelfToWorld(World<GameObject> world)

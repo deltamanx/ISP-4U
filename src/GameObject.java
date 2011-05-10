@@ -40,7 +40,7 @@ public interface GameObject
 	int getHeight();
 	
 	/**
-	 * This method is used to retrieve the current X coordinate
+	 * This method is used to retrieve the current Y coordinate
 	 * of a specific GameObject. Implementing classes must
 	 * override this method.
 	 * 

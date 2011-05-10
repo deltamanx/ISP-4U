@@ -1,9 +1,10 @@
 
 public final class Pole 
 {
+	public static final Pole PLAYER = new Pole(-2);
 	public static final Pole NONE = new Pole(-1);
-	public static final Pole NORTH = new Pole(0);
-	public static final Pole SOUTH = new Pole(1);
+	public static final Pole DIA = new Pole(0);
+	public static final Pole PARA = new Pole(1);
 	
 	private int pole;
 	
@@ -19,9 +20,9 @@ public final class Pole
 	
 	public boolean isAttracted(Pole p)
 	{
-		if (p.getPole() == -1 || getPole() == -1)
+		if (!(getPole()== -2))
 			return false;
-		if (p.getPole() == getPole())
+		if (p.getPole()<0 )
 			return false;
 		return true;
 	}
