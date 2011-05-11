@@ -12,6 +12,12 @@ public interface Movable extends GameObject
 	boolean canMoveTo(int x, int y);
 	
 	/**
+	 * This method calculates where the object will move to and moves it there based on
+	 * the current velocity. Implementing classes must override this method.
+	 */
+	void move();
+	
+	/**
 	 * This method adjusts speed based on gravity. Implementing
 	 * classes must override this method.
 	 */

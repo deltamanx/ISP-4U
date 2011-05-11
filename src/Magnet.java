@@ -1,6 +1,5 @@
-
-public class Magnet extends AbstractMovable
-	implements Movable, Solid
+public class Magnet extends AbstractGameObject
+	implements Solid
 {
 	public Magnet(Pole pole, int initX, int initY, int height, int width, double str)
 	{

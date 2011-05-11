@@ -105,6 +105,15 @@ public abstract class AbstractMovable extends AbstractGameObject implements Mova
 			return false;
 		return true;
 	}
+	/**
+	 * This method adds the the current velocity to the current co-ordinates and moves
+	 * the object to that location. 
+	 * 
+	 */
+	@Override
+	public void move (){
+		moveTo((int)(getX()+xSpeed),(int)(getY()+ySpeed));
+	}
 	
 	public boolean isMoving()
 	{

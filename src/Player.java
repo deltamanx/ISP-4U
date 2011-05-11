@@ -1,6 +1,6 @@
 
 public class Player extends AbstractMovable 
-	implements Movable, Solid
+	implements Solid
 {	
 	
 	public Player(int initX, int initY, int height, int width)
