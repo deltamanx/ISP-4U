@@ -14,10 +14,11 @@ public class AbstractWorld<E>
 	 * world, which is an <code>ArrayList\<E\></code> Object in which
 	 * data for all GameObjects in this world is stored.
 	 * 
-	 * @param h The initial height value for the World
 	 * @param w The initial width value for the World
+	 * @param h The initial height value for the World
+	 * @see World
 	 */
-	public AbstractWorld(int h, int w)
+	public AbstractWorld(int w, int h)
 	{
 		setWorld(new ArrayList<E>());
 		setHeight(h);
@@ -112,6 +113,11 @@ public class AbstractWorld<E>
 		return null;
 	}
 
+	/**
+	 * Returns all Movable Objects that are stored in the World.
+	 * 
+	 * @return All Objects implementing the Movable interface or subclasses of AbstractMovable.
+	 */
 	public ArrayList<Movable> getAllMovable()
 	{
 		ArrayList<Movable> movableObjects = new ArrayList<Movable>();

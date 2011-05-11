@@ -12,12 +12,6 @@ public interface Movable extends GameObject
 	boolean canMoveTo(int x, int y);
 	
 	/**
-	 * This method calculates where the object will move to and moves it there based on
-	 * the current velocity. Implementing classes must override this method.
-	 */
-	void move();
-	
-	/**
 	 * This method adjusts speed based on gravity. Implementing
 	 * classes must override this method.
 	 */
@@ -29,7 +23,7 @@ public interface Movable extends GameObject
 	 * 
 	 * @param obj the object to calculate attraction towards.
 	 */
-	public void countMagnetism(AbstractMovable obj);
+	public void countMagnetism(GameObject obj);
 	
 	/**
 	 * The accessor for horizontal the speed of the object. Included here for calling purposes.

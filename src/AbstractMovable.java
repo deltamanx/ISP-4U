@@ -1,5 +1,7 @@
 
-public abstract class AbstractMovable extends AbstractGameObject implements Movable {
+public abstract class AbstractMovable extends AbstractGameObject
+	implements Movable
+{
 	
 	/**
 	 * Inherited constructor
@@ -38,9 +40,33 @@ public abstract class AbstractMovable extends AbstractGameObject implements Mova
 	 * the full acceleration once per second, not one per tick.
 	 * 
 	 */
-	public void countGravity() {
+	public void countGravity()
+	{
 		ySpeed += G;
-		
+	}
+	
+	protected double countXMagnetism(GameObject obj)
+	{
+		double x = 0;
+		if (obj.getPole().equals(Pole.NONE))
+			return 0;
+		if (obj.getPole().equals(Pole.PARA))
+			x = (this.getStrength()*obj.getStrength())/(4*Math.PI*(obj.getX()-getX()));
+		if (obj.getPole().equals(Pole.DIA))
+			x = (this.getStrength()*obj.getStrength())/(4*Math.PI*(getX()-obj.getX()));
+		return x;
+	}
+	
+	protected double countYMagnetism(GameObject obj)
+	{
+		double y = 0;
+		if (obj.getPole().equals(Pole.NONE))
+			return 0;
+		if (obj.getPole().equals(Pole.PARA))
+			y = (this.getStrength()*obj.getStrength())/(4*Math.PI*(obj.getY()-getY()));
+		if (obj.getPole().equals(Pole.DIA))
+			y = (this.getStrength()*obj.getStrength())/(4*Math.PI*(getY()-obj.getY()));
+		return y;
 	}
 
 	@Override
@@ -50,17 +76,18 @@ public abstract class AbstractMovable extends AbstractGameObject implements Mova
 	 * 
 	 * @param obj The object with relation to which magnetic forces will be calculated.
 	 */
-	public void countMagnetism(AbstractMovable obj) {
+	public void countMagnetism(GameObject obj)
+	{
 		double x = 0;  //the x speed to be added.
 		double y = 0;  //the y speed to be added.
 		if (obj.getPole().equals(Pole.NONE))
 			return;
 		if (obj.getPole().equals(Pole.PARA))
-			x = (this.getStrength()*obj.getStrength())/(4*Math.PI*(obj.getX()-getX()));
-			y = (this.getStrength()*obj.getStrength())/(4*Math.PI*(obj.getY()-getY()));
+			x = countXMagnetism(obj);
+			y = countYMagnetism(obj);
 		if (obj.getPole().equals(Pole.DIA))
-			x = (this.getStrength()*obj.getStrength())/(4*Math.PI*(getX()-obj.getX()));
-			y = (this.getStrength()*obj.getStrength())/(4*Math.PI*(getY()-obj.getY()));
+			x = countXMagnetism(obj);
+			y = countYMagnetism(obj);
 		xSpeed += x;
 		ySpeed += y;
 	}
@@ -104,15 +131,6 @@ public abstract class AbstractMovable extends AbstractGameObject implements Mova
 			y + getWidth() > getEnclosingWorld().getWidth())
 			return false;
 		return true;
-	}
-	/**
-	 * This method adds the the current velocity to the current co-ordinates and moves
-	 * the object to that location. 
-	 * 
-	 */
-	@Override
-	public void move (){
-		moveTo((int)(getX()+xSpeed),(int)(getY()+ySpeed));
 	}
 	
 	public boolean isMoving()

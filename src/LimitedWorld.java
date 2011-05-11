@@ -9,8 +9,8 @@
  */
 public class LimitedWorld<E> extends AbstractWorld<E>
 {
-	public LimitedWorld(int h, int w)
+	public LimitedWorld(int w, int h)
 	{
-		super(h, w);
+		super(w, h);
 	}
 }

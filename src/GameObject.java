@@ -57,6 +57,10 @@ public interface GameObject
 	 */
 	int getWidth();
 	
+	Pole getPole();
+	
+	double getStrength();
+	
 	/**
 	 * This method places the GameObject onto the specified grid,
 	 * and assigns it's value to a field within the GameObject for
@@ -81,7 +85,8 @@ public interface GameObject
 	 * is currently enclosed within. Also sets the value for the field
 	 * that stores the current value for the World Object to <code>null</code>.
 	 * If the GameObject is not in a World when this method is called,
-	 * it will perform no action.
+	 * it will perform no action. Implementing classes must override 
+	 * this method.
 	 * 
 	 * @see World
 	 */

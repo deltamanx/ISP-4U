@@ -63,6 +63,7 @@ public abstract class AbstractGameObject
 		return strength;
 	}
 	
+	@Override
 	public void addSelfToWorld(World<GameObject> world)
 	{
 		enclosingWorld = world;
@@ -71,11 +72,13 @@ public abstract class AbstractGameObject
 		world.addToWorld(this);
 	}
 
+	@Override
 	public World<GameObject> getEnclosingWorld()
 	{
 		return enclosingWorld;
 	}
 	
+	@Override
 	public void removeSelfFromWorld()
 	{
 		if (getEnclosingWorld() == null)
