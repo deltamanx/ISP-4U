@@ -8,6 +8,11 @@ public class AbstractWorld<E>
 	private int width;
 	
 	/**
+	 * Creates an instance of the World Object with given parameters
+	 * (namely width and height). These parameter values are set in
+	 * the constructor along with the instantiation of the private field
+	 * world, which is an <code>ArrayList\<E\></code> Object in which
+	 * data for all GameObjects in this world is stored.
 	 * 
 	 * @param h The initial height value for the World
 	 * @param w The initial width value for the World
@@ -19,33 +24,18 @@ public class AbstractWorld<E>
 		setWidth(w);
 	}
 	
-	/**
-	 * 
-	 * @param obj The Object to be added to the World.
-	 * @return <code>true</code>.
-	 */
 	@Override
 	public boolean addToWorld(E obj)
 	{
 		return world.add(obj);
 	}
 
-	/**
-	 * 
-	 * @param obj The Object that this method searches for.
-	 * @return <code>true</code> if the Object exists in the World, <code>false</code> otherwise.
-	 */
 	@Override
 	public boolean existsInWorld(E obj)
 	{
 		return world.contains(obj);
 	}
 
-	/**
-	 * 
-	 * @param obj The Object to remove from the World.
-	 * @return The Object that was removed from the World if it existed in the World, <code>null</code otherwise.
-	 */
 	@Override
 	public E removeFromWorld(E obj)
 	{
@@ -79,10 +69,6 @@ public class AbstractWorld<E>
 		this.height = height;
 	}
 
-	/**
-	 * 
-	 * @return The current value for the height of this World Object.
-	 */
 	public int getHeight()
 	{
 		return height;
@@ -97,10 +83,6 @@ public class AbstractWorld<E>
 		this.width = width;
 	}
 
-	/**
-	 * 
-	 * @return The current value for the width of this World Object.
-	 */
 	public int getWidth()
 	{
 		return width;
@@ -128,6 +110,15 @@ public class AbstractWorld<E>
 			}
 		}
 		return null;
+	}
+
+	public ArrayList<Movable> getAllMovable()
+	{
+		ArrayList<Movable> movableObjects = new ArrayList<Movable>();
+		for (int i = 0; i < getWorld().size(); i++)
+			if (getWorld().get(i) instanceof Movable)
+				movableObjects.add((Movable)getWorld().get(i));
+		return movableObjects;
 	}
 	
 	@Override

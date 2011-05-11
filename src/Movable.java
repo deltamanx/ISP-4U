@@ -5,7 +5,7 @@
  * @author Mihail Kurbako
  * @author Dan Zapornikov
  */
-public interface Movable
+public interface Movable extends GameObject
 {
 	void moveTo(int x, int y);
 	
@@ -56,4 +56,6 @@ public interface Movable
 	 * @param speed the new vertical speed.
 	 */
 	public void setYSpeed(double speed);
+	
+	public boolean isMoving();
 }

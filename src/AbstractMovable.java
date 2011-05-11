@@ -105,4 +105,9 @@ public abstract class AbstractMovable extends AbstractGameObject implements Mova
 			return false;
 		return true;
 	}
+	
+	public boolean isMoving()
+	{
+		return getXSpeed() != 0 && getYSpeed() != 0;
+	}
 }
