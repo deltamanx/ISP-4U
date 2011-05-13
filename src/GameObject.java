@@ -56,9 +56,22 @@ public interface GameObject
 	 * @return Returns the GameObject's horizontal size.
 	 */
 	int getWidth();
-	
+	/**
+	 * This method is used to access the Pole Object assigned to
+	 * this GameObject. Implementing classes must override this method.
+	 * 
+	 * @return The Pole Object assigned to this GameObject.
+	 * @see Pole
+	 */
 	Pole getPole();
-	
+	/**
+	 * This method is used to retrieve the value of the strength
+	 * value of the GameObject's magnetism. The field influences
+	 * how attracted other GameObjects are to this Object. Implementing
+	 * classes must override this method.
+	 * 
+	 * @return The value that was assigned to this field during Object instantiation.
+	 */
 	double getStrength();
 	
 	/**

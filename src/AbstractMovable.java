@@ -1,4 +1,17 @@
 
+/**
+ * This is the abstract class for the Movable interface
+ * that gives its subclasses all the functionality of a
+ * normal GameObject, but it can also move around its
+ * enclosing World Object.
+ * 
+ * @author Mihail Kurbako
+ * @author Dan Zapornikov
+ * @version 1.0.0.2 : April 11, 2011
+ * @since April 6, 2011
+ * @see GameObject
+ * @see Movable
+ */
 public abstract class AbstractMovable extends AbstractGameObject
 	implements Movable
 {

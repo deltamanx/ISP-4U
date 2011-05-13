@@ -42,7 +42,7 @@ public final class Engine extends Thread
 	}
 	/**
 	 * This method will be invoked by a Thread.
-	 * For now, a place holder and a reminder!
+	 * This method will process and update GameObjects.
 	 */
 	public void handleMovement()
 	{
@@ -63,16 +63,34 @@ public final class Engine extends Thread
 		}
 	}
 
+	/**
+	 * Sets the World Object that this engine processes.
+	 * 
+	 * @param world The value for the World Object.
+	 */
 	public void setWorld(World<GameObject> world)
 	{
 		this.world = world;
 	}
 
+	/**
+	 * Returns the World Object that this Engine handles.
+	 *  
+	 * @return The World Object.
+	 */
 	public World<GameObject> getWorld()
 	{
 		return world;
 	}
 	
+	/**
+	 * Checks whether a given GameObject can move to given coordinates. 
+	 *
+	 * @param go The GameObject in question.
+	 * @param x The X coordinate in question.
+	 * @param y The Y coordinate in question.
+	 * @return <code>true</code> if able, <code>false</code> otherwise.
+	 */
 	@SuppressWarnings("rawtypes")
 	public boolean canMoveObject(GameObject go, int x, int y)
 	{
@@ -87,6 +105,13 @@ public final class Engine extends Thread
 		return true;
 	}
 	
+	/**
+	 * Moves a GameObject to a given location in the World.
+	 * 
+	 * @param go The GameObject in question.
+	 * @param x The X coordinate to be moved to.
+	 * @param y The Y coordinate to be moved to.
+	 */
 	public void performMove(GameObject go, int x, int y)
 	{
 		if (go instanceof Movable)
