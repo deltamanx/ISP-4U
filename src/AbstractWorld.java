@@ -1,12 +1,26 @@
 import java.util.ArrayList;
 
+/**
+ * The AbstractWorld class.
+ * <p>
+ * This is the code implementation for the World interface, and
+ * contains all basic code functionality for the methods specified
+ * in the World interface.
+ * 
+ * @author Mihail Kurbako
+ * @version 1.0.0.2 : May 15, 2011
+ * @since May 9, 2011
+ * @see World
+ * @see GameObject
+ * @see AbstractGameObject
+ */
 public class AbstractWorld<E>
-	implements World<E>
+implements World<E>
 {
 	private ArrayList<E> world;
 	private int height;
 	private int width;
-	
+
 	/**
 	 * Creates an instance of the World Object with given parameters
 	 * (namely width and height). These parameter values are set in
@@ -24,7 +38,7 @@ public class AbstractWorld<E>
 		setHeight(h);
 		setWidth(w);
 	}
-	
+
 	@Override
 	public boolean addToWorld(E obj)
 	{
@@ -44,6 +58,7 @@ public class AbstractWorld<E>
 	}
 
 	/**
+	 * Sets the value for the ArrayList Object.
 	 * 
 	 * @param world The new value for this field.
 	 */
@@ -53,6 +68,7 @@ public class AbstractWorld<E>
 	}
 
 	/**
+	 * Returns the ArrayList Object contained within this World.
 	 * 
 	 * @return The current value for this field.
 	 */
@@ -62,6 +78,7 @@ public class AbstractWorld<E>
 	}
 
 	/**
+	 * Sets the value for the vertical size of this World Object.
 	 * 
 	 * @param height The new value for the height of this World Object.
 	 */
@@ -76,6 +93,7 @@ public class AbstractWorld<E>
 	}
 
 	/**
+	 * Sets the value for the horizontal size of this World Object.
 	 * 
 	 * @param width The new value for the width of this World Object.
 	 */
@@ -88,8 +106,10 @@ public class AbstractWorld<E>
 	{
 		return width;
 	}
-	
+
 	/**
+	 * Returns the Object at the specified coordinates within this World.
+	 * If no Object falls within those coordinates, it returns null.
 	 * 
 	 * @param x The X value the Object's bounds exist within.
 	 * @param y The Y value the Object's bounds exist within.
@@ -102,10 +122,10 @@ public class AbstractWorld<E>
 			if(world.get(i) instanceof GameObject)
 			{
 				GameObject go = (GameObject)world.get(i);
-				int minX = go.getX() - go.getHeight();
-				int maxX = go.getX() + go.getHeight();
-				int minY = go.getY() - go.getWidth();
-				int maxY = go.getY() + go.getWidth();
+				int minX = (int) (go.getX() - go.getHeight());
+				int maxX = (int) (go.getX() + go.getHeight());
+				int minY = (int) (go.getY() - go.getWidth());
+				int maxY = (int) (go.getY() + go.getWidth());
 				if((minX < x && maxX > x) && (minY < y && maxY > y))
 					return go;
 			}
@@ -113,11 +133,7 @@ public class AbstractWorld<E>
 		return null;
 	}
 
-	/**
-	 * Returns all Movable Objects that are stored in the World.
-	 * 
-	 * @return All Objects implementing the Movable interface or subclasses of AbstractMovable.
-	 */
+	//Documented in interface
 	public ArrayList<Movable> getAllMovable()
 	{
 		ArrayList<Movable> movableObjects = new ArrayList<Movable>();
@@ -126,7 +142,14 @@ public class AbstractWorld<E>
 				movableObjects.add((Movable)getWorld().get(i));
 		return movableObjects;
 	}
-	
+
+	/**
+	 * Returns the hash code for this World Object. This code
+	 * is based on all values contained within this Object and is
+	 * usually unique. Override from java.lang.Object.
+	 * 
+	 * @return The hash code for this World.
+	 */
 	@Override
 	public int hashCode()
 	{
@@ -136,11 +159,19 @@ public class AbstractWorld<E>
 		hash = world.hashCode() + hash;
 		return hash;
 	}
-	
+
+	/**
+	 * Checks if a given Object and this Object are the same.
+	 * Automatically returns false if the giuven Object is not
+	 * an instance of World. If the given Object is a World it
+	 * compares the Objects' hash codes. Override from java.lang.Object.
+	 * 
+	 * @return <code>true</code> if the given Object is equal, otherwise <code>false</code>.
+	 */
 	@Override
 	public boolean equals(Object o)
 	{
-		if (!(o instanceof AbstractWorld))
+		if (!(o instanceof World))
 			return false;
 		if (hashCode() == o.hashCode())
 			return true;

@@ -1,4 +1,3 @@
-
 /**
  * This class is responsible for Calculating movement for all Objects in
  * a given World. This class is a subclass of Thread and therefore runs
@@ -14,18 +13,19 @@
  * @see Engine
  * @see MoveManager
  */
+@Deprecated
 public final class MoveCalculator extends Thread
 {
 	private Engine parentEngine;
 	private boolean gameRunning;
-	
+
 	public MoveCalculator(Engine parentEngine)
 	{
 		super("Movement Calculator Thread");
 		this.parentEngine = parentEngine;
 		setGameRunning(true);
 	}
-	
+
 	public void setGameRunning(boolean gameRunning)
 	{
 		this.gameRunning = gameRunning;

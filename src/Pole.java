@@ -1,16 +1,37 @@
-
+/**
+ * The Pole class.
+ * <p>
+ * This is a special Object that is assigned to GameObjects
+ * to specify if GameObjects are attracted or repelled (or
+ * unaffected) by each other's proximity. This Object cannot
+ * be from outside the classes code as it's only constructor
+ * has private access. The Objects only values are defined
+ * in the public static final Objects defined in this class.
+ */
 public final class Pole 
 {
+	/**
+	 * The Pole assigned to Player Objects.
+	 */
 	public static final Pole PLAYER = new Pole(-2);
+	/**
+	 * This Pole has no attraction to any Object.
+	 */
 	public static final Pole NONE = new Pole(-1);
+	/**
+	 * This Pole repels all magnetic Objects.
+	 */
 	public static final Pole DIA = new Pole(0);
+	/**
+	 * This Pole attracts all magnetic Objects.
+	 */
 	public static final Pole PARA = new Pole(1);
-	
+
 	private int pole;
-	
+
 	private Pole(int pole)
 	{ this.pole = pole; }
-	
+
 	/**
 	 * This method accesses the <code>int</code> PDT value that stores the
 	 * polar value of a particular Pole Object. This field is set by the
@@ -24,7 +45,7 @@ public final class Pole
 	{
 		return pole;
 	}
-	
+
 	/**
 	 * This method returns a value that dictates whether a given Pole
 	 * and this Pole are attracted to each other.
@@ -40,7 +61,7 @@ public final class Pole
 			return false;
 		return true;
 	}
-	
+
 	public boolean equals(Object o)
 	{
 		if (!(o instanceof Pole))

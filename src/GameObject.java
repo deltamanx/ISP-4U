@@ -9,8 +9,8 @@
  * Object from moving into the area they occupy within a World.
  * 
  * @author Mihail Kurbako
- * @since April 4, 2011
- * @version 1.0.0.12 : April 7, 2011
+ * @since May 4, 2011
+ * @version 1.0.0.12 : May 7, 2011
  * @see Movable
  * @see Solid
  * @see AbstractGameObject
@@ -20,7 +20,7 @@
  *
  */
 public interface GameObject 
-{	
+{ 
 	/**
 	 * This method is used to retrieve the current X coordinate
 	 * of a specific GameObject. Implementing classes must
@@ -28,7 +28,7 @@ public interface GameObject
 	 * 
 	 * @return Returns the current X coordinate of this GameObject.
 	 */
-	int getX();
+	double getX();
 	/**
 	 * This method is used to retrieve the distance of the point
 	 * on this GameObject that is farthest away from it's origin.
@@ -38,7 +38,7 @@ public interface GameObject
 	 * @return Returns the GameObject's vertical size.
 	 */
 	int getHeight();
-	
+
 	/**
 	 * This method is used to retrieve the current Y coordinate
 	 * of a specific GameObject. Implementing classes must
@@ -46,7 +46,7 @@ public interface GameObject
 	 * 
 	 * @return Returns the current Y coordinate of this GameObject.
 	 */
-	int getY();
+	double getY();
 	/**
 	 * This method is used to retrieve the distance of the point
 	 * on this GameObject that is farthest away from it's origin.
@@ -73,7 +73,7 @@ public interface GameObject
 	 * @return The value that was assigned to this field during Object instantiation.
 	 */
 	double getStrength();
-	
+
 	/**
 	 * This method places the GameObject onto the specified grid,
 	 * and assigns it's value to a field within the GameObject for

@@ -1,4 +1,3 @@
-
 /**
  * This is the abstract class for the Movable interface
  * that gives its subclasses all the functionality of a
@@ -13,9 +12,9 @@
  * @see Movable
  */
 public abstract class AbstractMovable extends AbstractGameObject
-	implements Movable
+implements Movable
 {
-	
+
 	/**
 	 * Inherited constructor
 	 * 
@@ -40,13 +39,13 @@ public abstract class AbstractMovable extends AbstractGameObject
 	 * 
 	 */
 	private double ySpeed = 0.0;
-	
+
 	/**
 	 * The gravitational constant. Used to calculate gravity
 	 * 
 	 */
 	final static double G = 9.81;
-	
+
 	@Override
 	/**
 	 * Increases the speed at which the object is moving downwards to simulate gravity. This will increment
@@ -57,7 +56,7 @@ public abstract class AbstractMovable extends AbstractGameObject
 	{
 		ySpeed += G;
 	}
-	
+
 	protected double countXMagnetism(GameObject obj)
 	{
 		double x = 0;
@@ -69,7 +68,7 @@ public abstract class AbstractMovable extends AbstractGameObject
 			x = (this.getStrength()*obj.getStrength())/(4*Math.PI*(getX()-obj.getX()));
 		return x;
 	}
-	
+
 	protected double countYMagnetism(GameObject obj)
 	{
 		double y = 0;
@@ -97,14 +96,14 @@ public abstract class AbstractMovable extends AbstractGameObject
 			return;
 		if (obj.getPole().equals(Pole.PARA))
 			x = countXMagnetism(obj);
-			y = countYMagnetism(obj);
+		y = countYMagnetism(obj);
 		if (obj.getPole().equals(Pole.DIA))
 			x = countXMagnetism(obj);
-			y = countYMagnetism(obj);
+		y = countYMagnetism(obj);
 		xSpeed += x;
 		ySpeed += y;
 	}
-	
+
 	@Override
 	public double getXSpeed() {
 		return xSpeed;
@@ -113,7 +112,7 @@ public abstract class AbstractMovable extends AbstractGameObject
 	@Override
 	public void setXSpeed(double speed) {
 		xSpeed = speed;
-		
+
 	}
 
 	@Override
@@ -125,27 +124,27 @@ public abstract class AbstractMovable extends AbstractGameObject
 	@Override
 	public void setYSpeed(double speed) {
 		ySpeed = speed;
-		
+
 	}
-	
+
 	@Override
-	public void moveTo(int x, int y)
+	public void moveTo(double x, double y)
 	{
 		setX(x);
 		setY(y);
 	}
-	
+
 	@Override
-	public boolean canMoveTo(int x, int y)
+	public boolean canMoveTo(double x, double y)
 	{
 		if (x - getHeight() < 0 || y - getWidth() < 0)
 			return false;
 		if (x + getHeight() > getEnclosingWorld().getHeight() ||
-			y + getWidth() > getEnclosingWorld().getWidth())
+				y + getWidth() > getEnclosingWorld().getWidth())
 			return false;
 		return true;
 	}
-	
+
 	public boolean isMoving()
 	{
 		return getXSpeed() != 0 && getYSpeed() != 0;

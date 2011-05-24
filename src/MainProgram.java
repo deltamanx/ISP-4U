@@ -1,24 +1,70 @@
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 
-public class MainProgram
+/**
+ * The MainProgram.
+ * <p>
+ * This Class contains the static method main that is invoked
+ * by the JVM to run the program. It is a subclass of Slick2Ds
+ * BasicGame class and Overrides many of the inherited methods
+ * for code implementation.
+ * 
+ * @author Mihail Kurbako
+ * @author Dan Zapornikov
+ * @version 1.0.0.0 : May 18,2011
+ * @since May 18, 2011
+ * @see GameObject
+ * @see World
+ * @see Engine
+ */
+public class MainProgram extends BasicGame
 {
-	public MainProgram()
+	private World<GameObject> world;
+	private Engine engine;
+
+	public MainProgram ()
 	{
-		LimitedWorld<GameObject> w;
-		Player p = new Player(10, 250, 10, 10);
-		Engine e;
-		w = new LimitedWorld<GameObject>(300, 500);
-		p.addSelfToWorld(w);
-		e = new Engine(w);
-		e.start();
+		super ("Interrobang!?");
 	}
 
-	/**
-	 * @param args Arguments taken as an Array of Strings from the JVM.
-	 */
-	public static void main(String[] args)
+	public void init (GameContainer gc)
+	throws SlickException
 	{
-		// TODO Auto-generated method stub
-		new MainProgram();
+		Player p;
+		world = new LimitedWorld<GameObject>(600, 800);
+		world.addToWorld(new Magnet(Pole.DIA, 20, 20, 20, 80, 1.5));
+		world.addToWorld(new Magnet(Pole.DIA, 515, 580, 20, 80, 1.5));
+		p = new Player(160, 270, 10, 10);
+		p.setXSpeed(3);
+		p.setYSpeed(1.5);
+		p.addSelfToWorld(world);
+		engine = new Engine(world);
 	}
 
+	public void update (GameContainer gc, int delta)
+	throws SlickException
+	{
+		engine.recalculateMovement();
+		engine.handleMovement();
+	}
+
+
+	public void render (GameContainer gc, Graphics g)
+	throws SlickException
+	{
+		engine.renderImages(g);
+	}
+
+
+	public static void main (String[] args)
+	throws SlickException
+	{
+		AppGameContainer app = new AppGameContainer (new MainProgram ());
+
+		app.setDisplayMode (800, 600, false);
+		app.start ();
+	}
 }

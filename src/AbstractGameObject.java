@@ -1,4 +1,3 @@
-
 /**
  * This class is the abstract class that is used as the super
  * class for all GameObjects. Though no methods in this class
@@ -21,16 +20,16 @@
  * @see World
  */
 public abstract class AbstractGameObject 
-	implements GameObject 
+implements GameObject 
 {
 	private World<GameObject> enclosingWorld;
 	private Pole objPole;
-	private int currentX;
-	private int currentY;
+	private double currentX;
+	private double currentY;
 	private int height;
 	private int width;
 	private double strength; //added for magnetic calculations.
-	
+
 	/**
 	 * The sole Constructor for AbstractGameObject.
 	 * This construct a new instance of the AbstractGameObject
@@ -56,7 +55,7 @@ public abstract class AbstractGameObject
 	}
 
 	//Documented in interface
-	public int getX() 
+	public double getX() 
 	{
 		return currentX;
 	}
@@ -66,13 +65,13 @@ public abstract class AbstractGameObject
 	 * 
 	 * @param x The new value for the X coordinate of this GameObject.
 	 */
-	public void setX(int x)
+	public void setX(double x)
 	{
 		currentX = x;
 	}
 
 	//Documented in interface
-	public int getY() 
+	public double getY() 
 	{
 		return currentY;
 	}
@@ -82,7 +81,7 @@ public abstract class AbstractGameObject
 	 * 
 	 * @param y The new value for the Y coordinate of this GameObject.
 	 */
-	public void setY(int y)
+	public void setY(double y)
 	{
 		currentY = y;
 	}
@@ -117,7 +116,7 @@ public abstract class AbstractGameObject
 	{
 		return strength;
 	}
-	
+
 	//Documented in interface
 	@Override
 	public void addSelfToWorld(World<GameObject> world)
@@ -134,7 +133,7 @@ public abstract class AbstractGameObject
 	{
 		return enclosingWorld;
 	}
-	
+
 	//Documented in interface
 	@Override
 	public void removeSelfFromWorld()
@@ -144,7 +143,7 @@ public abstract class AbstractGameObject
 		getEnclosingWorld().removeFromWorld(this);
 		enclosingWorld = null;
 	}
-	
+
 	/**
 	 * Overrides the hashCode method from java.lang.Object.
 	 * 
@@ -154,14 +153,14 @@ public abstract class AbstractGameObject
 	public int hashCode()
 	{
 		int hash = 8;
-		hash = (getX() * 97) + hash;
-		hash = (getY() * 97) + hash;
+		hash = (int) ((getX() * 97) + hash);
+		hash = (int) ((getY() * 97) + hash);
 		hash = (getHeight() * 97) + hash;
 		hash = (getWidth() * 97) + hash;
 		hash = (getPole().getPole() * 97) + hash;
 		return hash;
 	}
-	
+
 	/**
 	 * Overrides the equals method from java.lang.Object.
 	 * Compares two Objects.

@@ -1,14 +1,18 @@
-
 /**
+ * <h1>The Block Class.</h1>
+ * <p>
+ * This is an immobile block. It doesn't move, but is in fact
+ * Solid, and therefore the Player Object will bounce off of this
+ * Object.
  * 
  * @author Mihail Kurbako
- * @version 1.0.0.0 : April 5, 2011
+ * @version 1.0.0.0 : May 5, 2011
  * @since April 5, 2011
  * @see Solid
  * @see Movable
  */
 public class Block extends AbstractGameObject
-	implements Solid
+implements Solid
 {
 	/**
 	 * This GameObject is a non-moving block. It has no magnetic properties

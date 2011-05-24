@@ -22,7 +22,7 @@ public interface Movable extends GameObject
 	 * @param x The new value for this GameObject's X coordinate.
 	 * @param y The new value for this GameObject's Y coordinate.
 	 */
-	void moveTo(int x, int y);
+	void moveTo(double x, double y);
 	/**
 	 * Checks whether this GameObject can move to the
 	 * specified coordinates. This will always return false
@@ -33,14 +33,14 @@ public interface Movable extends GameObject
 	 * @param y The potential value for the GameObject's Y coordinate.
 	 * @return <code>true</code> if it is able, <code>false</code> otherwise.
 	 */
-	boolean canMoveTo(int x, int y);
-	
+	boolean canMoveTo(double x, double y);
+
 	/**
 	 * This method adjusts speed based on gravity. Implementing
 	 * classes must override this method.
 	 */
 	public void countGravity();
-	
+
 	/**
 	 * Adjusts speed based on magnetic attraction to given object. Implementing
 	 * classes must override this method.
@@ -48,7 +48,7 @@ public interface Movable extends GameObject
 	 * @param obj the object to calculate attraction towards.
 	 */
 	public void countMagnetism(GameObject obj);
-	
+
 	/**
 	 * The accessor for horizontal the speed of the object. Included here for calling purposes.
 	 * Implementing classes must override this method. 
@@ -56,7 +56,7 @@ public interface Movable extends GameObject
 	 * @return the horizontal speed of the object.
 	 */
 	public double getXSpeed();
-	
+
 	/**
 	 * The mutator for horizontal the speed of the object. Included here for calling purposes.
 	 * Implementing classes must override this method. 
@@ -64,7 +64,7 @@ public interface Movable extends GameObject
 	 * @param speed the new horizontal speed.
 	 */
 	public void setXSpeed(double speed);
-	
+
 	/**
 	 * The accessor for vertical the speed of the object. Included here for calling purposes.
 	 * Implementing classes must override this method. 
@@ -72,7 +72,7 @@ public interface Movable extends GameObject
 	 * @return the vertical speed of the object.
 	 */
 	public double getYSpeed();
-	
+
 	/**
 	 * The mutator for vertical the speed of the object. Included here for calling purposes.
 	 * Implementing classes must override this method. 

@@ -14,18 +14,19 @@
  * @see Engine
  * @see MoveCalculator
  */
+@Deprecated
 public final class MoveManager extends Thread
 {
 	private Engine parentEngine;
 	private boolean gameRunning;
-	
+
 	public MoveManager(Engine parentEngine)
 	{
 		super("Movement Manager Thread");
 		this.parentEngine = parentEngine;
 		setGameRunning(true);
 	}
-	
+
 	public void setGameRunning(boolean gameRunning)
 	{
 		this.gameRunning = gameRunning;

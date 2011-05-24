@@ -1,13 +1,29 @@
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
+/**
+ * This the Game Engine.
+ * <p>
+ * It handles most operations that are performed during run time.
+ * It does both number processing and calculations as well as GameObject
+ * movement and World handling.
+ * 
+ * @author Mihail Kurbako
+ * @author Dan Zapornicov
+ * @version 1.0.0.12 May 8, 2011
+ * @since May 8, 2011
+ */
 public final class Engine extends Thread
 {
 	private World<GameObject> world;
-	
 	//Fields accessed from Threads
 	private Thread moveCalculator;
 	private Thread moveManager;
-	
+
 	/**
 	 * This constructs a new instance of the Engine Object. Engine, subclass
 	 * of java.lang.Thread, runs in a Thread separate from the main program,
@@ -21,10 +37,11 @@ public final class Engine extends Thread
 		super("World Thread Handler Thread");
 		setWorld(world);
 	}
-	
+
 	/**
-	 * This method will be invoked by a Thread.
-	 * This method will invoke methods to update velocity values.
+	 * This method does numeric calculations for all Movable
+	 * GameObjects within the handled World. This method handles
+	 * magnetism calculations for all Movables.
 	 */
 	public void recalculateMovement()
 	{
@@ -41,8 +58,10 @@ public final class Engine extends Thread
 		}
 	}
 	/**
-	 * This method will be invoked by a Thread.
-	 * This method will process and update GameObjects.
+	 * This method handles GameObject movement in the handled World.
+	 * This is movement for all GameObjects that implement Movable.
+	 * Other Object are not hgandled by this method as they cannot move
+	 * therefore need not be processed by this game.
 	 */
 	public void handleMovement()
 	{
@@ -54,11 +73,25 @@ public final class Engine extends Thread
 			if(moving.get(i).isMoving())
 			{
 				//Find coordinates for Objects next desired move spot.
-				int newX = (int)(moving.get(i).getX() + moving.get(i).getXSpeed());
-				int newY = (int)(moving.get(i).getY() + moving.get(i).getYSpeed());
+				double newX = (moving.get(i).getX() + moving.get(i).getXSpeed());
+				double newY = (moving.get(i).getY() + moving.get(i).getYSpeed());
 				//Check if Object is able to move to those coordinates.
 				if (moving.get(i).canMoveTo(newX, newY))
 					moving.get(i).moveTo(newX, newY);
+			}
+		}
+	}
+
+	public void renderImages(Graphics g) throws SlickException
+	{
+		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
+		{
+			if(i instanceof Magnet)
+				g.drawImage(new Image("C:/Temp/Image.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
+			else if(i instanceof Player)
+			{
+				g.drawString("  X: " + (float)i.getX() + " Y: " + (float)i.getY(), (float)i.getX(), (float)i.getY() - 10);
+				g.drawImage(new Image("C:/Temp/Player.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
 			}
 		}
 	}
@@ -82,7 +115,7 @@ public final class Engine extends Thread
 	{
 		return world;
 	}
-	
+
 	/**
 	 * Checks whether a given GameObject can move to given coordinates. 
 	 *
@@ -104,7 +137,7 @@ public final class Engine extends Thread
 			return false;
 		return true;
 	}
-	
+
 	/**
 	 * Moves a GameObject to a given location in the World.
 	 * 
@@ -121,7 +154,7 @@ public final class Engine extends Thread
 		else
 			return;
 	}
-	
+
 	/**
 	 * This method is called by the MoveManager Thread from the context of
 	 * the Engine class to prevent IllegalAccessExceptions. It is used to
@@ -145,7 +178,7 @@ public final class Engine extends Thread
 	 */
 	public synchronized void notifyMoveManager()
 	{ moveManager.notify(); }
-	
+
 	/**
 	 * The run method inherited from Thread. It was overridden for the use
 	 * in this class. This method performs the following: First, it creates
@@ -166,9 +199,5 @@ public final class Engine extends Thread
 	public void run()
 	{
 		System.out.println("Thread starting");
-		moveCalculator = new MoveCalculator(this);
-		moveManager = new MoveManager(this);
-		moveCalculator.start();
-		moveManager.start();
 	}
 }
