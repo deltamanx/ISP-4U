@@ -59,7 +59,7 @@ public final class Engine extends Thread
 			{
 				//Count Magnetism for all Objects in the World.
 				if (!moving.get(i).equals(world.get(j)))
-				moving.get(i).countMagnetism(world.get(j), delta);
+					moving.get(i).countMagnetism(world.get(j), delta);
 
 			}
 			moving.get(i).countGravity(delta);
