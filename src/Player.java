@@ -18,6 +18,6 @@ implements Solid
 { 
 	public Player(int initX, int initY, int height, int width)
 	{
-		super(Pole.PLAYER, initX, initY, height, width, 1000.0);
+		super(Pole.PLAYER, initX, initY, height, width, 10.0);
 	}
 }

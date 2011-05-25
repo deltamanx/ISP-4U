@@ -57,29 +57,27 @@ implements Movable
 	{
 		ySpeed += delta*G/1000;
 	}
-
-	protected double countXMagnetism(GameObject obj)
+	
+	private double getAngleTo (GameObject obj)
 	{
-		double x = 0;
-		if (obj.getPole().equals(Pole.NONE))
-			return 0;
-		if (obj.getPole().equals(Pole.PARA))
-			x = (this.getStrength()*obj.getStrength())/(4*Math.PI*(obj.getX()-getX()));
-		if (obj.getPole().equals(Pole.DIA))
-			x = (this.getStrength()*obj.getStrength())/(4*Math.PI*(getX()-obj.getX()));
-		return x;
+		double xDist = obj.getX()-getX();
+		double yDist = getY()-obj.getY();
+		
+		double angle = Math.atan(yDist/(xDist));
+		
+		if (obj.getY()>getY())
+			angle += Math.PI;
+		return angle;
 	}
-
-	protected double countYMagnetism(GameObject obj)
+	
+	private double getAttractionTo (GameObject obj)
 	{
-		double y = 0;
-		if (obj.getPole().equals(Pole.NONE))
-			return 0;
-		if (obj.getPole().equals(Pole.PARA))
-			y = (this.getStrength()*obj.getStrength())/(4*Math.PI*(obj.getY()-getY()));
-		if (obj.getPole().equals(Pole.DIA))
-			y = (this.getStrength()*obj.getStrength())/(4*Math.PI*(getY()-obj.getY()));
-		return y;
+		double xDist = Math.abs(obj.getX()-getX());
+		double yDist = Math.abs(getY()-obj.getY());
+		double dist = Math.sqrt(xDist*xDist + yDist*yDist);
+		if (obj.getPole()== Pole.DIA)	
+			return -(this.getStrength()*obj.getStrength())/(4*Math.PI*(dist));
+		return (this.getStrength()*obj.getStrength())/(4*Math.PI*(dist));
 	}
 
 	@Override
@@ -92,12 +90,12 @@ implements Movable
 	 */
 	public void countMagnetism(GameObject obj, int delta)
 	{
-		double x = 0;  //the x speed to be added.
-		double y = 0;  //the y speed to be added.
-		if (obj.getPole().equals(Pole.NONE))
-			return;
-		x = countXMagnetism(obj);
-		y = countYMagnetism(obj);
+		double x; //the x speed to be added.
+		double y; //the y speed to be added.
+		double acc = getAttractionTo(obj); //the acceleration of the object
+		double angle = getAngleTo(obj); //the angle to the object, with right as the baseline.
+		x = acc*Math.cos(angle);
+		y = -acc*Math.sin(angle);
 		xSpeed += x*delta/1000;
 		ySpeed += y*delta/1000;
 	}

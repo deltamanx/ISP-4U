@@ -35,13 +35,13 @@ public class MainProgram extends BasicGame
 	{
 		Player p;
 		world = new LimitedWorld<GameObject>(600, 800);
-		world.addToWorld(new Magnet(Pole.DIA, 20, 20, 20, 80, 150));
-		world.addToWorld(new Magnet(Pole.DIA, 520, 580, 20, 80, 150));
-		//world.addToWorld(new Magnet(Pole.PARA, 20, 580, 20, 80, 15));
+		//world.addToWorld(new Magnet(Pole.DIA, 20, 20, 20, 80, 15));
+		//world.addToWorld(new Magnet(Pole.DIA, 520, 580, 20, 80, 15));
+		//world.addToWorld(new Magnet(Pole.PARA, 20, 580, 20, 80, 150));
 		//world.addToWorld(new Magnet(Pole.PARA, 520, 20, 20, 80, 15));
 		p = new Player(200, 200, 10, 10);
 		p.setXSpeed(0);
-		p.setYSpeed(-100);
+		p.setYSpeed(100);
 		p.addSelfToWorld(world);
 		engine = new Engine(world);
 	}

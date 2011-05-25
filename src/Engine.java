@@ -58,8 +58,9 @@ public final class Engine extends Thread
 			{
 				//Count Magnetism for all Objects in the World.
 				moving.get(i).countMagnetism(((AbstractWorld<GameObject>)world).getWorld().get(j), delta);
-				moving.get(i).countGravity(delta);
+
 			}
+			moving.get(i).countGravity(delta);
 		}
 	}
 	/**
@@ -97,6 +98,7 @@ public final class Engine extends Thread
 			{
 				g.drawString("  X: " + (float)i.getX() + " Y: " + (float)i.getY(), (float)i.getX(), (float)i.getY() - 10);
 				g.drawImage(new Image("dat/player.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
+				
 			}
 		}
 	}
