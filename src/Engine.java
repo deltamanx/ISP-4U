@@ -50,16 +50,19 @@ public final class Engine extends Thread
 	public void recalculateMovement(int delta)
 	{
 		ArrayList<Movable> moving = ((AbstractWorld<GameObject>)getWorld()).getAllMovable();
+		ArrayList<GameObject> world = ((AbstractWorld<GameObject>)getWorld()).getWorld();
 		//Go through all Movable Objects
 		for (int i = 0; i < moving.size(); i++)
 		{
 			//Check to see if magnetism exists
-			for (int j = 0; j < ((AbstractWorld<GameObject>)world).getWorld().size(); j++)
+			for (int j = 0; j < world.size(); j++)
 			{
 				//Count Magnetism for all Objects in the World.
-				moving.get(i).countMagnetism(((AbstractWorld<GameObject>)world).getWorld().get(j), delta);
-				moving.get(i).countGravity(delta);
+				if (!moving.get(i).equals(world.get(j)))
+				moving.get(i).countMagnetism(world.get(j), delta);
+
 			}
+			moving.get(i).countGravity(delta);
 		}
 	}
 	/**
@@ -97,6 +100,7 @@ public final class Engine extends Thread
 			{
 				g.drawString("  X: " + (float)i.getX() + " Y: " + (float)i.getY(), (float)i.getX(), (float)i.getY() - 10);
 				g.drawImage(new Image("dat/player.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
+				
 			}
 		}
 	}
