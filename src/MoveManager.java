@@ -45,7 +45,7 @@ public final class MoveManager extends Thread
 			try
 			{
 				wait(2000);
-				parentEngine.handleMovement();
+				parentEngine.handleMovement(0);
 				parentEngine.notifyMoveCalculator();
 			}
 			catch(InterruptedException e)

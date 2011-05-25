@@ -51,10 +51,11 @@ implements Movable
 	 * Increases the speed at which the object is moving downwards to simulate gravity. This will increment
 	 * the full acceleration once per second, not one per tick.
 	 * 
+	 * @param delta the number of milliseconds since the last frame.
 	 */
-	public void countGravity()
+	public void countGravity(int delta)
 	{
-		ySpeed += G;
+		ySpeed += delta*G/1000;
 	}
 
 	protected double countXMagnetism(GameObject obj)
@@ -87,21 +88,18 @@ implements Movable
 	 * a certain object.
 	 * 
 	 * @param obj The object with relation to which magnetic forces will be calculated.
+	 * @param delta the number of milliseconds since the last frame.
 	 */
-	public void countMagnetism(GameObject obj)
+	public void countMagnetism(GameObject obj, int delta)
 	{
 		double x = 0;  //the x speed to be added.
 		double y = 0;  //the y speed to be added.
 		if (obj.getPole().equals(Pole.NONE))
 			return;
-		if (obj.getPole().equals(Pole.PARA))
-			x = countXMagnetism(obj);
+		x = countXMagnetism(obj);
 		y = countYMagnetism(obj);
-		if (obj.getPole().equals(Pole.DIA))
-			x = countXMagnetism(obj);
-		y = countYMagnetism(obj);
-		xSpeed += x;
-		ySpeed += y;
+		xSpeed += x*delta/1000;
+		ySpeed += y*delta/1000;
 	}
 
 	@Override

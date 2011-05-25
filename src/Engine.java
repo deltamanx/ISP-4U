@@ -41,9 +41,13 @@ public final class Engine extends Thread
 	/**
 	 * This method does numeric calculations for all Movable
 	 * GameObjects within the handled World. This method handles
-	 * magnetism calculations for all Movables.
+	 * magnetism calculations for all Movables. The speed calculated
+	 * depends on the time since the last frame, and is in essence
+	 * calculated for each millisecond passed.
+	 * 
+	 * @param delta the number of milliseconds since the last frame.
 	 */
-	public void recalculateMovement()
+	public void recalculateMovement(int delta)
 	{
 		ArrayList<Movable> moving = ((AbstractWorld<GameObject>)getWorld()).getAllMovable();
 		//Go through all Movable Objects
@@ -53,17 +57,18 @@ public final class Engine extends Thread
 			for (int j = 0; j < ((AbstractWorld<GameObject>)world).getWorld().size(); j++)
 			{
 				//Count Magnetism for all Objects in the World.
-				moving.get(i).countMagnetism(((AbstractWorld<GameObject>)world).getWorld().get(j));
+				moving.get(i).countMagnetism(((AbstractWorld<GameObject>)world).getWorld().get(j), delta);
+				moving.get(i).countGravity(delta);
 			}
 		}
 	}
 	/**
 	 * This method handles GameObject movement in the handled World.
 	 * This is movement for all GameObjects that implement Movable.
-	 * Other Object are not hgandled by this method as they cannot move
+	 * Other Object are not handled by this method as they cannot move
 	 * therefore need not be processed by this game.
 	 */
-	public void handleMovement()
+	public void handleMovement(int delta)
 	{
 		ArrayList<Movable> moving = ((AbstractWorld<GameObject>)getWorld()).getAllMovable();
 		//Go through all Movable Objects
@@ -73,8 +78,8 @@ public final class Engine extends Thread
 			if(moving.get(i).isMoving())
 			{
 				//Find coordinates for Objects next desired move spot.
-				double newX = (moving.get(i).getX() + moving.get(i).getXSpeed());
-				double newY = (moving.get(i).getY() + moving.get(i).getYSpeed());
+				double newX = (moving.get(i).getX() + moving.get(i).getXSpeed()*delta/1000);
+				double newY = (moving.get(i).getY() + moving.get(i).getYSpeed()*delta/1000);
 				//Check if Object is able to move to those coordinates.
 				if (moving.get(i).canMoveTo(newX, newY))
 					moving.get(i).moveTo(newX, newY);
@@ -87,11 +92,11 @@ public final class Engine extends Thread
 		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
 		{
 			if(i instanceof Magnet)
-				g.drawImage(new Image("C:/Temp/Image.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
+				g.drawImage(new Image("dat/magnet.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
 			else if(i instanceof Player)
 			{
 				g.drawString("  X: " + (float)i.getX() + " Y: " + (float)i.getY(), (float)i.getX(), (float)i.getY() - 10);
-				g.drawImage(new Image("C:/Temp/Player.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
+				g.drawImage(new Image("dat/player.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
 			}
 		}
 	}

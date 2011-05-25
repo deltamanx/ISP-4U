@@ -38,16 +38,19 @@ public interface Movable extends GameObject
 	/**
 	 * This method adjusts speed based on gravity. Implementing
 	 * classes must override this method.
+	 * 
+	 * @param delta the number of milliseconds since the last frame.
 	 */
-	public void countGravity();
+	public void countGravity(int delta);
 
 	/**
 	 * Adjusts speed based on magnetic attraction to given object. Implementing
 	 * classes must override this method.
 	 * 
 	 * @param obj the object to calculate attraction towards.
+	 * @param delta the number of milliseconds since the last frame.
 	 */
-	public void countMagnetism(GameObject obj);
+	public void countMagnetism(GameObject obj,int delta);
 
 	/**
 	 * The accessor for horizontal the speed of the object. Included here for calling purposes.

@@ -43,7 +43,7 @@ public final class MoveCalculator extends Thread
 		{
 			try
 			{
-				parentEngine.recalculateMovement();
+				parentEngine.recalculateMovement(0);
 				parentEngine.notifyMoveManager();
 				wait(2000);
 			}

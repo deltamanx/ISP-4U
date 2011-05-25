@@ -35,11 +35,13 @@ public class MainProgram extends BasicGame
 	{
 		Player p;
 		world = new LimitedWorld<GameObject>(600, 800);
-		world.addToWorld(new Magnet(Pole.DIA, 20, 20, 20, 80, 1.5));
-		world.addToWorld(new Magnet(Pole.DIA, 515, 580, 20, 80, 1.5));
-		p = new Player(160, 270, 10, 10);
-		p.setXSpeed(3);
-		p.setYSpeed(1.5);
+		world.addToWorld(new Magnet(Pole.DIA, 20, 20, 20, 80, 150));
+		world.addToWorld(new Magnet(Pole.DIA, 520, 580, 20, 80, 150));
+		//world.addToWorld(new Magnet(Pole.PARA, 20, 580, 20, 80, 15));
+		//world.addToWorld(new Magnet(Pole.PARA, 520, 20, 20, 80, 15));
+		p = new Player(200, 200, 10, 10);
+		p.setXSpeed(0);
+		p.setYSpeed(-100);
 		p.addSelfToWorld(world);
 		engine = new Engine(world);
 	}
@@ -47,8 +49,8 @@ public class MainProgram extends BasicGame
 	public void update (GameContainer gc, int delta)
 	throws SlickException
 	{
-		engine.recalculateMovement();
-		engine.handleMovement();
+		engine.recalculateMovement(delta);
+		engine.handleMovement(delta);
 	}
 
 
