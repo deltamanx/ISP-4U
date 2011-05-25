@@ -35,6 +35,10 @@ public interface Movable extends GameObject
 	 */
 	boolean canMoveTo(double x, double y);
 
+	boolean canMoveToX(double x);
+
+	boolean canMoveToY(double y);
+
 	/**
 	 * This method adjusts speed based on gravity. Implementing
 	 * classes must override this method.

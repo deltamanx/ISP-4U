@@ -67,6 +67,7 @@ public class MainProgram extends BasicGame
 		AppGameContainer app = new AppGameContainer (new MainProgram ());
 
 		app.setDisplayMode (800, 600, false);
+		app.setVSync(true);
 		app.start ();
 	}
 }

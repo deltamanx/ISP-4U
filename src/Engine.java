@@ -86,6 +86,10 @@ public final class Engine extends Thread
 				//Check if Object is able to move to those coordinates.
 				if (moving.get(i).canMoveTo(newX, newY))
 					moving.get(i).moveTo(newX, newY);
+				else if (moving.get(i).canMoveToX(newX))
+					moving.get(i).moveTo(newX, moving.get(i).getY());
+				else if (moving.get(i).canMoveToY(newY))
+					moving.get(i).moveTo(moving.get(i).getX(), newY);
 			}
 		}
 	}
@@ -98,7 +102,7 @@ public final class Engine extends Thread
 				g.drawImage(new Image("dat/magnet.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
 			else if(i instanceof Player)
 			{
-				g.drawString("  X: " + (float)i.getX() + " Y: " + (float)i.getY(), (float)i.getX(), (float)i.getY() - 10);
+				g.drawString("  X: " + (int)i.getX() + " Y: " + (int)i.getY(), (float)i.getX(), (float)i.getY() - 10);
 				g.drawImage(new Image("dat/player.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
 				
 			}
