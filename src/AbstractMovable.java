@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * This is the abstract class for the Movable interface
  * that gives its subclasses all the functionality of a
@@ -25,7 +27,8 @@ implements Movable
 	 * @param width the width of the new Movable.
 	 */
 	public AbstractMovable(Pole pole, int initX, int initY, int height,
-			int width, double str) {
+			int width, double str) 
+	{
 		super(pole, initX, initY, height, width,str);
 	}
 
@@ -60,28 +63,28 @@ implements Movable
 	
 	private double getAngleTo (GameObject obj)
 	{
-		double xDist = obj.getX()-getX();
-		double yDist = getY()-obj.getY();
+		double xDist = (obj.getX() + (obj.getHeight() / 2)) - getX();
+		double yDist = getY() - (obj.getY() + (obj.getWidth() / 2));
 		
 		double angle = Math.atan(yDist/(xDist));
 		
-		if (obj.getY()>getY())
+		if (obj.getY() > getY())
 			angle += Math.PI;
 		return angle;
 	}
 	
 	private double getAttractionTo (GameObject obj)
 	{
-		double xDist = Math.abs(obj.getX()-getX());
-		double yDist = Math.abs(getY()-obj.getY());
-		double dist = Math.sqrt(xDist*xDist + yDist*yDist);
-		double ret = (this.getStrength()*obj.getStrength())/(4*Math.PI*(dist));
-		if (obj.getX()> getX())	
-			ret = ret*-1;
-		if (obj.getY()> getY())	
-			ret = ret*-1;
+		double xDist = Math.abs(obj.getX() - getX());
+		double yDist = Math.abs(obj.getY() - getY());
+		double dist = Math.sqrt(xDist * xDist + yDist * yDist);
+		double ret = (this.getStrength() * obj.getStrength()) / (4 * Math.PI * (dist));
+		if (obj.getX() > getX())	
+			ret = ret * -1;
+		if (obj.getY() > getY())	
+			ret = ret * -1;
 		if (obj.getPole().equals(Pole.DIA))	
-			ret = ret*-1;
+			ret = ret * -1;
 		return ret;
 	}
 
@@ -99,33 +102,35 @@ implements Movable
 		double y; //the y speed to be added.
 		double acc = getAttractionTo(obj); //the acceleration of the object
 		double angle = getAngleTo(obj); //the angle to the object, with right as the baseline.
-		x = acc*Math.cos(angle);
-		y = acc*Math.sin(angle);
-		xSpeed += x*delta/1000;
-		ySpeed += y*delta/1000;
+		x = -1 * acc * Math.cos(angle);
+		y = acc * Math.sin(angle);
+		xSpeed += x * delta / 1000;
+		ySpeed += y * delta / 1000;
 	}
 
 	@Override
-	public double getXSpeed() {
+	public double getXSpeed()
+	{
 		return xSpeed;
 	}
 
 	@Override
-	public void setXSpeed(double speed) {
+	public void setXSpeed(double speed)
+	{
 		xSpeed = speed;
-
 	}
 
 	@Override
-	public double getYSpeed() {
+	public double getYSpeed() 
+	{
 		// TODO Auto-generated method stub
 		return ySpeed;
 	}
 
 	@Override
-	public void setYSpeed(double speed) {
+	public void setYSpeed(double speed)
+	{
 		ySpeed = speed;
-
 	}
 
 	@Override
@@ -134,16 +139,48 @@ implements Movable
 		setX(x);
 		setY(y);
 	}
+	
+	private boolean checkForSolids(double x, double y)
+	{
+		ArrayList<Solid> solids = getEnclosingWorld().getAllSolids();
+		return true;
+	}
+	
+	private boolean checkForSolidsX(double x)
+	{
+		GameObject o;
+		ArrayList<Solid> solids = getEnclosingWorld().getAllSolids();
+		for(int i = 0; i < solids.size(); i++)
+		{
+			o = (GameObject)solids.get(i);
+			if(x >= o.getX() && x + getWidth() <= o.getX() + o.getHeight())
+				return false;
+		}
+		return true;
+	}
+	
+	private boolean checkForSolidsY(double y)
+	{
+		GameObject o;
+		ArrayList<Solid> solids = getEnclosingWorld().getAllSolids();
+		for(int i = 0; i < solids.size(); i++)
+		{
+			o = (GameObject)solids.get(i);
+			if(y >= o.getY() && y + getHeight() <= o.getY() + o.getWidth())
+				return false;
+		}
+		return true;
+	}
 
 	@Override
 	public boolean canMoveTo(double x, double y)
 	{
-		if (x - getHeight() < 0 || y - getWidth() < 0)
+		if (x  < 0 || y < 0)
 			return false;
 		if (x + getHeight() > getEnclosingWorld().getHeight() ||
 				y + getWidth() > getEnclosingWorld().getWidth())
 			return false;
-		return true;
+		return checkForSolids(x, y);
 	}
 	
 	@Override
@@ -153,7 +190,7 @@ implements Movable
 			return false;
 		if (x + getHeight() > getEnclosingWorld().getHeight())
 			return false;
-		return true;
+		return checkForSolidsX(x);
 	}
 	
 	@Override
@@ -163,11 +200,11 @@ implements Movable
 			return false;
 		if (y + getWidth() > getEnclosingWorld().getWidth())
 			return false;
-		return true;
+		return checkForSolidsY(y);
 	}
 
 	public boolean isMoving()
 	{
-		return getXSpeed() != 0 || getYSpeed() != 0;
+		return getXSpeed() <= -0.02 || getXSpeed() >= 0.02 || getYSpeed() <= -0.02 || getYSpeed() >= 0.02;
 	}
 }

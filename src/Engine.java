@@ -49,7 +49,7 @@ public final class Engine extends Thread
 	 */
 	public void recalculateMovement(int delta)
 	{
-		ArrayList<Movable> moving = ((AbstractWorld<GameObject>)getWorld()).getAllMovable();
+		ArrayList<Movable> moving = getWorld().getAllMovable();
 		ArrayList<GameObject> world = ((AbstractWorld<GameObject>)getWorld()).getWorld();
 		//Go through all Movable Objects
 		for (int i = 0; i < moving.size(); i++)
@@ -73,7 +73,7 @@ public final class Engine extends Thread
 	 */
 	public void handleMovement(int delta)
 	{
-		ArrayList<Movable> moving = ((AbstractWorld<GameObject>)getWorld()).getAllMovable();
+		ArrayList<Movable> moving = getWorld().getAllMovable();
 		//Go through all Movable Objects
 		for (int i = 0; i < moving.size(); i++)
 		{
@@ -81,16 +81,33 @@ public final class Engine extends Thread
 			if(moving.get(i).isMoving())
 			{
 				//Find coordinates for Objects next desired move spot.
-				double newX = (moving.get(i).getX() + moving.get(i).getXSpeed()*delta/1000);
-				double newY = (moving.get(i).getY() + moving.get(i).getYSpeed()*delta/1000);
+				double newX = (moving.get(i).getX() + moving.get(i).getXSpeed() * delta / 1000);
+				double newY = (moving.get(i).getY() + moving.get(i).getYSpeed() * delta / 1000);
 				//Check if Object is able to move to those coordinates.
 				if (moving.get(i).canMoveTo(newX, newY))
+				{
 					moving.get(i).moveTo(newX, newY);
+				}
 				else if (moving.get(i).canMoveToX(newX))
+				{
 					moving.get(i).moveTo(newX, moving.get(i).getY());
+					moving.get(i).setYSpeed(-1 * moving.get(i).getYSpeed() * getWorld().getSolidity());
+				}
 				else if (moving.get(i).canMoveToY(newY))
+				{
 					moving.get(i).moveTo(moving.get(i).getX(), newY);
+					moving.get(i).setXSpeed(-1 * moving.get(i).getXSpeed() * getWorld().getSolidity());
+				}
+				else
+				{
+					moving.get(i).setYSpeed(-1 * moving.get(i).getYSpeed() * getWorld().getSolidity());
+					moving.get(i).setXSpeed(-1 * moving.get(i).getXSpeed() * getWorld().getSolidity());
+					continue;
+				}
 			}
+			//Air Resistance
+			moving.get(i).setYSpeed(moving.get(i).getYSpeed() * 0.9999);
+			moving.get(i).setXSpeed(moving.get(i).getXSpeed() * 0.9999);
 		}
 	}
 
@@ -102,8 +119,12 @@ public final class Engine extends Thread
 				g.drawImage(new Image("dat/magnet.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
 			else if(i instanceof Player)
 			{
-				g.drawString("  X: " + (int)i.getX() + " Y: " + (int)i.getY(), (float)i.getX(), (float)i.getY() - 10);
+				g.drawString("  X: " + (int)i.getX() + " Y: " + (int)i.getY(), (float)i.getX(), (float)i.getY() - 15);
+				g.drawString("  SpeedX: " + (int)((Movable)i).getXSpeed() + " SpeedY: " + (int)((Movable)i).getYSpeed(), (float)i.getX(), (float)i.getY());
 				g.drawImage(new Image("dat/player.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
+			}
+			else if(i instanceof Block)
+			{
 				
 			}
 		}

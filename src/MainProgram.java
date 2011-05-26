@@ -34,23 +34,25 @@ public class MainProgram extends BasicGame
 	throws SlickException
 	{
 		Player p;
-		world = new LimitedWorld<GameObject>(600, 800);
-		world.addToWorld(new Magnet(Pole.DIA, 20, 20, 20, 80, 1500));
-		world.addToWorld(new Magnet(Pole.DIA, 520, 580, 20, 80, 1500));
+		world = new LimitedWorld<GameObject>(600, 800, 0.85);
+		//world.addToWorld(new Magnet(Pole.DIA, 20, 20, 20, 80, 1500));
+		world.addToWorld(new Magnet(Pole.PARA, 400, 300, 20, 80, 150));
 		//world.addToWorld(new Magnet(Pole.DIA, 20, 580, 20, 80, 1500));
 		//world.addToWorld(new Magnet(Pole.DIA, 520, 20, 20, 80, 1500));
 		p = new Player(200, 300, 10, 10);
 		p.setXSpeed(50);
-		p.setYSpeed(100);
+		p.setYSpeed(50);
 		p.addSelfToWorld(world);
+		//p2.addSelfToWorld(world);
+		//p3.addSelfToWorld(world);
 		engine = new Engine(world);
 	}
 
 	public void update (GameContainer gc, int delta)
 	throws SlickException
 	{
-		engine.recalculateMovement(delta);
-		engine.handleMovement(delta);
+		engine.recalculateMovement(delta * 2);
+		engine.handleMovement(delta * 2);
 	}
 
 
@@ -67,6 +69,7 @@ public class MainProgram extends BasicGame
 		AppGameContainer app = new AppGameContainer (new MainProgram ());
 
 		app.setDisplayMode (800, 600, false);
+		app.setSmoothDeltas(true);
 		app.setVSync(true);
 		app.start ();
 	}

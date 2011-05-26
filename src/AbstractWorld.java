@@ -20,6 +20,7 @@ implements World<E>
 	private ArrayList<E> world;
 	private int height;
 	private int width;
+	private double solidity;
 
 	/**
 	 * Creates an instance of the World Object with given parameters
@@ -32,11 +33,12 @@ implements World<E>
 	 * @param h The initial height value for the World
 	 * @see World
 	 */
-	public AbstractWorld(int w, int h)
+	public AbstractWorld(int w, int h, double solidity)
 	{
 		setWorld(new ArrayList<E>());
 		setHeight(h);
 		setWidth(w);
+		setSolidity(solidity);
 	}
 
 	@Override
@@ -141,6 +143,25 @@ implements World<E>
 			if (getWorld().get(i) instanceof Movable)
 				movableObjects.add((Movable)getWorld().get(i));
 		return movableObjects;
+	}
+
+	public ArrayList<Solid> getAllSolids()
+	{
+		ArrayList<Solid> movableObjects = new ArrayList<Solid>();
+		for (int i = 0; i < getWorld().size(); i++)
+			if (getWorld().get(i) instanceof Solid)
+				movableObjects.add((Solid)getWorld().get(i));
+		return movableObjects;
+	}
+	
+	public double getSolidity()
+	{
+		return solidity;
+	}
+
+	public void setSolidity(double solidity)
+	{
+		this.solidity = solidity;
 	}
 
 	/**
