@@ -44,19 +44,23 @@ public interface World<E>
 	 * @return All instances of Movable in this World Object.
 	 */
 	public ArrayList<Movable> getAllMovable();
+	
+	public ArrayList<Solid> getAllSolids();
 
 	/**
-	 * This method is used to retreive the vertical size value
+	 * This method is used to retrieve the vertical size value
 	 * that was assigned to this World during instantiation.
 	 * 
 	 * @return The current value for the height of this World Object.
 	 */
 	int getHeight();
 	/**
-	 * This method is used to retreive the horizontal size value
+	 * This method is used to retrieve the horizontal size value
 	 * that was assigned to this World during instantiation.
 	 * 
 	 * @return The current value for the width of this World Object.
 	 */
 	int getWidth();
+	
+	double getSolidity();
 }
