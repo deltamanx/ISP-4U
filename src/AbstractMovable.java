@@ -147,6 +147,26 @@ implements Movable
 			return false;
 		return true;
 	}
+	
+	@Override
+	public boolean canMoveToX(double x)
+	{
+		if (x < 0)
+			return false;
+		if (x + getHeight() > getEnclosingWorld().getHeight())
+			return false;
+		return true;
+	}
+	
+	@Override
+	public boolean canMoveToY(double y)
+	{
+		if (y < 0)
+			return false;
+		if (y + getWidth() > getEnclosingWorld().getWidth())
+			return false;
+		return true;
+	}
 
 	public boolean isMoving()
 	{
