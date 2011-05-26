@@ -63,7 +63,9 @@ implements Movable
 		double xDist = obj.getX()-getX();
 		double yDist = getY()-obj.getY();
 		
-		double angle = Math.atan(yDist/(xDist));
+		double angle = Math.atan(yDist/xDist);
+		if (angle<0)
+			angle = Math.PI+angle;
 		
 		if (obj.getY()>getY())
 			angle += Math.PI;
