@@ -77,15 +77,11 @@ implements Movable
 	
 	private double getAttractionTo (GameObject obj)
 	{
-		double xDist = Math.abs(obj.getX() - getX());
-		double yDist = Math.abs(obj.getY() - getY());
+		double xDist = Math.abs(obj.getX()+obj.getWidth()/2 - getX()+ getWidth()/2);
+		double yDist = Math.abs(getY()+getHeight()/2 - obj.getY()+obj.getHeight()/2);
 		double dist = Math.sqrt(xDist * xDist + yDist * yDist);
 		double ret = (this.getStrength() * obj.getStrength()) / (4 * Math.PI * (dist));
-		if (obj.getX() > getX())	
-			ret = ret * -1;
-		if (obj.getY() > getY())	
-			ret = ret * -1;
-		if (obj.getPole().equals(Pole.DIA))	
+		if (obj.getPole().equals(Pole.PARA))	
 			ret = ret * -1;
 		return ret;
 	}
@@ -144,8 +140,7 @@ implements Movable
 	
 	private boolean checkForSolids(double x, double y)
 	{
-		ArrayList<Solid> solids = getEnclosingWorld().getAllSolids();
-		return true;
+		return checkForSolidsX(x) || checkForSolidsY(y);
 	}
 	
 	private boolean checkForSolidsX(double x)
@@ -154,9 +149,27 @@ implements Movable
 		ArrayList<Solid> solids = getEnclosingWorld().getAllSolids();
 		for(int i = 0; i < solids.size(); i++)
 		{
-			o = (GameObject)solids.get(i);
-			if(x >= o.getX() && x + getWidth() <= o.getX() + o.getHeight())
-				return false;
+			if (!solids.get(i).equals(this))
+			{
+				o = (GameObject)solids.get(i);
+
+				if (getX()+ getWidth()> o.getX() && getX() < o.getX()+o.getWidth())
+					return false;
+				if (getX()+ getWidth()<o.getX())
+				{
+					if (x + getWidth() > o.getX())
+					{
+						return false;
+					}
+				}
+				else if (getX() > o.getX()+o.getWidth())
+				{
+					if (x< o.getX()+o.getWidth())
+					{
+						return false;
+					}
+				}
+			}
 		}
 		return true;
 	}
@@ -167,9 +180,26 @@ implements Movable
 		ArrayList<Solid> solids = getEnclosingWorld().getAllSolids();
 		for(int i = 0; i < solids.size(); i++)
 		{
-			o = (GameObject)solids.get(i);
-			if(y >= o.getY() && y + getHeight() <= o.getY() + o.getWidth())
-				return false;
+			if (!solids.get(i).equals(this))
+			{
+				o = (GameObject)solids.get(i);
+				if (getY()+ getHeight()> o.getY() && getY() < o.getY()+o.getHeight())
+					return false;
+				if (getY()+ getHeight()<o.getY())
+				{
+					if (y + getHeight() > o.getY())
+					{
+						return false;
+					}
+				}
+				else if (getY()>o.getY()+o.getHeight())
+				{
+					if (y< o.getY()+o.getHeight())
+					{
+						return false;
+					}
+				}
+			}
 		}
 		return true;
 	}
@@ -177,12 +207,7 @@ implements Movable
 	@Override
 	public boolean canMoveTo(double x, double y)
 	{
-		if (x  < 0 || y < 0)
-			return false;
-		if (x + getHeight() > getEnclosingWorld().getHeight() ||
-				y + getWidth() > getEnclosingWorld().getWidth())
-			return false;
-		return checkForSolids(x, y);
+		return canMoveToX(x) || canMoveToY (y);
 	}
 	
 	@Override
