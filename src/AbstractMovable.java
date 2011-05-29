@@ -207,6 +207,10 @@ implements Movable
 	@Override
 	public boolean canMoveTo(double x, double y)
 	{
+		if (x < 0 || y + getWidth() > getEnclosingWorld().getWidth())
+			return false;
+		if (x + getHeight() > getEnclosingWorld().getHeight() || y + getWidth() > getEnclosingWorld().getWidth())
+			return false;
 		return canMoveToX(x) || canMoveToY (y);
 	}
 	

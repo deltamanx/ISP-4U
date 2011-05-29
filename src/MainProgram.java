@@ -3,6 +3,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * The MainProgram.
@@ -20,48 +21,25 @@ import org.newdawn.slick.SlickException;
  * @see World
  * @see Engine
  */
-public class MainProgram extends BasicGame
+public class MainProgram extends StateBasedGame
 {
-	private World<GameObject> world;
-	private Engine engine;
-
+	private final int SPLASH_STATE = 0;
+	private final int MENU_STATE = 1;
+	private final int STAGE_SELECT_STATE = 2;
+	private final int GAME_STATE = 3;
+	private final int HIGHSCORE_STATE = 4;
+	
 	public MainProgram ()
 	{
 		super ("Interrobang!?");
 	}
 
-	public void init (GameContainer gc)
-	throws SlickException
+	@Override
+	public void initStatesList(GameContainer container) throws SlickException
 	{
-		Player p;
-		world = new LimitedWorld<GameObject>(600, 800, 0.85);
-		//world.addToWorld(new Magnet(Pole.DIA, 20, 20, 20, 80, 1500));
-		world.addToWorld(new Magnet(Pole.PARA, 400, 300, 80, 20, 150));
-		//world.addToWorld(new Magnet(Pole.DIA, 20, 580, 20, 80, 1500));
-		//world.addToWorld(new Magnet(Pole.DIA, 520, 20, 20, 80, 1500));
-		p = new Player(200, 335, 10, 10);
-		p.setXSpeed(10);
-		p.setYSpeed(-10);
-		p.addSelfToWorld(world);
-		//p2.addSelfToWorld(world);
-		//p3.addSelfToWorld(world);
-		engine = new Engine(world);
+		addState (new MenuState());
+		addState (new GameState());
 	}
-
-	public void update (GameContainer gc, int delta)
-	throws SlickException
-	{
-		engine.recalculateMovement(delta * 2);
-		engine.handleMovement(delta * 2);
-	}
-
-
-	public void render (GameContainer gc, Graphics g)
-	throws SlickException
-	{
-		engine.renderImages(g);
-	}
-
 
 	public static void main (String[] args)
 	throws SlickException
