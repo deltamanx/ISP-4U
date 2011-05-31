@@ -60,25 +60,25 @@ implements Movable
 	{
 		ySpeed += delta*G/1000;
 	}
-	
+
 	private double getAngleTo (GameObject obj)
 	{
 		double xDist = (obj.getX() + (obj.getHeight() / 2)) - getX();
 		double yDist = getY() - (obj.getY() + (obj.getWidth() / 2));
-		
+
 		double angle = Math.atan(yDist/xDist);
 		if (angle<0)
 			angle = Math.PI+angle;
-		
+
 		if (obj.getY() > getY())
 			angle += Math.PI;
 		return angle;
 	}
-	
+
 	private double getAttractionTo (GameObject obj)
 	{
-		double xDist = Math.abs(obj.getX()+obj.getWidth()/2 - getX()+ getWidth()/2);
-		double yDist = Math.abs(getY()+getHeight()/2 - obj.getY()+obj.getHeight()/2);
+		double xDist = Math.abs(obj.getX() + obj.getWidth() / 2 - getX() + getWidth() / 2);
+		double yDist = Math.abs(getY() + getHeight() / 2 - obj.getY() + obj.getHeight() / 2);
 		double dist = Math.sqrt(xDist * xDist + yDist * yDist);
 		double ret = (this.getStrength() * obj.getStrength()) / (4 * Math.PI * (dist));
 		if (obj.getPole().equals(Pole.PARA))	
@@ -137,12 +137,7 @@ implements Movable
 		setX(x);
 		setY(y);
 	}
-	
-	private boolean checkForSolids(double x, double y)
-	{
-		return checkForSolidsX(x) || checkForSolidsY(y);
-	}
-	
+
 	private boolean checkForSolidsX(double x)
 	{
 		GameObject o;
@@ -173,7 +168,7 @@ implements Movable
 		}
 		return true;
 	}
-	
+
 	private boolean checkForSolidsY(double y)
 	{
 		GameObject o;
@@ -183,18 +178,18 @@ implements Movable
 			if (!solids.get(i).equals(this))
 			{
 				o = (GameObject)solids.get(i);
-				if (getY()+ getHeight()> o.getY() && getY() < o.getY()+o.getHeight())
+				if (getY() + getHeight() > o.getY() && getY() < o.getY() + o.getHeight())
 					return false;
-				if (getY()+ getHeight()<o.getY())
+				if (getY() + getHeight() < o.getY())
 				{
 					if (y + getHeight() > o.getY())
 					{
 						return false;
 					}
 				}
-				else if (getY()>o.getY()+o.getHeight())
+				else if (getY() > o.getY() + o.getHeight())
 				{
-					if (y< o.getY()+o.getHeight())
+					if (y < o.getY() + o.getHeight())
 					{
 						return false;
 					}
@@ -207,13 +202,14 @@ implements Movable
 	@Override
 	public boolean canMoveTo(double x, double y)
 	{
-		if (x < 0 || y + getWidth() > getEnclosingWorld().getWidth())
+		if (x < 0 || y < 0)
 			return false;
-		if (x + getHeight() > getEnclosingWorld().getHeight() || y + getWidth() > getEnclosingWorld().getWidth())
+		if (x + getHeight() > getEnclosingWorld().getHeight() ||
+				y + getWidth() > getEnclosingWorld().getWidth())
 			return false;
-		return canMoveToX(x) || canMoveToY (y);
+		return checkForSolidsX(x) | checkForSolidsY(y);
 	}
-	
+
 	@Override
 	public boolean canMoveToX(double x)
 	{
@@ -223,7 +219,7 @@ implements Movable
 			return false;
 		return checkForSolidsX(x);
 	}
-	
+
 	@Override
 	public boolean canMoveToY(double y)
 	{

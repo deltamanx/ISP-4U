@@ -1,4 +1,3 @@
-
 /**
  * This class is responsible for Managing movement for all Objects in
  * a given World. This class is a subclass of Thread and therefore runs

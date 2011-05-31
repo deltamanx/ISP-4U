@@ -9,8 +9,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 
-public class MenuState extends BasicGameState implements ComponentListener
+public class MenuState extends BasicGameState
+implements ComponentListener
 {
+	private Image bg;
 	private Image newImage;
 	private Image exitImage;
 	private Image continueImage;
@@ -18,33 +20,35 @@ public class MenuState extends BasicGameState implements ComponentListener
 	private MouseOverArea exitButton;
 	private MouseOverArea continueButton;
 	private int nextState = 1;
-	
+
 	public MenuState(){}
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame parent)
-			throws SlickException
+	throws SlickException
 	{
-		newImage =  new Image ("dat/newButton.bmp");
-		newButton = new MouseOverArea(gc,newImage,100,100,this);
-		exitImage =  new Image ("dat/exitButton.bmp");
-		exitButton = new MouseOverArea(gc,exitImage,100,200,this);
-		continueImage =  new Image ("dat/continueButton.bmp");
-		continueButton = new MouseOverArea(gc,continueImage,100,300,this);
+		bg = new Image("dat/BG.png");
+		newImage =  new Image ("dat/NewGame.png");
+		newButton = new MouseOverArea(gc,newImage, 100, 100, this);
+		exitImage =  new Image ("dat/Exit.png");
+		exitButton = new MouseOverArea(gc,exitImage, 100, 200, this);
+		continueImage =  new Image ("dat/Continue.png");
+		continueButton = new MouseOverArea(gc,continueImage, 100, 300, this);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame parent, Graphics g)
-			throws SlickException
+	throws SlickException
 	{
-			newButton.render (gc, g);
-			exitButton.render(gc, g);
-			continueButton.render(gc,g);
+		g.drawImage(bg, 0, 0);
+		newButton.render (gc, g);
+		exitButton.render(gc, g);
+		continueButton.render(gc,g);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame parent, int delta)
-			throws SlickException
+	throws SlickException
 	{
 		if (nextState == 5)
 		{
@@ -73,7 +77,6 @@ public class MenuState extends BasicGameState implements ComponentListener
 			nextState = 3;
 		if (com.equals(exitButton))
 			System.exit(0);
-		
 	}
 
 }

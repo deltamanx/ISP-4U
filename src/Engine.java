@@ -88,12 +88,12 @@ public final class Engine extends Thread
 				{
 					moving.get(i).moveTo(newX, newY);
 				}
-				else if (moving.get(i).canMoveToX(newX))
+				else if (moving.get(i).canMoveToX(newX) || moving.get(i).canMoveTo(newX, newY))
 				{
 					moving.get(i).moveTo(newX, moving.get(i).getY());
 					moving.get(i).setYSpeed(-1 * moving.get(i).getYSpeed() * getWorld().getSolidity());
 				}
-				else if (moving.get(i).canMoveToY(newY))
+				else if (moving.get(i).canMoveToY(newY) || moving.get(i).canMoveTo(newX, newY))
 				{
 					moving.get(i).moveTo(moving.get(i).getX(), newY);
 					moving.get(i).setXSpeed(-1 * moving.get(i).getXSpeed() * getWorld().getSolidity());
@@ -198,6 +198,7 @@ public final class Engine extends Thread
 	 * @see MoveCalculator
 	 * @see MoveManager
 	 */
+	@Deprecated
 	public synchronized void notifyMoveCalculator()
 	{ moveCalculator.notify(); }
 
@@ -210,6 +211,7 @@ public final class Engine extends Thread
 	 * @see MoveCalculator
 	 * @see MoveManager
 	 */
+	@Deprecated
 	public synchronized void notifyMoveManager()
 	{ moveManager.notify(); }
 

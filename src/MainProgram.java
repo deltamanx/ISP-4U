@@ -1,7 +1,5 @@
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -23,10 +21,15 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MainProgram extends StateBasedGame
 {
+	@SuppressWarnings("unused")
 	private final int SPLASH_STATE = 0;
+	@SuppressWarnings("unused")
 	private final int MENU_STATE = 1;
+	@SuppressWarnings("unused")
 	private final int STAGE_SELECT_STATE = 2;
+	@SuppressWarnings("unused")
 	private final int GAME_STATE = 3;
+	@SuppressWarnings("unused")
 	private final int HIGHSCORE_STATE = 4;
 	
 	public MainProgram ()

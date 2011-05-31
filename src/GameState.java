@@ -17,7 +17,7 @@ public class GameState extends BasicGameState
 		// TODO Auto-generated constructor stub
 	}
 
-	public void init (GameContainer gc,StateBasedGame parent)
+	public void init (GameContainer gc, StateBasedGame parent)
 			throws SlickException
 	{
 		Player p;
@@ -26,7 +26,7 @@ public class GameState extends BasicGameState
 		world.addToWorld(new Magnet(Pole.PARA, 400, 300, 80, 20, 150));
 		//world.addToWorld(new Magnet(Pole.DIA, 20, 580, 20, 80, 1500));
 		//world.addToWorld(new Magnet(Pole.DIA, 520, 20, 20, 80, 1500));
-		p = new Player(200, 0, 10, 10);
+		p = new Player(200, 300, 10, 10);
 		p.setXSpeed(10);
 		p.setYSpeed(-10);
 		p.addSelfToWorld(world);
@@ -45,7 +45,7 @@ public class GameState extends BasicGameState
 
 	public void keyPressed (int key, char c)
 	{
-		if (key==1)
+		if (key == 1)
 			parent.enterState (1);
 			
 	}
@@ -62,6 +62,4 @@ public class GameState extends BasicGameState
 	{
 		return 3;
 	}
-
-
 }
