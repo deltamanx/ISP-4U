@@ -63,8 +63,13 @@ implements Movable
 
 	private double getAngleTo (GameObject obj)
 	{
-		double xDist = (obj.getX() + (obj.getHeight() / 2)) - getX();
-		double yDist = getY() - (obj.getY() + (obj.getWidth() / 2));
+		double xDist = (obj.getX() + obj.getWidth() / 2) - (getX() + getWidth() / 2);
+		
+		double yDist;
+		if (getY()<obj.getY())
+			yDist = Math.max(0.00001,(obj.getY() + obj.getHeight() / 2) - (getY() + getHeight() / 2));
+		else
+			yDist = Math.min(-0.00001,(obj.getY() + obj.getHeight() / 2) - (getY() + getHeight() / 2));
 
 		double angle = Math.atan(yDist/xDist);
 		if (angle<0)
@@ -77,8 +82,8 @@ implements Movable
 
 	private double getAttractionTo (GameObject obj)
 	{
-		double xDist = Math.abs(obj.getX() + obj.getWidth() / 2 - getX() + getWidth() / 2);
-		double yDist = Math.abs(getY() + getHeight() / 2 - obj.getY() + obj.getHeight() / 2);
+		double xDist = (obj.getX() + obj.getWidth() / 2) - (getX() + getWidth() / 2);
+		double yDist = (obj.getY() + obj.getHeight() / 2) - (getY() + getHeight() / 2);
 		double dist = Math.sqrt(xDist * xDist + yDist * yDist);
 		double ret = (this.getStrength() * obj.getStrength()) / (4 * Math.PI * (dist));
 		if (obj.getPole().equals(Pole.PARA))	
@@ -100,7 +105,7 @@ implements Movable
 		double y; //the y speed to be added.
 		double acc = getAttractionTo(obj); //the acceleration of the object
 		double angle = getAngleTo(obj); //the angle to the object, with right as the baseline.
-		x = -1 * acc * Math.cos(angle);
+		x = acc * Math.cos(angle);
 		y = acc * Math.sin(angle);
 		xSpeed += x * delta / 1000;
 		ySpeed += y * delta / 1000;

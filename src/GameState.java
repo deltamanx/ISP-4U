@@ -22,13 +22,13 @@ public class GameState extends BasicGameState
 	{
 		Player p;
 		world = new LimitedWorld<GameObject>(600, 800, 0.85);
-		//world.addToWorld(new Magnet(Pole.DIA, 20, 20, 20, 80, 1500));
+		world.addToWorld(new Magnet(Pole.PARA, 20, 20, 80, 20, 150));
 		world.addToWorld(new Magnet(Pole.PARA, 400, 300, 80, 20, 150));
 		//world.addToWorld(new Magnet(Pole.DIA, 20, 580, 20, 80, 1500));
 		//world.addToWorld(new Magnet(Pole.DIA, 520, 20, 20, 80, 1500));
 		p = new Player(200, 300, 10, 10);
-		p.setXSpeed(10);
-		p.setYSpeed(-10);
+		p.setXSpeed(-130);
+		p.setYSpeed(50);
 		p.addSelfToWorld(world);
 		//p2.addSelfToWorld(world);
 		//p3.addSelfToWorld(world);
@@ -39,8 +39,8 @@ public class GameState extends BasicGameState
 	public void update (GameContainer gc, StateBasedGame parent, int delta)
 			throws SlickException
 	{
-		engine.recalculateMovement(delta * 2);
-		engine.handleMovement(delta * 2);
+		engine.recalculateMovement(2*delta);
+		engine.handleMovement(2*delta);
 	}
 
 	public void keyPressed (int key, char c)
