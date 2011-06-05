@@ -80,6 +80,17 @@ public final class Engine extends Thread
 			//Check if the Object has an X and/or Y speed.
 			if(moving.get(i).isMoving())
 			{
+				//If the speed is too high, cap it.
+				if (moving.get(i).getXSpeed()>200.0){
+					moving.get(i).setXSpeed (200.0);
+				} else if (moving.get(i).getXSpeed()<-200.0){
+					moving.get(i).setXSpeed (-200.0);
+				} 
+				if (moving.get(i).getYSpeed()>200.0){
+					moving.get(i).setYSpeed (200.0);
+				} else if (moving.get(i).getYSpeed()<-200.0){
+					moving.get(i).setYSpeed (-200.0);
+				} 
 				//Find coordinates for Objects next desired move spot.
 				double newX = (moving.get(i).getX() + moving.get(i).getXSpeed() * delta / 1000);
 				double newY = (moving.get(i).getY() + moving.get(i).getYSpeed() * delta / 1000);

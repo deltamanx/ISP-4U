@@ -21,17 +21,6 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MainProgram extends StateBasedGame
 {
-	@SuppressWarnings("unused")
-	private final int SPLASH_STATE = 0;
-	@SuppressWarnings("unused")
-	private final int MENU_STATE = 1;
-	@SuppressWarnings("unused")
-	private final int STAGE_SELECT_STATE = 2;
-	@SuppressWarnings("unused")
-	private final int GAME_STATE = 3;
-	@SuppressWarnings("unused")
-	private final int HIGHSCORE_STATE = 4;
-	
 	public MainProgram ()
 	{
 		super ("Interrobang!?");
@@ -40,6 +29,7 @@ public class MainProgram extends StateBasedGame
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException
 	{
+		addState (new SplashState());
 		addState (new MenuState());
 		addState (new GameState());
 	}
