@@ -95,26 +95,29 @@ public final class Engine extends Thread
 				double newX = (moving.get(i).getX() + moving.get(i).getXSpeed() * delta / 1000);
 				double newY = (moving.get(i).getY() + moving.get(i).getYSpeed() * delta / 1000);
 				//Check if Object is able to move to those coordinates.
-				if (moving.get(i).canMoveTo(newX, newY))
-				{
-					moving.get(i).moveTo(newX, newY);
-				}
-				else if (moving.get(i).canMoveToX(newX) || moving.get(i).canMoveTo(newX, newY))
-				{
-					moving.get(i).moveTo(newX, moving.get(i).getY());
-					moving.get(i).setYSpeed(-1 * moving.get(i).getYSpeed() * getWorld().getSolidity());
-				}
-				else if (moving.get(i).canMoveToY(newY) || moving.get(i).canMoveTo(newX, newY))
-				{
-					moving.get(i).moveTo(moving.get(i).getX(), newY);
-					moving.get(i).setXSpeed(-1 * moving.get(i).getXSpeed() * getWorld().getSolidity());
-				}
-				else
-				{
-					moving.get(i).setYSpeed(-1 * moving.get(i).getYSpeed() * getWorld().getSolidity());
-					moving.get(i).setXSpeed(-1 * moving.get(i).getXSpeed() * getWorld().getSolidity());
-					continue;
-				}
+				//if (moving.get(i).canMoveTo(newX, newY))
+				//{
+					if (moving.get(i).canMoveToX(newX) &&moving.get(i).canMoveToY(newY))
+					{
+						moving.get(i).moveTo(newX,newY);
+					}
+					else if (moving.get(i).canMoveToY(newY))
+					{
+						moving.get(i).moveTo(moving.get(i).getX(), newY);
+						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*-world.getSolidity());
+						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*world.getSolidity());
+					}
+					else if (moving.get(i).canMoveToX(newX))
+					{
+						moving.get(i).moveTo(newX, moving.get(i).getY());
+						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*-world.getSolidity());
+						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*world.getSolidity());
+					}
+					else
+					{
+						moving.get(i).moveTo(newY, newX);
+					}
+				//}
 			}
 			//Air Resistance
 			moving.get(i).setYSpeed(moving.get(i).getYSpeed() * 0.9999);

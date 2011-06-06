@@ -20,7 +20,6 @@ public class GameState extends BasicGameState
 
 	public GameState()
 	{
-		// TODO Auto-generated constructor stub
 	}
 
 	public void init (GameContainer gc, StateBasedGame parent)

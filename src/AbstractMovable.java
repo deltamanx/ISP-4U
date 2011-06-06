@@ -64,7 +64,7 @@ implements Movable
 	private double getAngleTo (GameObject obj)
 	{
 		double xDist = (obj.getX() + obj.getWidth() / 2) - (getX() + getWidth() / 2);
-		
+
 		double yDist;
 		if (getY()<obj.getY())
 			yDist = Math.max(0.00001,(obj.getY() + obj.getHeight() / 2) - (getY() + getHeight() / 2));
@@ -126,7 +126,6 @@ implements Movable
 	@Override
 	public double getYSpeed() 
 	{
-		// TODO Auto-generated method stub
 		return ySpeed;
 	}
 
@@ -152,21 +151,20 @@ implements Movable
 			if (!solids.get(i).equals(this))
 			{
 				o = (GameObject)solids.get(i);
-
-				if (getX()+ getWidth()> o.getX() && getX() < o.getX()+o.getWidth())
-					return false;
-				if (getX()+ getWidth()<o.getX())
-				{
-					if (x + getWidth() > o.getX())
+				if (getY()+getHeight()>o.getY()&&getY()<o.getY()+o.getHeight()){
+					if (getX()+ getWidth()<o.getX())
 					{
-						return false;
+						if (x + getWidth() > o.getX())
+						{
+							return false;
+						}
 					}
-				}
-				else if (getX() > o.getX()+o.getWidth())
-				{
-					if (x< o.getX()+o.getWidth())
+					else if (getX() > o.getX()+o.getWidth())
 					{
-						return false;
+						if (x< o.getX()+o.getWidth())
+						{
+							return false;
+						}
 					}
 				}
 			}
@@ -183,20 +181,20 @@ implements Movable
 			if (!solids.get(i).equals(this))
 			{
 				o = (GameObject)solids.get(i);
-				if (getY() + getHeight() > o.getY() && getY() < o.getY() + o.getHeight())
-					return false;
-				if (getY() + getHeight() < o.getY())
-				{
-					if (y + getHeight() > o.getY())
+				if (getX()+getWidth()>o.getX()&&getX()<o.getX()+o.getWidth()){
+					if (getY() + getHeight() < o.getY())
 					{
-						return false;
+						if (y + getHeight() > o.getY())
+						{
+							return false;
+						}
 					}
-				}
-				else if (getY() > o.getY() + o.getHeight())
-				{
-					if (y < o.getY() + o.getHeight())
+					else if (getY() > o.getY() + o.getHeight())
 					{
-						return false;
+						if (y < o.getY() + o.getHeight())
+						{
+							return false;
+						}
 					}
 				}
 			}
@@ -212,7 +210,7 @@ implements Movable
 		if (x + getHeight() > getEnclosingWorld().getHeight() ||
 				y + getWidth() > getEnclosingWorld().getWidth())
 			return false;
-		return checkForSolidsX(x) | checkForSolidsY(y);
+		return true;
 	}
 
 	@Override
