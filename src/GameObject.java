@@ -1,4 +1,4 @@
-
+import java.io.Serializable;
 /**
  * This interface serves as the base for all GameObjects in this Game.
  * GameObjects are any Object that exists within a <code>World</code> and can
@@ -19,7 +19,7 @@
  * @see Engine
  *
  */
-public interface GameObject 
+public interface GameObject extends Serializable
 { 
 	/**
 	 * This method is used to retrieve the current X coordinate

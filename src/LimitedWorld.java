@@ -20,8 +20,8 @@ public class LimitedWorld<E> extends AbstractWorld<E>
 	 * @param w The width value for this world.
 	 * @param h The height value for this world.
 	 */
-	public LimitedWorld(int w, int h, double solidity)
+	public LimitedWorld(int w, int h, double solidity, double gx, double gy, double gr, int s)
 	{
-		super(w, h, solidity);
+		super(w, h, solidity,gx,gy,gr,s);
 	}
 }

@@ -17,6 +17,7 @@ public class GameState extends BasicGameState
 	private float alpha;
 	private float alphaChange;
 	private Player p;
+	private int score;
 
 	public GameState()
 	{
@@ -26,12 +27,9 @@ public class GameState extends BasicGameState
 	throws SlickException
 	{
 		anyKey = new Image ("dat/AnyKey.png");
-		world = new LimitedWorld<GameObject>(600, 800, 0.85);
-		world.addToWorld(new Magnet(Pole.PARA, 20, 20, 80, 20, 150));
-		world.addToWorld(new Magnet(Pole.PARA, 400, 300, 80, 20, 150));
-		//world.addToWorld(new Magnet(Pole.DIA, 20, 580, 20, 80, 1500));
-		//world.addToWorld(new Magnet(Pole.DIA, 520, 20, 20, 80, 1500));
-		p = new Player(200, 300, 10, 10);
+		world = new LimitedWorld<GameObject>(600, 800, 0.85, 700,300,50,50);
+		world.addToWorld(new Magnet(Pole.DIA, 750, 275, 50, 50, 300));
+		p = new Player(250, 300, 10, 10);
 		p.addSelfToWorld(world);
 		//p2.addSelfToWorld(world);
 		//p3.addSelfToWorld(world);
@@ -64,10 +62,14 @@ public class GameState extends BasicGameState
 			if (i.isMousePressed (Input.MOUSE_LEFT_BUTTON))
 				gameStep = 2;
 		}
-		else
+		else if (gameStep == 2)
 		{
 			engine.recalculateMovement(2*delta);
 			engine.handleMovement(2*delta);
+			if (engine.isInGoal(p)){
+				gameStep = 3;
+				score = engine.getScore();
+			}
 		}
 		if (i.isKeyDown (Input.KEY_ESCAPE))
 			parent.enterState(1);
@@ -80,6 +82,8 @@ public class GameState extends BasicGameState
 	{
 		if (gameStep == 0)
 			anyKey.draw (250,500);
+		if (gameStep == 3)
+			g.drawString("A winner is you! Your score is : "+score, 250, 500);
 		engine.renderImages(g);
 	}
 

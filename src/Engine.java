@@ -23,6 +23,8 @@ public final class Engine extends Thread
 	//Fields accessed from Threads
 	private Thread moveCalculator;
 	private Thread moveManager;
+	private int score;
+	private double timePassed;
 
 	/**
 	 * This constructs a new instance of the Engine Object. Engine, subclass
@@ -36,6 +38,8 @@ public final class Engine extends Thread
 	{
 		super("World Thread Handler Thread");
 		setWorld(world);
+		timePassed = 0;
+		score = 0;
 	}
 
 	/**
@@ -49,6 +53,7 @@ public final class Engine extends Thread
 	 */
 	public void recalculateMovement(int delta)
 	{
+		timePassed += delta;
 		ArrayList<Movable> moving = getWorld().getAllMovable();
 		ArrayList<GameObject> world = ((AbstractWorld<GameObject>)getWorld()).getWorld();
 		//Go through all Movable Objects
@@ -81,22 +86,20 @@ public final class Engine extends Thread
 			if(moving.get(i).isMoving())
 			{
 				//If the speed is too high, cap it.
-				if (moving.get(i).getXSpeed()>200.0){
-					moving.get(i).setXSpeed (200.0);
-				} else if (moving.get(i).getXSpeed()<-200.0){
-					moving.get(i).setXSpeed (-200.0);
+				if (moving.get(i).getXSpeed()>250.0){
+					moving.get(i).setXSpeed (250.0);
+				} else if (moving.get(i).getXSpeed()<-250.0){
+					moving.get(i).setXSpeed (-250.0);
 				} 
-				if (moving.get(i).getYSpeed()>200.0){
-					moving.get(i).setYSpeed (200.0);
-				} else if (moving.get(i).getYSpeed()<-200.0){
-					moving.get(i).setYSpeed (-200.0);
-				} 
+				if (moving.get(i).getYSpeed()>250.0){
+					moving.get(i).setYSpeed (250.0);
+				} else if (moving.get(i).getYSpeed()<-250.0){
+					moving.get(i).setYSpeed (-250.0);
+				}
 				//Find coordinates for Objects next desired move spot.
 				double newX = (moving.get(i).getX() + moving.get(i).getXSpeed() * delta / 1000);
 				double newY = (moving.get(i).getY() + moving.get(i).getYSpeed() * delta / 1000);
 				//Check if Object is able to move to those coordinates.
-				//if (moving.get(i).canMoveTo(newX, newY))
-				//{
 					if (moving.get(i).canMoveToX(newX) &&moving.get(i).canMoveToY(newY))
 					{
 						moving.get(i).moveTo(newX,newY);
@@ -106,44 +109,83 @@ public final class Engine extends Thread
 						moving.get(i).moveTo(moving.get(i).getX(), newY);
 						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*-world.getSolidity());
 						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*world.getSolidity());
+						score+=1;
 					}
 					else if (moving.get(i).canMoveToX(newX))
 					{
 						moving.get(i).moveTo(newX, moving.get(i).getY());
-						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*-world.getSolidity());
 						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*world.getSolidity());
+						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*-world.getSolidity());
+						score+=1;
 					}
 					else
 					{
+						double temp = moving.get(i).getYSpeed();
 						moving.get(i).moveTo(newY, newX);
+						moving.get(i).setXSpeed (moving.get(i).getYSpeed());
+						moving.get(i).setYSpeed (temp);
+						score+=1;
 					}
-				//}
-			}
+				}
 			//Air Resistance
 			moving.get(i).setYSpeed(moving.get(i).getYSpeed() * 0.9999);
 			moving.get(i).setXSpeed(moving.get(i).getXSpeed() * 0.9999);
 		}
 	}
 
+	public boolean isInGoal (Player p){
+		double xDist = Math.abs(p.getX()+p.getWidth()/2-world.getGoalX());
+		double yDist = Math.abs(p.getY()+p.getHeight()/2-world.getGoalY());
+		
+		if (Math.sqrt(xDist*xDist + yDist*yDist)<world.getGoalR()){
+			return true;
+		}
+			return false;
+	}
+	
 	public void renderImages(Graphics g) throws SlickException
 	{
 		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
 		{
 			if(i instanceof Magnet)
-				g.drawImage(new Image("dat/magnet.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
+			{
+				if (i.getPole ().equals(Pole.DIA))
+					g.setColor(Color.blue);
+				else if (i.getPole ().equals(Pole.PARA))
+					g.setColor(Color.red);
+				g.fillRect((float)i.getX(),(float)i.getY(),(float)i.getWidth(),(float)i.getHeight());
+			}
+			else if (i instanceof Block)
+			{
+					g.setColor (Color.white);
+				g.fillRect((float)i.getX(),(float)i.getY(),(float)i.getWidth(),(float)i.getHeight());
+			}
 			else if(i instanceof Player)
 			{
+				g.setColor (Color.white);
 				g.drawString("  X: " + (int)i.getX() + " Y: " + (int)i.getY(), (float)i.getX(), (float)i.getY() - 15);
 				g.drawString("  SpeedX: " + (int)((Movable)i).getXSpeed() + " SpeedY: " + (int)((Movable)i).getYSpeed(), (float)i.getX(), (float)i.getY());
-				g.drawImage(new Image("dat/player.bmp"), (float)i.getX(), (float)i.getY(), Color.red);
+				g.setColor (Color.green);
+				g.fillOval((float)i.getX(),(float)i.getY(),(float)i.getWidth(),(float)i.getHeight());
 			}
-			else if(i instanceof Block)
-			{
-				
-			}
+			g.setColor (Color.white);
+			g.fillOval((float)(world.getGoalX()-world.getGoalR()),(float)(world.getGoalY()-world.getGoalR())
+					,(float)world.getGoalR()*2,(float)world.getGoalR()*2);
 		}
+		
 	}
 
+	/**
+	 * Counts the total score for the past level.
+	 * 
+	 * @return the resultant score
+	 */
+	public int getScore(){
+		score+=world.getBaseScore();
+		score-=Math.max(timePassed/1000-5,0);
+		return score;		
+	}
+	
 	/**
 	 * Sets the World Object that this engine processes.
 	 * 

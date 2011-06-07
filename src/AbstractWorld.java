@@ -20,7 +20,12 @@ implements World<E>
 	private ArrayList<E> world;
 	private int height;
 	private int width;
+	private int baseScore;
 	private double solidity;
+	private double goalX;
+	private double goalY;
+	private double goalR;
+	
 
 	/**
 	 * Creates an instance of the World Object with given parameters
@@ -33,12 +38,16 @@ implements World<E>
 	 * @param h The initial height value for the World
 	 * @see World
 	 */
-	public AbstractWorld(int w, int h, double solidity)
+	public AbstractWorld(int w, int h, double solidity, double goalX, double goalY, double goalR, int s)
 	{
 		setWorld(new ArrayList<E>());
 		setHeight(h);
 		setWidth(w);
 		setSolidity(solidity);
+		this.goalX = goalX;
+		this.goalY = goalY;
+		this.goalR = goalR;
+		baseScore = s;
 	}
 
 	@Override
@@ -46,7 +55,18 @@ implements World<E>
 	{
 		return world.add(obj);
 	}
-
+	public double getGoalX()
+	{
+		return goalX;
+	}
+	public double getGoalY()
+	{
+		return goalY;
+	}
+	public double getGoalR()
+	{
+		return goalR;
+	}
 	@Override
 	public boolean existsInWorld(E obj)
 	{
@@ -197,5 +217,11 @@ implements World<E>
 		if (hashCode() == o.hashCode())
 			return true;
 		return false;
+	}
+
+	@Override
+	public int getBaseScore()
+	{
+		return baseScore;
 	}
 }

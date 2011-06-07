@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * The World interface is implemented by classes in order to
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * @see AbstractWorld
  * @see GameObject
  */
-public interface World<E>
+public interface World<E> extends Serializable
 {
 	/**
 	 * Adds the specified Object to the World. Returns true as specified
@@ -63,4 +64,13 @@ public interface World<E>
 	int getWidth();
 	
 	double getSolidity();
+	
+	double getGoalX();
+	
+	double getGoalY();
+	
+	double getGoalR();
+	
+	int getBaseScore();
+	
 }
