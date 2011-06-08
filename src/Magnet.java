@@ -1,3 +1,6 @@
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 /**
  * the Magnet class.
  * <p>

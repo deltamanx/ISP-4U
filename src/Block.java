@@ -1,3 +1,6 @@
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 /**
  * <h1>The Block Class.</h1>
  * <p>

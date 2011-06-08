@@ -1,4 +1,6 @@
 import java.io.Serializable;
+
+import org.newdawn.slick.Image;
 /**
  * This interface serves as the base for all GameObjects in this Game.
  * GameObjects are any Object that exists within a <code>World</code> and can

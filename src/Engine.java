@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -23,8 +22,8 @@ public final class Engine extends Thread
 	//Fields accessed from Threads
 	private Thread moveCalculator;
 	private Thread moveManager;
-	private int score;
-	private double timePassed;
+	private int numBounces;
+	private int timePassed;
 
 	/**
 	 * This constructs a new instance of the Engine Object. Engine, subclass
@@ -39,7 +38,7 @@ public final class Engine extends Thread
 		super("World Thread Handler Thread");
 		setWorld(world);
 		timePassed = 0;
-		score = 0;
+		numBounces = 0;
 	}
 
 	/**
@@ -53,7 +52,6 @@ public final class Engine extends Thread
 	 */
 	public void recalculateMovement(int delta)
 	{
-		timePassed += delta;
 		ArrayList<Movable> moving = getWorld().getAllMovable();
 		ArrayList<GameObject> world = ((AbstractWorld<GameObject>)getWorld()).getWorld();
 		//Go through all Movable Objects
@@ -80,6 +78,7 @@ public final class Engine extends Thread
 	{
 		ArrayList<Movable> moving = getWorld().getAllMovable();
 		//Go through all Movable Objects
+		timePassed += delta;
 		for (int i = 0; i < moving.size(); i++)
 		{
 			//Check if the Object has an X and/or Y speed.
@@ -109,22 +108,19 @@ public final class Engine extends Thread
 						moving.get(i).moveTo(moving.get(i).getX(), newY);
 						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*-world.getSolidity());
 						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*world.getSolidity());
-						score+=1;
+						numBounces+=1;
 					}
 					else if (moving.get(i).canMoveToX(newX))
 					{
 						moving.get(i).moveTo(newX, moving.get(i).getY());
 						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*world.getSolidity());
 						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*-world.getSolidity());
-						score+=1;
+						numBounces+=1;
 					}
 					else
 					{
-						double temp = moving.get(i).getYSpeed();
-						moving.get(i).moveTo(newY, newX);
-						moving.get(i).setXSpeed (moving.get(i).getYSpeed());
-						moving.get(i).setYSpeed (temp);
-						score+=1;
+						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*-world.getSolidity());
+						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*-world.getSolidity());
 					}
 				}
 			//Air Resistance
@@ -147,7 +143,7 @@ public final class Engine extends Thread
 	{
 		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
 		{
-			if(i instanceof Magnet)
+			 if(i instanceof Magnet)
 			{
 				if (i.getPole ().equals(Pole.DIA))
 					g.setColor(Color.blue);
@@ -181,9 +177,7 @@ public final class Engine extends Thread
 	 * @return the resultant score
 	 */
 	public int getScore(){
-		score+=world.getBaseScore();
-		score-=Math.max(timePassed/1000-5,0);
-		return score;		
+		return numBounces + world.getBaseScore() -(timePassed/1000-5);		
 	}
 	
 	/**

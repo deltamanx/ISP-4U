@@ -14,6 +14,7 @@ public class GameState extends BasicGameState
 	private Engine engine;
 	private int gameStep;
 	private Image anyKey;
+	private Image pause;
 	private float alpha;
 	private float alphaChange;
 	private Player p;
@@ -26,6 +27,7 @@ public class GameState extends BasicGameState
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
+		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		world = new LimitedWorld<GameObject>(600, 800, 0.85, 700,300,50,50);
 		world.addToWorld(new Magnet(Pole.DIA, 750, 275, 50, 50, 300));
@@ -45,7 +47,7 @@ public class GameState extends BasicGameState
 		Input i = gc.getInput();
 
 		if (gameStep == 0){
-			
+
 			if (i.isKeyDown (Input.KEY_ENTER))
 				gameStep = 1;
 			if (alpha >= 1.0f || alpha <= 0.0f)
@@ -71,8 +73,20 @@ public class GameState extends BasicGameState
 				score = engine.getScore();
 			}
 		}
-		if (i.isKeyDown (Input.KEY_ESCAPE))
-			parent.enterState(1);
+		else if (gameStep == 3){	
+			if (i.isKeyPressed (Input.KEY_Q))
+				parent.enterState(1);
+		}
+		else if (gameStep >= 10){
+			if (i.isKeyPressed (Input.KEY_P))
+				gameStep -= 10;
+			if (i.isKeyPressed (Input.KEY_Q))
+				parent.enterState(1);
+			if (i.isKeyPressed (Input.KEY_R))
+				init (gc, parent);
+		}
+		if (i.isKeyPressed (Input.KEY_P)&& gameStep <9)
+			gameStep += 10;
 	}
 
 
@@ -80,11 +94,13 @@ public class GameState extends BasicGameState
 	public void render (GameContainer gc, StateBasedGame parent, Graphics g)
 	throws SlickException
 	{
+		engine.renderImages(g);
 		if (gameStep == 0)
 			anyKey.draw (250,500);
-		if (gameStep == 3)
-			g.drawString("A winner is you! Your score is : "+score, 250, 500);
-		engine.renderImages(g);
+		else if (gameStep == 3)
+			g.drawString("A winner is you! Your score is : "+score + ". Press 'Q' to quit.", 250, 500);
+		else if (gameStep >= 10)
+			pause.draw (250, 260);
 	}
 
 	@Override

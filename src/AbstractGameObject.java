@@ -1,3 +1,5 @@
+import org.newdawn.slick.Image;
+
 /**
  * This class is the abstract class that is used as the super
  * class for all GameObjects. Though no methods in this class
@@ -28,6 +30,7 @@ implements GameObject
 	private double currentY;
 	private int height;
 	private int width;
+	private Image img;
 	private double strength; //added for magnetic calculations.
 
 	/**
