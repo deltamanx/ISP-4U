@@ -47,7 +47,7 @@ implements GameObject
 	 * @param width The horizontal size attribute for this GameObject.
 	 * @param str The magnetic strength value for this GameObject.
 	 */
-	public AbstractGameObject(Pole pole, int initX, int initY, int height, int width, double str)
+	public AbstractGameObject(Pole pole,Image img, int initX, int initY, int width, int height, double str)
 	{
 		setPole(pole);
 		setX(initX);
@@ -55,6 +55,7 @@ implements GameObject
 		this.height = height;
 		this.width = width;
 		strength = str;
+		this.img = img;
 	}
 
 	//Documented in interface
@@ -114,6 +115,13 @@ implements GameObject
 	{
 		return objPole;
 	}
+	
+	//Documented in interface
+	public Image getImage()
+	{
+		return img;
+	}
+	
 	//Documented in interface
 	public double getStrength() 
 	{

@@ -106,4 +106,11 @@ public interface GameObject extends Serializable
 	 * @see World
 	 */
 	void removeSelfFromWorld();
+	/**
+	 * Returns the image that represents the object in the game world. Implementing
+	 * classes must overwrite this method.
+	 * 
+	 * @return The image that represents this object.
+	 */
+	Image getImage();
 }

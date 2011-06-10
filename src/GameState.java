@@ -27,11 +27,14 @@ public class GameState extends BasicGameState
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
+		Image playerImg = new Image ("dat/player.png");
+		Image diaImgSmall = new Image ("dat/Dia-Small.png");
+		
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		world = new LimitedWorld<GameObject>(600, 800, 0.85, 700,300,50,50);
-		world.addToWorld(new Magnet(Pole.DIA, 750, 275, 50, 50, 300));
-		p = new Player(250, 300, 10, 10);
+		world.addToWorld(new Magnet(Pole.DIA,diaImgSmall, 780, 260, 20, 80, 300));
+		p = new Player(playerImg,250, 300, 10, 10);
 		p.addSelfToWorld(world);
 		//p2.addSelfToWorld(world);
 		//p3.addSelfToWorld(world);
@@ -73,20 +76,16 @@ public class GameState extends BasicGameState
 				score = engine.getScore();
 			}
 		}
-		else if (gameStep == 3){	
-			if (i.isKeyPressed (Input.KEY_Q))
-				parent.enterState(1);
-		}
 		else if (gameStep >= 10){
 			if (i.isKeyPressed (Input.KEY_P))
 				gameStep -= 10;
-			if (i.isKeyPressed (Input.KEY_Q))
-				parent.enterState(1);
-			if (i.isKeyPressed (Input.KEY_R))
-				init (gc, parent);
 		}
 		if (i.isKeyPressed (Input.KEY_P)&& gameStep <9)
 			gameStep += 10;
+		if (i.isKeyPressed (Input.KEY_Q))
+			parent.enterState(1);
+		if (i.isKeyPressed (Input.KEY_R))
+			init (gc, parent);
 	}
 
 

@@ -1,5 +1,6 @@
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -21,11 +22,27 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MainProgram extends StateBasedGame
 {
+	private static Music m;
+	
 	public MainProgram ()
 	{
 		super ("Interrobang!?");
 	}
 
+	@Override
+	public void keyPressed (int key, char c){
+		if (c == 'M' || c == 'm'){
+			if (m.playing())
+			{
+				m.stop();
+			}
+			else
+			{
+				m.loop();
+			}
+		}
+	}
+	
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException
 	{
@@ -38,7 +55,8 @@ public class MainProgram extends StateBasedGame
 	throws SlickException
 	{
 		AppGameContainer app = new AppGameContainer (new MainProgram ());
-
+		m = new Music ("dat/bgm.ogg");
+		m.loop();
 		app.setDisplayMode (800, 600, false);
 		app.setSmoothDeltas(true);
 		app.setVSync(true);

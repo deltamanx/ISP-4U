@@ -143,7 +143,7 @@ public final class Engine extends Thread
 	{
 		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
 		{
-			 if(i instanceof Magnet)
+			/* if(i instanceof Magnet)
 			{
 				if (i.getPole ().equals(Pole.DIA))
 					g.setColor(Color.blue);
@@ -164,10 +164,11 @@ public final class Engine extends Thread
 				g.setColor (Color.green);
 				g.fillOval((float)i.getX(),(float)i.getY(),(float)i.getWidth(),(float)i.getHeight());
 			}
-			g.setColor (Color.white);
-			g.fillOval((float)(world.getGoalX()-world.getGoalR()),(float)(world.getGoalY()-world.getGoalR())
-					,(float)world.getGoalR()*2,(float)world.getGoalR()*2);
+			g.setColor (Color.white);*/
+			i.getImage().draw((float)i.getX(),(float)i.getY());
 		}
+		g.fillOval((float)(world.getGoalX()-world.getGoalR()),(float)(world.getGoalY()-world.getGoalR())
+				,(float)world.getGoalR()*2,(float)world.getGoalR()*2);
 		
 	}
 

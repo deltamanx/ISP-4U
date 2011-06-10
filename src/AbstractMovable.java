@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import org.newdawn.slick.Image;
+
 /**
  * This is the abstract class for the Movable interface
  * that gives its subclasses all the functionality of a
@@ -26,10 +28,10 @@ implements Movable
 	 * @param height the height of the new Movable.
 	 * @param width the width of the new Movable.
 	 */
-	public AbstractMovable(Pole pole, int initX, int initY, int height,
-			int width, double str) 
+	public AbstractMovable(Pole pole, Image img, int initX, int initY,
+			int width, int height, double str) 
 	{
-		super(pole, initX, initY, height, width,str);
+		super(pole, img, initX, initY, width, height,str);
 	}
 
 	/**
