@@ -28,10 +28,10 @@ implements Movable
 	 * @param height the height of the new Movable.
 	 * @param width the width of the new Movable.
 	 */
-	public AbstractMovable(Pole pole, Image img, int initX, int initY,
+	public AbstractMovable(Pole pole, int initX, int initY,
 			int width, int height, double str) 
 	{
-		super(pole, img, initX, initY, width, height,str);
+		super(pole,initX, initY, width, height,str);
 	}
 
 	/**

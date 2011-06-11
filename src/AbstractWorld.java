@@ -129,6 +129,12 @@ implements World<E>
 		return width;
 	}
 
+	//doc'd in interface.
+	public void reinitWorld(){
+		for (E o:world){
+			((GameObject)o).reImage();
+		}
+	}
 	/**
 	 * Returns the Object at the specified coordinates within this World.
 	 * If no Object falls within those coordinates, it returns null.
@@ -219,6 +225,14 @@ implements World<E>
 		return false;
 	}
 
+	public Player getPlayer(){
+		for (E o:world){
+			if (o instanceof Player)
+				return (Player) o;
+		}
+		return null;
+	}
+	
 	@Override
 	public int getBaseScore()
 	{

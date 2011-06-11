@@ -1,3 +1,8 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -15,6 +20,7 @@ public class GameState extends BasicGameState
 	private int gameStep;
 	private Image anyKey;
 	private Image pause;
+	private Image arrow;
 	private float alpha;
 	private float alphaChange;
 	private Player p;
@@ -24,21 +30,35 @@ public class GameState extends BasicGameState
 	{
 	}
 
+	public void setWorld(World<GameObject> w){
+		world = w;
+		engine = new Engine(world);
+		world.reinitWorld();
+		p = world.getPlayer();
+	}
+	
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
-		Image playerImg = new Image ("dat/player.png");
-		Image diaImgSmall = new Image ("dat/Dia-Small.png");
 		
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
+		arrow = new Image ("dat/arrow.png");
 		world = new LimitedWorld<GameObject>(600, 800, 0.85, 700,300,50,50);
-		world.addToWorld(new Magnet(Pole.DIA,diaImgSmall, 780, 260, 20, 80, 300));
-		p = new Player(playerImg,250, 300, 10, 10);
+		world.addToWorld(new Magnet(Pole.DIA, 780, 260, 80, 20, 300));
+		p = new Player(250, 300, 10, 10);
 		p.addSelfToWorld(world);
-		//p2.addSelfToWorld(world);
-		//p3.addSelfToWorld(world);
-		engine = new Engine(world);
+		try
+		{
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("dat/lvl/0.1.dat"));
+			oos.writeObject(world);
+		} catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		gameStep= 0;
 		alpha = 0f;
 		alphaChange = -1.0f;
@@ -82,8 +102,6 @@ public class GameState extends BasicGameState
 		}
 		if (i.isKeyPressed (Input.KEY_P)&& gameStep <9)
 			gameStep += 10;
-		if (i.isKeyPressed (Input.KEY_Q))
-			parent.enterState(1);
 		if (i.isKeyPressed (Input.KEY_R))
 			init (gc, parent);
 	}
@@ -96,6 +114,17 @@ public class GameState extends BasicGameState
 		engine.renderImages(g);
 		if (gameStep == 0)
 			anyKey.draw (250,500);
+		else if (gameStep == 1){
+			Input i = gc.getInput();
+			double angle = -Math.atan((i.getMouseX()-p.getX())/(i.getMouseY()-p.getY()));
+			if (i.getMouseY() > p.getY())
+				angle += Math.PI;
+			angle = angle*180/Math.PI;
+			Image temp  = arrow.getScaledCopy((float)Math.min(Math.sqrt(p.getXSpeed()*p.getXSpeed() + 
+					p.getYSpeed()*p.getYSpeed())/250,1.0));
+			temp.setRotation ((float) angle);
+			temp.drawCentered ((float)(p.getX()+p.getWidth()/2),(float)(p.getY()+p.getHeight()/2));
+		}
 		else if (gameStep == 3)
 			g.drawString("A winner is you! Your score is : "+score + ". Press 'Q' to quit.", 250, 500);
 		else if (gameStep >= 10)

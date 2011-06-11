@@ -28,8 +28,8 @@ implements Solid
 	 * @param height The Object's vertical size.
 	 * @param width The Object's horizontal size.
 	 */
-	public Block(Image img, int initX, int initY, int width, int height) 
+	public Block(int initX, int initY, int width, int height) 
 	{
-		super(Pole.NONE, img, initX, initY, width, height,0);
+		super(Pole.NONE,initX, initY, width, height,0);
 	}
 }

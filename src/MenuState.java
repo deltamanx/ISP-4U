@@ -74,7 +74,7 @@ implements ComponentListener
 		if (com.equals(newButton))
 			nextState = 5;
 		if (com.equals(continueButton))
-			nextState = 3;
+			nextState = 2;
 		if (com.equals(exitButton))
 			System.exit(0);
 	}

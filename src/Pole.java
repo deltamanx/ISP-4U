@@ -1,3 +1,6 @@
+import java.io.Serializable;
+
+
 /**
  * The Pole class.
  * <p>
@@ -8,7 +11,7 @@
  * has private access. The Objects only values are defined
  * in the public static final Objects defined in this class.
  */
-public final class Pole 
+public final class Pole implements Serializable
 {
 	/**
 	 * The Pole assigned to Player Objects.

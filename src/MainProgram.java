@@ -1,5 +1,6 @@
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
@@ -31,7 +32,7 @@ public class MainProgram extends StateBasedGame
 
 	@Override
 	public void keyPressed (int key, char c){
-		if (c == 'M' || c == 'm'){
+		if (key == Input.KEY_M){
 			if (m.playing())
 			{
 				m.stop();
@@ -41,6 +42,8 @@ public class MainProgram extends StateBasedGame
 				m.loop();
 			}
 		}
+		if (key == Input.KEY_Q)
+			enterState(1);
 	}
 	
 	@Override
@@ -48,6 +51,7 @@ public class MainProgram extends StateBasedGame
 	{
 		addState (new SplashState());
 		addState (new MenuState());
+		addState (new StageSelectState());
 		addState (new GameState());
 	}
 

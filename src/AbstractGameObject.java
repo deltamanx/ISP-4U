@@ -30,7 +30,7 @@ implements GameObject
 	private double currentY;
 	private int height;
 	private int width;
-	private Image img;
+	private transient Image img;
 	private double strength; //added for magnetic calculations.
 
 	/**
@@ -47,7 +47,7 @@ implements GameObject
 	 * @param width The horizontal size attribute for this GameObject.
 	 * @param str The magnetic strength value for this GameObject.
 	 */
-	public AbstractGameObject(Pole pole,Image img, int initX, int initY, int width, int height, double str)
+	public AbstractGameObject(Pole pole, int initX, int initY, int width, int height, double str)
 	{
 		setPole(pole);
 		setX(initX);
@@ -55,7 +55,6 @@ implements GameObject
 		this.height = height;
 		this.width = width;
 		strength = str;
-		this.img = img;
 	}
 
 	//Documented in interface
@@ -100,6 +99,46 @@ implements GameObject
 		return width;
 	}
 
+	public void reImage (){
+		try{
+			int dim1 = Math.min(width, height);
+			int dim2 = Math.max(width, height);
+			System.out.println (dim1 + "," + dim2);
+			if (objPole.equals (Pole.NONE)){
+				if (dim1 == 20 && dim2 == 80){
+					img = new Image ("dat/WOOD-Small.png");
+				}else if (dim1 == 25 && dim2 == 100){
+					img = new Image ("dat/WOOD-Medium.png");
+				}else if (dim1 == 30 && dim2 == 120){
+					img = new Image ("dat/WOOD-Large.png");
+				}
+			}else if (objPole.equals (Pole.PARA)){
+				if (dim1 == 20 && dim2 == 80){
+					img = new Image ("dat/Para-Small.png");
+				}else if (dim1 == 25 && dim2 == 100){
+					img = new Image ("dat/Para-Medium.png");
+				}else if (dim1 == 30 && dim2 == 120){
+					img = new Image ("dat/Para-Large.png");
+				}
+			}else if (objPole.equals (Pole.DIA)){
+				if (dim1 == 20 && dim2 == 80){
+					img = new Image ("dat/Dia-Small.png");
+				}else if (dim1 == 25 && dim2 == 100){
+					img = new Image ("dat/Dia-Medium.png");
+				}else if (dim1 == 30 && dim2 == 120){
+					img = new Image ("dat/Dia-Large.png");
+				}
+			}else{
+				img = new Image ("dat/player.png");
+			}
+			if (width > height){
+				img.rotate(90);
+			}
+		}catch (Exception e){
+			
+		}
+	}
+
 	/**
 	 * Sets the value for the Pole Object assigned
 	 * to this GameObject.
@@ -115,13 +154,13 @@ implements GameObject
 	{
 		return objPole;
 	}
-	
+
 	//Documented in interface
 	public Image getImage()
 	{
 		return img;
 	}
-	
+
 	//Documented in interface
 	public double getStrength() 
 	{

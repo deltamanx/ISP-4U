@@ -1,7 +1,9 @@
+
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -12,7 +14,7 @@ import org.newdawn.slick.SlickException;
  * movement and World handling.
  * 
  * @author Mihail Kurbako
- * @author Dan Zapornicov
+ * @author Dan Zapornikov
  * @version 1.0.0.12 May 8, 2011
  * @since May 8, 2011
  */
@@ -22,6 +24,7 @@ public final class Engine extends Thread
 	//Fields accessed from Threads
 	private Thread moveCalculator;
 	private Thread moveManager;
+	private Image target;
 	private int numBounces;
 	private int timePassed;
 
@@ -37,6 +40,13 @@ public final class Engine extends Thread
 	{
 		super("World Thread Handler Thread");
 		setWorld(world);
+		try
+		{
+			target = new Image ("dat/target.png");
+		} catch (SlickException e)
+		{
+			e.printStackTrace();
+		}
 		timePassed = 0;
 		numBounces = 0;
 	}
@@ -143,32 +153,10 @@ public final class Engine extends Thread
 	{
 		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
 		{
-			/* if(i instanceof Magnet)
-			{
-				if (i.getPole ().equals(Pole.DIA))
-					g.setColor(Color.blue);
-				else if (i.getPole ().equals(Pole.PARA))
-					g.setColor(Color.red);
-				g.fillRect((float)i.getX(),(float)i.getY(),(float)i.getWidth(),(float)i.getHeight());
-			}
-			else if (i instanceof Block)
-			{
-					g.setColor (Color.white);
-				g.fillRect((float)i.getX(),(float)i.getY(),(float)i.getWidth(),(float)i.getHeight());
-			}
-			else if(i instanceof Player)
-			{
-				g.setColor (Color.white);
-				g.drawString("  X: " + (int)i.getX() + " Y: " + (int)i.getY(), (float)i.getX(), (float)i.getY() - 15);
-				g.drawString("  SpeedX: " + (int)((Movable)i).getXSpeed() + " SpeedY: " + (int)((Movable)i).getYSpeed(), (float)i.getX(), (float)i.getY());
-				g.setColor (Color.green);
-				g.fillOval((float)i.getX(),(float)i.getY(),(float)i.getWidth(),(float)i.getHeight());
-			}
-			g.setColor (Color.white);*/
 			i.getImage().draw((float)i.getX(),(float)i.getY());
 		}
-		g.fillOval((float)(world.getGoalX()-world.getGoalR()),(float)(world.getGoalY()-world.getGoalR())
-				,(float)world.getGoalR()*2,(float)world.getGoalR()*2);
+			target.drawCentered((float)world.getGoalX(),(float) world.getGoalY());
+		
 		
 	}
 

@@ -1,6 +1,11 @@
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
@@ -10,16 +15,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 public class StageSelectState extends BasicGameState
-implements ComponentListener
 {
 	private Image bg;
-	private Image stage1;
-	private Image stage2;
-	private Image stage3;
-	private MouseOverArea stage1B;
-	private MouseOverArea stage2B;
-	private MouseOverArea stage3B;
-	private int nextState = 1;
+	private int level;
+	private int stage;
+	private ObjectInputStream ois = null;
+	private FileInputStream fis = null;
+	private Image [][] img= { {},
+			{},
+			{}};
 
 	public StageSelectState(){}
 
@@ -28,12 +32,13 @@ implements ComponentListener
 	throws SlickException
 	{
 		bg = new Image("dat/BG.png");
-		stage1 =  new Image ("dat/NewGame.png");
-		stage1B = new MouseOverArea(gc,stage1, 100, 100, this);
-		stage2 =  new Image ("dat/Exit.png");
-		stage2B = new MouseOverArea(gc,stage2 , 100, 200, this);
-		stage3 =  new Image ("dat/Continue.png");
-		stage3B = new MouseOverArea(gc,stage3, 100, 300, this);
+		
+		level = 0;
+		stage = 0;
+		try{
+			fis = new FileInputStream("dat/lvl/" + level+"."+stage+".dat");
+		}catch (IOException e){
+		}
 	}
 
 	@Override
@@ -41,39 +46,72 @@ implements ComponentListener
 	throws SlickException
 	{
 		g.drawImage(bg, 0, 0);
-		stage1B.render (gc, g);
-		stage2B.render(gc, g);
-		stage3B.render(gc,g);
+		g.drawString(level + " - " + stage,200,200);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame parent, int delta)
 	throws SlickException
 	{
-		if (nextState == 5)
-		{
-			parent.getState(3).init(gc, parent);
-			parent.enterState(3);
+		Input i = gc.getInput();
+		if (i.isKeyPressed(Input.KEY_RIGHT)){
+			while(true){
+				stage += 1;
+				if (stage == 10){
+					stage = 0;
+					level += 1;
+					if (level == 3){
+						level = 0;
+					}
+				}
+				try{
+					fis = new FileInputStream("dat/lvl/" + level+"."+stage+".dat");
+				}catch (IOException e){
+					continue;
+				}
+				break;
+			}
 		}
-		else if (nextState > 1)
-		{
-			parent.enterState (nextState);
+		if (i.isKeyPressed(Input.KEY_LEFT)){
+			while(true){
+				stage -= 1;
+				if (stage == -1){
+					stage = 10;
+					level -= 1;
+					if (level == -1){
+						level = 2;
+					}
+				}
+				try{
+					fis = new FileInputStream("dat/lvl/" + level+"."+stage+".dat");
+				}catch (IOException e){
+					continue;
+				}
+				break;
+			}
+
 		}
-		nextState = 0;
+		if (i.isKeyDown(Input.KEY_ENTER)){
+			try
+			{
+				ois = new ObjectInputStream (fis);
+				((GameState)(parent.getState(3))).setWorld((World<GameObject>) ois.readObject());
+				parent.enterState(3);
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			} catch (ClassNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public int getID()
 	{
-		return 1;
+		return 2;
 	}
 
-	@Override
-	public void componentActivated(AbstractComponent com)
-	{
-		if (com.equals(stage1B));
-		if (com.equals(stage2B));
-		if (com.equals(stage3B));
-	}
 
 }
