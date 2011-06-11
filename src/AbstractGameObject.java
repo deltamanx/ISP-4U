@@ -1,4 +1,5 @@
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  * This class is the abstract class that is used as the super
@@ -31,7 +32,8 @@ implements GameObject
 	private double currentY;
 	private int height;
 	private int width;
-	private Image img;
+	private String path;
+	private transient Image img;
 	private double strength; //added for magnetic calculations.
 
 	/**
@@ -57,6 +59,7 @@ implements GameObject
 		this.width = width;
 		strength = str;
 		this.img = img;
+		path = img.getResourceReference();
 	}
 
 	//Documented in interface
@@ -120,7 +123,30 @@ implements GameObject
 	//Documented in interface
 	public Image getImage()
 	{
-		return img;
+		if(img != null)
+			return img;
+		else
+		{
+			try
+			{
+				return new Image(path);
+			} 
+			catch (SlickException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				try
+				{
+					return new Image(10, 10);
+				} 
+				catch (SlickException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					return null;
+				}
+			}
+		}
 	}
 	
 	//Documented in interface

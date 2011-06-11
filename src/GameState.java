@@ -27,19 +27,20 @@ public class GameState extends BasicGameState
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
-		Image playerImg = new Image ("dat/player.png");
-		Image diaImgSmall = new Image ("dat/Dia-Small.png");
+		//Image playerImg = new Image ("dat/player.png");
+		//Image diaImgSmall = new Image ("dat/Dia-Small.png");
 		
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
-		world = new LimitedWorld<GameObject>(600, 800, 0.85, 700,300,50,50);
-		world.addToWorld(new Magnet(Pole.DIA,diaImgSmall, 780, 260, 20, 80, 300));
-		p = new Player(playerImg,250, 300, 10, 10);
+		/*world = new LimitedWorld<GameObject>(600, 800, 0.85, 700, 300, 50, 50);
+		world.addToWorld(new Magnet(Pole.DIA, diaImgSmall, 780, 260, 20, 80, 300));
+		p = new Player(playerImg, 250, 300, 10, 10);
 		p.addSelfToWorld(world);
-		//p2.addSelfToWorld(world);
-		//p3.addSelfToWorld(world);
+		System.out.println(LevelWriter.writeWorld("1.0", world));*/
+		world = LevelWriter.readWorld("1.0");
+		p = world.getPlayer();
 		engine = new Engine(world);
-		gameStep= 0;
+		gameStep = 0;
 		alpha = 0f;
 		alphaChange = -1.0f;
 	}
@@ -56,21 +57,21 @@ public class GameState extends BasicGameState
 			if (alpha >= 1.0f || alpha <= 0.0f)
 				alphaChange = -alphaChange;
 
-			alpha += alphaChange*delta/900;
+			alpha += alphaChange * delta / 900;
 			anyKey.setAlpha (alpha);
 		}
 		else if (gameStep == 1)
 		{
-			p.setXSpeed(i.getMouseX()-p.getX());
-			p.setYSpeed(i.getMouseY()-p.getY());
+			p.setXSpeed(i.getMouseX() - p.getX());
+			p.setYSpeed(i.getMouseY() - p.getY());
 
 			if (i.isMousePressed (Input.MOUSE_LEFT_BUTTON))
 				gameStep = 2;
 		}
 		else if (gameStep == 2)
 		{
-			engine.recalculateMovement(2*delta);
-			engine.handleMovement(2*delta);
+			engine.recalculateMovement(2 * delta);
+			engine.handleMovement(2 * delta);
 			if (engine.isInGoal(p)){
 				gameStep = 3;
 				score = engine.getScore();
@@ -80,7 +81,7 @@ public class GameState extends BasicGameState
 			if (i.isKeyPressed (Input.KEY_P))
 				gameStep -= 10;
 		}
-		if (i.isKeyPressed (Input.KEY_P)&& gameStep <9)
+		if (i.isKeyPressed (Input.KEY_P) && gameStep <9)
 			gameStep += 10;
 		if (i.isKeyPressed (Input.KEY_Q))
 			parent.enterState(1);
@@ -97,7 +98,7 @@ public class GameState extends BasicGameState
 		if (gameStep == 0)
 			anyKey.draw (250,500);
 		else if (gameStep == 3)
-			g.drawString("A winner is you! Your score is : "+score + ". Press 'Q' to quit.", 250, 500);
+			g.drawString("A winner is you! Your score is : " + score + ". Press 'Q' to quit.", 250, 500);
 		else if (gameStep >= 10)
 			pause.draw (250, 260);
 	}

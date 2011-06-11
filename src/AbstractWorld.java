@@ -250,4 +250,12 @@ implements World<E>
 	{
 		return baseScore;
 	}
+	
+	public Player getPlayer()
+	{
+		for (int i = 0; i < getWorld().size(); i++)
+			if (getWorld().get(i) instanceof Player)
+				return (Player)getWorld().get(i);
+		return null;
+	}
 }

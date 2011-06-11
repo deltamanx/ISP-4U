@@ -73,4 +73,5 @@ public interface World<E> extends Serializable
 	
 	int getBaseScore();
 	
+	Player getPlayer();
 }
