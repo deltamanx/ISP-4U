@@ -24,16 +24,25 @@ public class GameState extends BasicGameState
 	private float alpha;
 	private float alphaChange;
 	private Player p;
+	private String WorldID = "1.0";
 	private int score;
 
 	public GameState()
 	{
 	}
 
-	public void setWorld(World<GameObject> w){
-		world = w;
-		engine = new Engine(world);
-		p = world.getPlayer();
+	public void setWorld(String s){
+		WorldID = s;
+	}
+	
+	public void enter (GameContainer gc, StateBasedGame parent){
+		try
+		{
+			init(gc, parent);
+		} catch (SlickException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public void init (GameContainer gc, StateBasedGame parent)
@@ -43,17 +52,28 @@ public class GameState extends BasicGameState
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		arrow = new Image ("dat/arrow.png");
-		//Image playerImg = new Image ("dat/player.png");
-		//Image diaImgSmall = new Image ("dat/Dia-Small.png");
-		
+		Image playerImg = new Image ("dat/player.png");
+		Image diaImgSmall = new Image ("dat/Para-Large-Horiz.png");
+		Image blockImgLarge = new Image ("dat/WOOD-Large.png");
+		Image blockHorizLarge = new Image ("dat/WOOD-Large-Horiz.png");
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
-		/*world = new LimitedWorld<GameObject>(600, 800, 0.85, 700, 300, 50, 50);
-		world.addToWorld(new Magnet(Pole.DIA, diaImgSmall, 780, 260, 20, 80, 300));
-		p = new Player(playerImg, 250, 300, 10, 10);
+		world = new LimitedWorld<GameObject>(600, 800, 0.85, 450, 550, 50, 75);
+		
+		world.addToWorld(new Block(blockHorizLarge, 0, 101, 120, 30));
+		world.addToWorld(new Block(blockHorizLarge, 110, 100, 120, 30));
+		world.addToWorld(new Block(blockHorizLarge, 220, 100, 120, 30));
+		world.addToWorld(new Block(blockHorizLarge, 330, 100, 120, 30));
+		world.addToWorld(new Block(blockImgLarge, 440, 100, 30, 120));
+		world.addToWorld(new Block(blockImgLarge, 440, 210, 30, 120));
+		world.addToWorld(new Block(blockImgLarge, 440, 330, 30, 120));
+		world.addToWorld(new Magnet(Pole.PARA, diaImgSmall,  470, 420, 120, 30,150));
+		
+		p = new Player(playerImg, 50, 50, 10, 10);
 		p.addSelfToWorld(world);
-		System.out.println(LevelWriter.writeWorld("1.0", world));*/
-		world = LevelWriter.readWorld("1.0");
+		System.out.println(LevelWriter.writeWorld("2.0", world));
+		
+		world = LevelWriter.readWorld(WorldID);
 		p = world.getPlayer();
 		engine = new Engine(world);
 		gameStep = 0;

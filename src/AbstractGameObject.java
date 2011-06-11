@@ -129,11 +129,11 @@ implements GameObject
 		{
 			try
 			{
-				return new Image(path);
+				Image i =  new Image(path);
+				return i;
 			} 
 			catch (SlickException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				try
 				{
@@ -141,7 +141,6 @@ implements GameObject
 				} 
 				catch (SlickException e1)
 				{
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 					return null;
 				}

@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,8 +20,7 @@ public class StageSelectState extends BasicGameState
 	private Image bg;
 	private int level;
 	private int stage;
-	private ObjectInputStream ois = null;
-	private FileInputStream fis = null;
+	private File f;
 	private Image [][] img= { {},
 			{},
 			{}};
@@ -35,10 +35,6 @@ public class StageSelectState extends BasicGameState
 		
 		level = 1;
 		stage = 0;
-		try{
-			fis = new FileInputStream("levelData/" + level+"."+stage+".dat");
-		}catch (IOException e){
-		}
 	}
 
 	@Override
@@ -64,12 +60,9 @@ public class StageSelectState extends BasicGameState
 						level = 1;
 					}
 				}
-				try{
-					fis = new FileInputStream("levelData/" + level+"."+stage+".dat");
-				}catch (IOException e){
-					continue;
-				}
-				break;
+				f = new File ("levelData/" + level+"."+stage+".dat");
+				if (f.exists())
+					break;
 			}
 		}
 		if (i.isKeyPressed(Input.KEY_LEFT)){
@@ -82,28 +75,15 @@ public class StageSelectState extends BasicGameState
 						level =3;
 					}
 				}
-				try{
-					fis = new FileInputStream("levelData/" + level+"."+stage+".dat");
-				}catch (IOException e){
-					continue;
-				}
-				break;
+				f = new File ("levelData/" + level+"."+stage+".dat");
+				if (f.exists())
+					break;
 			}
 
 		}
 		if (i.isKeyDown(Input.KEY_ENTER)){
-			try
-			{
-				ois = new ObjectInputStream (fis);
-				((GameState)(parent.getState(3))).setWorld((World<GameObject>) ois.readObject());
+				((GameState)(parent.getState(3))).setWorld(level + "." + stage);
 				parent.enterState(3);
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			} catch (ClassNotFoundException e)
-			{
-				e.printStackTrace();
-			}
 		}
 	}
 
