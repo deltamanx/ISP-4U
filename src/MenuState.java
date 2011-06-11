@@ -21,7 +21,7 @@ implements ComponentListener
 	private MouseOverArea continueButton;
 	private int nextState = 1;
 
-	public MenuState(){}
+	public MenuState() {  }
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame parent)
@@ -60,6 +60,16 @@ implements ComponentListener
 			parent.enterState (nextState);
 		}
 		nextState = 0;
+	}
+	
+	@Override
+	public void keyReleased(int key, char c) 
+	{
+		if(c == 'n')
+			nextState = 5;
+		else if (c == 'e')
+			System.exit(0);
+		else return;
 	}
 
 	@Override

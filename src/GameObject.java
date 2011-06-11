@@ -113,9 +113,4 @@ public interface GameObject extends Serializable
 	 * @return The image that represents this object.
 	 */
 	Image getImage();
-	/**
-	 * Chooses the image that fits this object the most.
-	 * 
-	 */
-	void reImage();
 }

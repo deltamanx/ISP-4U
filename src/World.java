@@ -73,12 +73,5 @@ public interface World<E> extends Serializable
 	
 	int getBaseScore();
 	
-	/**
-	 * Due to images being unserializable, <code>reinitWorld</code> must be called after retreiving a
-	 * serialized world.
-	 */
-	void reinitWorld();
-	
 	Player getPlayer();
-	
 }

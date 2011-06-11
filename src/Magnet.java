@@ -1,5 +1,4 @@
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 /**
  * the Magnet class.
@@ -17,15 +16,17 @@ import org.newdawn.slick.SlickException;
 public class Magnet extends AbstractGameObject
 implements Solid
 {
+	private static final long serialVersionUID = 1645847507298592810L;
+
 	/**
 	 * The Sole construct for a Magnet Object.
 	 * It creates a magnet with a given Pole Object that
 	 * has a given strength of its magnetic attraction
 	 * or repulsion characteristics.
 	 */
-	public Magnet(Pole pole,int initX, int initY, int width, int height, double str)
+	public Magnet(Pole pole,Image img,int initX, int initY, int width, int height, double str)
 	{
-		super(pole, initX, initY, width, height, str);
+		super(pole,img,  initX, initY, width, height, str);
 	}
 
 }

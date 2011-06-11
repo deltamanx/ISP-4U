@@ -1,6 +1,5 @@
 import java.io.Serializable;
 
-
 /**
  * The Pole class.
  * <p>
@@ -13,6 +12,7 @@ import java.io.Serializable;
  */
 public final class Pole implements Serializable
 {
+	private static final long serialVersionUID = -128289672702655838L;
 	/**
 	 * The Pole assigned to Player Objects.
 	 */

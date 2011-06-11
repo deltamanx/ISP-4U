@@ -1,4 +1,5 @@
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  * This class is the abstract class that is used as the super
@@ -24,12 +25,14 @@ import org.newdawn.slick.Image;
 public abstract class AbstractGameObject 
 implements GameObject 
 {
+	private static final long serialVersionUID = -1640215226459075153L;
 	private World<GameObject> enclosingWorld;
 	private Pole objPole;
 	private double currentX;
 	private double currentY;
 	private int height;
 	private int width;
+	private String path;
 	private transient Image img;
 	private double strength; //added for magnetic calculations.
 
@@ -47,7 +50,7 @@ implements GameObject
 	 * @param width The horizontal size attribute for this GameObject.
 	 * @param str The magnetic strength value for this GameObject.
 	 */
-	public AbstractGameObject(Pole pole, int initX, int initY, int width, int height, double str)
+	public AbstractGameObject(Pole pole, Image img, int initX, int initY, int width, int height, double str)
 	{
 		setPole(pole);
 		setX(initX);
@@ -55,6 +58,8 @@ implements GameObject
 		this.height = height;
 		this.width = width;
 		strength = str;
+		this.img = img;
+		path = img.getResourceReference();
 	}
 
 	//Documented in interface
@@ -99,46 +104,6 @@ implements GameObject
 		return width;
 	}
 
-	public void reImage (){
-		try{
-			int dim1 = Math.min(width, height);
-			int dim2 = Math.max(width, height);
-			System.out.println (dim1 + "," + dim2);
-			if (objPole.equals (Pole.NONE)){
-				if (dim1 == 20 && dim2 == 80){
-					img = new Image ("dat/WOOD-Small.png");
-				}else if (dim1 == 25 && dim2 == 100){
-					img = new Image ("dat/WOOD-Medium.png");
-				}else if (dim1 == 30 && dim2 == 120){
-					img = new Image ("dat/WOOD-Large.png");
-				}
-			}else if (objPole.equals (Pole.PARA)){
-				if (dim1 == 20 && dim2 == 80){
-					img = new Image ("dat/Para-Small.png");
-				}else if (dim1 == 25 && dim2 == 100){
-					img = new Image ("dat/Para-Medium.png");
-				}else if (dim1 == 30 && dim2 == 120){
-					img = new Image ("dat/Para-Large.png");
-				}
-			}else if (objPole.equals (Pole.DIA)){
-				if (dim1 == 20 && dim2 == 80){
-					img = new Image ("dat/Dia-Small.png");
-				}else if (dim1 == 25 && dim2 == 100){
-					img = new Image ("dat/Dia-Medium.png");
-				}else if (dim1 == 30 && dim2 == 120){
-					img = new Image ("dat/Dia-Large.png");
-				}
-			}else{
-				img = new Image ("dat/player.png");
-			}
-			if (width > height){
-				img.rotate(90);
-			}
-		}catch (Exception e){
-			
-		}
-	}
-
 	/**
 	 * Sets the value for the Pole Object assigned
 	 * to this GameObject.
@@ -158,7 +123,30 @@ implements GameObject
 	//Documented in interface
 	public Image getImage()
 	{
-		return img;
+		if(img != null)
+			return img;
+		else
+		{
+			try
+			{
+				return new Image(path);
+			} 
+			catch (SlickException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				try
+				{
+					return new Image(10, 10);
+				} 
+				catch (SlickException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					return null;
+				}
+			}
+		}
 	}
 
 	//Documented in interface

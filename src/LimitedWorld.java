@@ -14,6 +14,8 @@
  */
 public class LimitedWorld<E> extends AbstractWorld<E>
 {
+	private static final long serialVersionUID = 8150098151025721822L;
+
 	/**
 	 * A constructor that builds this World.
 	 * 
