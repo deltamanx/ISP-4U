@@ -33,10 +33,10 @@ public class StageSelectState extends BasicGameState
 	{
 		bg = new Image("dat/BG.png");
 		
-		level = 0;
+		level = 1;
 		stage = 0;
 		try{
-			fis = new FileInputStream("dat/lvl/" + level+"."+stage+".dat");
+			fis = new FileInputStream("levelData/" + level+"."+stage+".dat");
 		}catch (IOException e){
 		}
 	}
@@ -60,12 +60,12 @@ public class StageSelectState extends BasicGameState
 				if (stage == 10){
 					stage = 0;
 					level += 1;
-					if (level == 3){
-						level = 0;
+					if (level == 4){
+						level = 1;
 					}
 				}
 				try{
-					fis = new FileInputStream("dat/lvl/" + level+"."+stage+".dat");
+					fis = new FileInputStream("levelData/" + level+"."+stage+".dat");
 				}catch (IOException e){
 					continue;
 				}
@@ -76,14 +76,14 @@ public class StageSelectState extends BasicGameState
 			while(true){
 				stage -= 1;
 				if (stage == -1){
-					stage = 10;
+					stage = 9;
 					level -= 1;
-					if (level == -1){
-						level = 2;
+					if (level == 0){
+						level =3;
 					}
 				}
 				try{
-					fis = new FileInputStream("dat/lvl/" + level+"."+stage+".dat");
+					fis = new FileInputStream("levelData/" + level+"."+stage+".dat");
 				}catch (IOException e){
 					continue;
 				}

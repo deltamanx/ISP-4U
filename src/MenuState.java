@@ -1,6 +1,7 @@
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
@@ -50,12 +51,7 @@ implements ComponentListener
 	public void update(GameContainer gc, StateBasedGame parent, int delta)
 	throws SlickException
 	{
-		if (nextState == 5)
-		{
-			parent.getState(3).init(gc, parent);
-			parent.enterState(3);
-		}
-		else if (nextState > 1)
+		if (nextState > 1)
 		{
 			parent.enterState (nextState);
 		}
@@ -65,9 +61,9 @@ implements ComponentListener
 	@Override
 	public void keyReleased(int key, char c) 
 	{
-		if(c == 'n')
-			nextState = 5;
-		else if (c == 'e')
+		if(key == Input.KEY_H)
+			nextState = 4;
+		else if(key == Input.KEY_E)
 			System.exit(0);
 		else return;
 	}
@@ -82,7 +78,7 @@ implements ComponentListener
 	public void componentActivated(AbstractComponent com)
 	{
 		if (com.equals(newButton))
-			nextState = 5;
+			nextState = 4;
 		if (com.equals(continueButton))
 			nextState = 2;
 		if (com.equals(exitButton))
