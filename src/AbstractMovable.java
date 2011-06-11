@@ -18,6 +18,7 @@ import org.newdawn.slick.Image;
 public abstract class AbstractMovable extends AbstractGameObject
 implements Movable
 {
+	private static final long serialVersionUID = -8400894313011395870L;
 
 	/**
 	 * Inherited constructor

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class AbstractWorld<E>
 implements World<E>
 {
+	private static final long serialVersionUID = -6355649104131966598L;
 	private ArrayList<E> world;
 	private int height;
 	private int width;
@@ -25,7 +26,7 @@ implements World<E>
 	private double goalX;
 	private double goalY;
 	private double goalR;
-	
+
 
 	/**
 	 * Creates an instance of the World Object with given parameters
@@ -55,14 +56,34 @@ implements World<E>
 	{
 		return world.add(obj);
 	}
+	
+	/**
+	 * Used to retrieve the X coordinate for the goal in
+	 * this instance of World.
+	 * 
+	 * @return The X coordinate for the origin of the goal.
+	 */
 	public double getGoalX()
 	{
 		return goalX;
 	}
+	/**
+	 * Used to retrieve the Y coordinate for the goal in
+	 * this instance of World.
+	 * 
+	 * @return The Y coordinate for the origin of the goal.
+	 */
 	public double getGoalY()
 	{
 		return goalY;
 	}
+	/**
+	 * Return the radius of the goal for this World.
+	 * (How far out it spans from the origin).
+	 * Used by the Engine to render the goal.
+	 * 
+	 * @The radius for the goal in this World.
+	 */
 	public double getGoalR()
 	{
 		return goalR;
@@ -173,7 +194,12 @@ implements World<E>
 				movableObjects.add((Solid)getWorld().get(i));
 		return movableObjects;
 	}
-	
+
+	/**
+	 * Returns the Solidity value for all Objects in this World.
+	 * 
+	 * @return Used by the Engine to calculate Bounce distance and energy loss.
+	 */
 	public double getSolidity()
 	{
 		return solidity;
@@ -203,7 +229,7 @@ implements World<E>
 
 	/**
 	 * Checks if a given Object and this Object are the same.
-	 * Automatically returns false if the giuven Object is not
+	 * Automatically returns false if the given Object is not
 	 * an instance of World. If the given Object is a World it
 	 * compares the Objects' hash codes. Override from java.lang.Object.
 	 * 

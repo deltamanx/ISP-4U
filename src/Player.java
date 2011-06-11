@@ -1,9 +1,4 @@
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-
-
-
-
 
 /**
  * The Player Class.
@@ -22,7 +17,9 @@ import org.newdawn.slick.SlickException;
  */
 public class Player extends AbstractMovable 
 implements Solid
-{ 
+{
+	private static final long serialVersionUID = 7251306299153408638L;
+
 	public Player(Image img, int initX, int initY, int height, int width)
 	{
 		super(Pole.PLAYER, img , initX, initY, height, width, 1000.0);

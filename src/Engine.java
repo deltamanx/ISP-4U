@@ -16,7 +16,7 @@ import org.newdawn.slick.SlickException;
  * @version 1.0.0.12 May 8, 2011
  * @since May 8, 2011
  */
-public final class Engine extends Thread
+public final class Engine
 {
 	private World<GameObject> world;
 	//Fields accessed from Threads
@@ -35,7 +35,6 @@ public final class Engine extends Thread
 	 */
 	public Engine(World<GameObject> world)
 	{
-		super("World Thread Handler Thread");
 		setWorld(world);
 		timePassed = 0;
 		numBounces = 0;
@@ -167,8 +166,16 @@ public final class Engine extends Thread
 			g.setColor (Color.white);*/
 			i.getImage().draw((float)i.getX(),(float)i.getY());
 		}
+		g.setColor(Color.red);
 		g.fillOval((float)(world.getGoalX()-world.getGoalR()),(float)(world.getGoalY()-world.getGoalR())
 				,(float)world.getGoalR()*2,(float)world.getGoalR()*2);
+		g.setColor(Color.white);
+		g.fillOval((float)(world.getGoalX()-world.getGoalR()*0.75),(float)(world.getGoalY()-world.getGoalR()*0.75)
+				,(float)world.getGoalR()*2*0.75F,(float)world.getGoalR()*2*0.75F);
+		g.setColor(Color.red);
+		g.fillOval((float)(world.getGoalX()-world.getGoalR()*0.5),(float)(world.getGoalY()-world.getGoalR()*0.5)
+				,(float)world.getGoalR()*2*0.5F,(float)world.getGoalR()*2*0.5F);
+		g.setColor(Color.white);
 		
 	}
 
@@ -265,26 +272,4 @@ public final class Engine extends Thread
 	@Deprecated
 	public synchronized void notifyMoveManager()
 	{ moveManager.notify(); }
-
-	/**
-	 * The run method inherited from Thread. It was overridden for the use
-	 * in this class. This method performs the following: First, it creates
-	 * instances of both the MoveCalculator and MoveManager Objects (both
-	 * are subclasses of java.lang.Thread and therefore run in Threads).
-	 * Once the Objects have been instantiated, it invokes the start() method
-	 * which causes their appropriate run methods to be invoked in separate
-	 * Threads. After this point it simply monitors and manages the Threads.
-	 * The Threads are self and mutually maintained by each other, and are
-	 * capable of continuously running and managing each other until stop
-	 * conditions are met.
-	 * 
-	 * @see MoveCalculator
-	 * @see MoveManager
-	 * @see java.lang.Thread
-	 */
-	@Override
-	public void run()
-	{
-		System.out.println("Thread starting");
-	}
 }

@@ -24,6 +24,7 @@ import org.newdawn.slick.Image;
 public abstract class AbstractGameObject 
 implements GameObject 
 {
+	private static final long serialVersionUID = -1640215226459075153L;
 	private World<GameObject> enclosingWorld;
 	private Pole objPole;
 	private double currentX;

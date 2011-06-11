@@ -1,5 +1,4 @@
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 /**
  * <h1>The Block Class.</h1>
@@ -17,6 +16,8 @@ import org.newdawn.slick.SlickException;
 public class Block extends AbstractGameObject
 implements Solid
 {
+	private static final long serialVersionUID = 6424598912580064571L;
+
 	/**
 	 * This GameObject is a non-moving block. It has no magnetic properties
 	 * and cannot move as it does not implement the Movable interface, and
