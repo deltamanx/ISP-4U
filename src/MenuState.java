@@ -14,12 +14,14 @@ public class MenuState extends BasicGameState
 implements ComponentListener
 {
 	private Image bg;
-	private Image newImage;
+	private Image helpImage;
 	private Image exitImage;
-	private Image continueImage;
-	private MouseOverArea newButton;
+	private Image selectImage;
+	private Image printImage;
+	private MouseOverArea helpButton;
 	private MouseOverArea exitButton;
-	private MouseOverArea continueButton;
+	private MouseOverArea selectButton;
+	private MouseOverArea printButton;
 	private int nextState = 1;
 
 	public MenuState() {  }
@@ -29,12 +31,14 @@ implements ComponentListener
 	throws SlickException
 	{
 		bg = new Image("dat/BG.png");
-		newImage =  new Image ("dat/NewGame.png");
-		newButton = new MouseOverArea(gc,newImage, 100, 100, this);
+		helpImage =  new Image ("dat/Instructions.png");
+		helpButton = new MouseOverArea(gc, helpImage, 50, 100, this);
 		exitImage =  new Image ("dat/Exit.png");
-		exitButton = new MouseOverArea(gc,exitImage, 100, 200, this);
-		continueImage =  new Image ("dat/Continue.png");
-		continueButton = new MouseOverArea(gc,continueImage, 100, 300, this);
+		exitButton = new MouseOverArea(gc, exitImage, 50, 200, this);
+		selectImage =  new Image ("dat/StageSelect.png");
+		selectButton = new MouseOverArea(gc, selectImage, 300, 100, this);
+		printImage = new Image("dat/Print.png");
+		printButton = new MouseOverArea(gc, printImage, 300, 200, this);
 	}
 
 	@Override
@@ -42,9 +46,10 @@ implements ComponentListener
 	throws SlickException
 	{
 		g.drawImage(bg, 0, 0);
-		newButton.render (gc, g);
 		exitButton.render(gc, g);
-		continueButton.render(gc,g);
+		selectButton.render(gc, g);
+		helpButton.render (gc, g);
+		printButton.render(gc, g);
 	}
 
 	@Override
@@ -61,10 +66,14 @@ implements ComponentListener
 	@Override
 	public void keyReleased(int key, char c) 
 	{
-		if(key == Input.KEY_H)
-			nextState = 4;
+		if(key == Input.KEY_H | key == Input.KEY_I)
+			componentActivated(helpButton);
 		else if(key == Input.KEY_E)
-			System.exit(0);
+			componentActivated(exitButton);
+		else if(key == Input.KEY_S)
+			componentActivated(selectButton);
+		else if(key == Input.KEY_P)
+			componentActivated(printButton);
 		else return;
 	}
 
@@ -77,12 +86,14 @@ implements ComponentListener
 	@Override
 	public void componentActivated(AbstractComponent com)
 	{
-		if (com.equals(newButton))
+		if (com.equals(helpButton))
 			nextState = 4;
-		if (com.equals(continueButton))
+		if (com.equals(selectButton))
 			nextState = 2;
 		if (com.equals(exitButton))
 			System.exit(0);
+		if (com.equals(printButton))
+			PrintDriver.print("dat/Rules.txt");
 	}
 
 }

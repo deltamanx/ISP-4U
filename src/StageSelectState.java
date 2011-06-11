@@ -20,6 +20,7 @@ public class StageSelectState extends BasicGameState
 	private Image bg;
 	private int level;
 	private int stage;
+
 	private File f;
 	private Image [][] img= { {},
 			{},
@@ -51,12 +52,15 @@ public class StageSelectState extends BasicGameState
 	{
 		Input i = gc.getInput();
 		if (i.isKeyPressed(Input.KEY_RIGHT)){
-			while(true){
+			while(true)
+			{
 				stage += 1;
-				if (stage == 10){
+				if (stage == 10)
+				{
 					stage = 0;
 					level += 1;
-					if (level == 4){
+					if (level == 4)
+					{
 						level = 1;
 					}
 				}
@@ -65,13 +69,17 @@ public class StageSelectState extends BasicGameState
 					break;
 			}
 		}
-		if (i.isKeyPressed(Input.KEY_LEFT)){
-			while(true){
+		if (i.isKeyPressed(Input.KEY_LEFT))
+		{
+			while(true)
+			{
 				stage -= 1;
-				if (stage == -1){
+				if (stage == -1)
+				{
 					stage = 9;
 					level -= 1;
-					if (level == 0){
+					if (level == 0)
+					{
 						level =3;
 					}
 				}

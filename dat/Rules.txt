@@ -1,0 +1,13 @@
+Use the mouse to aim the ball.
+The further away your mouse is from the ball the faster it will launch.
+Blue Diamagnets repel, pushing you away from them.
+Red Paramagnets attract, pulling you towards them.
+Wood Blocks don't attract or repel.
+You have to hit the target with the ball to win.
+If you hit a magnet or block, you'll bounce off.
+You get points every time you bounce off an object.
+The faster you complete a level, the higher your score.
+If your ball stops, you lose and must restart.
+You can restart a level by pressing 'r'.
+You can quit to the main menu by pressing 'q'.
+You can pause and unpause the game by pressing 'p'.
