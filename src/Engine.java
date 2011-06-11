@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -154,8 +153,8 @@ public final class Engine
 		{
 			i.getImage().draw((float)i.getX(),(float)i.getY());
 		}
-			target.drawCentered((float)world.getGoalX(),(float) world.getGoalY());
-		
+		target.drawCentered((float)world.getGoalX(),(float) world.getGoalY());
+		g.drawString("Score: " + getScore(), 10, 570);
 	}
 
 	/**
@@ -163,8 +162,10 @@ public final class Engine
 	 * 
 	 * @return the resultant score
 	 */
-	public int getScore(){
-		return numBounces + world.getBaseScore() -(timePassed/1000-5);		
+	public int getScore()
+	{
+		return numBounces + world.getBaseScore() - (timePassed > 5000 ? 
+				(timePassed / 1000 - 5) : 0);		
 	}
 	
 	/**

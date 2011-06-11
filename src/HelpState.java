@@ -1,6 +1,3 @@
-import java.io.FileInputStream;
-import java.io.IOException;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -12,7 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class HelpState extends BasicGameState
 {
-	private Image [] slides =  new Image [4];
+	private Image [] slides = new Image [4];
 	private Image bg;
 	private int slideNum;
 	@Override

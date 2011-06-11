@@ -1,8 +1,3 @@
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -88,12 +83,14 @@ public class GameState extends BasicGameState
 		{
 			engine.recalculateMovement(2 * delta);
 			engine.handleMovement(2 * delta);
-			if (engine.isInGoal(p)){
+			if (engine.isInGoal(p))
+			{
 				gameStep = 3;
 				score = engine.getScore();
 			}
 		}
-		else if (gameStep >= 10){
+		else if (gameStep >= 10)
+		{
 			if (i.isKeyPressed (Input.KEY_P))
 				gameStep -= 10;
 		}
@@ -111,7 +108,8 @@ public class GameState extends BasicGameState
 		engine.renderImages(g);
 		if (gameStep == 0)
 			anyKey.draw (250,500);
-		else if (gameStep == 1){
+		else if (gameStep == 1)
+		{
 			Input i = gc.getInput();
 			double angle = -Math.atan((i.getMouseX()-p.getX())/(i.getMouseY()-p.getY()));
 			if (i.getMouseY() > p.getY())

@@ -21,9 +21,8 @@ public class StageSelectState extends BasicGameState
 	private int stage;
 	private ObjectInputStream ois = null;
 	private FileInputStream fis = null;
-	private Image [][] img= { {},
-			{},
-			{}};
+	@SuppressWarnings("unused")
+	private Image [][] img = { {}, {}, {} };
 
 	public StageSelectState(){}
 
@@ -35,9 +34,12 @@ public class StageSelectState extends BasicGameState
 		
 		level = 1;
 		stage = 0;
-		try{
+		try
+		{
 			fis = new FileInputStream("levelData/" + level+"."+stage+".dat");
-		}catch (IOException e){
+		}
+		catch (IOException e)
+		{
 		}
 	}
 
@@ -55,52 +57,68 @@ public class StageSelectState extends BasicGameState
 	{
 		Input i = gc.getInput();
 		if (i.isKeyPressed(Input.KEY_RIGHT)){
-			while(true){
+			while(true)
+			{
 				stage += 1;
-				if (stage == 10){
+				if (stage == 10)
+				{
 					stage = 0;
 					level += 1;
-					if (level == 4){
+					if (level == 4)
+					{
 						level = 1;
 					}
 				}
-				try{
+				try
+				{
 					fis = new FileInputStream("levelData/" + level+"."+stage+".dat");
-				}catch (IOException e){
+				}
+				catch (IOException e)
+				{
 					continue;
 				}
 				break;
 			}
 		}
-		if (i.isKeyPressed(Input.KEY_LEFT)){
-			while(true){
+		if (i.isKeyPressed(Input.KEY_LEFT))
+		{
+			while(true)
+			{
 				stage -= 1;
-				if (stage == -1){
+				if (stage == -1)
+				{
 					stage = 9;
 					level -= 1;
-					if (level == 0){
+					if (level == 0)
+					{
 						level =3;
 					}
 				}
-				try{
+				try
+				{
 					fis = new FileInputStream("levelData/" + level+"."+stage+".dat");
-				}catch (IOException e){
+				}
+				catch (IOException e)
+				{
 					continue;
 				}
 				break;
 			}
 
 		}
-		if (i.isKeyDown(Input.KEY_ENTER)){
+		if (i.isKeyDown(Input.KEY_ENTER))
+		{
 			try
 			{
 				ois = new ObjectInputStream (fis);
 				((GameState)(parent.getState(3))).setWorld((World<GameObject>) ois.readObject());
 				parent.enterState(3);
-			} catch (IOException e)
+			} 
+			catch (IOException e)
 			{
 				e.printStackTrace();
-			} catch (ClassNotFoundException e)
+			} 
+			catch (ClassNotFoundException e)
 			{
 				e.printStackTrace();
 			}
