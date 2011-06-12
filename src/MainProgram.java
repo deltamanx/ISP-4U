@@ -24,7 +24,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class MainProgram extends StateBasedGame
 {
 	private static Music m;
-	
+
 	public MainProgram ()
 	{
 		super ("Interrobang!?");
@@ -45,26 +45,41 @@ public class MainProgram extends StateBasedGame
 		if (key == Input.KEY_Q)
 			enterState(1);
 	}
-	
+
 	@Override
-	public void initStatesList(GameContainer container) throws SlickException
+	public void initStatesList(GameContainer container) 
+	throws SlickException
 	{
 		addState (new SplashState());
 		addState (new MenuState());
 		addState (new StageSelectState());
 		addState (new GameState());
 		addState (new HelpState());
+		addState (new HighScoreState());
 	}
 
+	/**
+	 * The main method for this program. Invoked by the JVM
+	 * to run this application.
+	 * 
+	 * @param args Arguments taken from the JVM.
+	 */
 	public static void main (String[] args)
-	throws SlickException
 	{
-		AppGameContainer app = new AppGameContainer (new MainProgram ());
-		m = new Music ("dat/bgm.ogg");
-		m.loop();
-		app.setDisplayMode (800, 600, false);
-		app.setSmoothDeltas(true);
-		app.setVSync(true);
-		app.start ();
+		AppGameContainer app;
+		try
+		{
+			app = new AppGameContainer (new MainProgram ());
+			m = new Music ("dat/bgm.ogg");
+			m.loop();
+			app.setDisplayMode (800, 600, false);
+			app.setSmoothDeltas(true);
+			app.setVSync(true);
+			app.start ();
+		}
+		catch (SlickException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

@@ -18,10 +18,12 @@ implements ComponentListener
 	private Image exitImage;
 	private Image selectImage;
 	private Image printImage;
+	private Image highScoreImage;
 	private MouseOverArea helpButton;
 	private MouseOverArea exitButton;
 	private MouseOverArea selectButton;
 	private MouseOverArea printButton;
+	private MouseOverArea highScoreButton;
 	private int nextState = 1;
 
 	public MenuState() {  }
@@ -39,6 +41,8 @@ implements ComponentListener
 		selectButton = new MouseOverArea(gc, selectImage, 300, 100, this);
 		printImage = new Image("dat/Print.png");
 		printButton = new MouseOverArea(gc, printImage, 300, 200, this);
+		highScoreImage = new Image("dat/HighScore.png");
+		highScoreButton = new MouseOverArea(gc, highScoreImage, 300, 300, this);
 	}
 
 	@Override
@@ -50,6 +54,7 @@ implements ComponentListener
 		selectButton.render(gc, g);
 		helpButton.render (gc, g);
 		printButton.render(gc, g);
+		highScoreButton.render(gc, g);
 	}
 
 	@Override
@@ -66,7 +71,7 @@ implements ComponentListener
 	@Override
 	public void keyReleased(int key, char c) 
 	{
-		if(key == Input.KEY_H | key == Input.KEY_I)
+		if(key == Input.KEY_I)
 			componentActivated(helpButton);
 		else if(key == Input.KEY_E)
 			componentActivated(exitButton);
@@ -74,6 +79,8 @@ implements ComponentListener
 			componentActivated(selectButton);
 		else if(key == Input.KEY_P)
 			componentActivated(printButton);
+		else if(key == Input.KEY_H)
+			componentActivated(highScoreButton);
 		else return;
 	}
 
@@ -88,12 +95,15 @@ implements ComponentListener
 	{
 		if (com.equals(helpButton))
 			nextState = 4;
-		if (com.equals(selectButton))
+		else if (com.equals(selectButton))
 			nextState = 2;
-		if (com.equals(exitButton))
+		else if (com.equals(exitButton))
 			System.exit(0);
-		if (com.equals(printButton))
+		else if (com.equals(printButton))
 			PrintDriver.print("dat/Rules.txt");
+		else if (com.equals(highScoreButton))
+			nextState = 5;
+		else return;
 	}
 
 }
