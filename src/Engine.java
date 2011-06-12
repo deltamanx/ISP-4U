@@ -152,8 +152,6 @@ public final class Engine
 		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
 		{
 			i.getImage().draw((float)i.getX(),(float)i.getY());
-			g.setColor(Color.white);
-			g.drawRect((float)i.getX(),(float) i.getY(), (float)i.getWidth(),(float)i.getHeight());
 		}
 		target.drawCentered((float)world.getGoalX(),(float) world.getGoalY());
 		g.drawString("Score: " + getScore(), 10, 570);

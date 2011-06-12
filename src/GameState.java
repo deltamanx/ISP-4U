@@ -29,7 +29,7 @@ public class GameState extends BasicGameState
 	public void setWorld(String s){
 		WorldID = s;
 	}
-	
+
 	public void enter (GameContainer gc, StateBasedGame parent){
 		try
 		{
@@ -39,35 +39,35 @@ public class GameState extends BasicGameState
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
-		
+
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		arrow = new Image ("dat/arrow.png");
-		Image playerImg = new Image ("dat/player.png");
+		/*Image playerImg = new Image ("dat/player.png");
 		Image diaImgSmall = new Image ("dat/Para-Large-Horiz.png");
 		Image blockImgLarge = new Image ("dat/WOOD-Large.png");
 		Image blockHorizLarge = new Image ("dat/WOOD-Large-Horiz.png");
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		world = new LimitedWorld<GameObject>(600, 800, 0.85, 450, 550, 50, 75);
-		
+
 		world.addToWorld(new Block(blockHorizLarge, 0, 101, 120, 30));
 		world.addToWorld(new Block(blockHorizLarge, 110, 100, 120, 30));
 		world.addToWorld(new Block(blockHorizLarge, 220, 100, 120, 30));
 		world.addToWorld(new Block(blockHorizLarge, 330, 100, 120, 30));
 		world.addToWorld(new Block(blockImgLarge, 440, 100, 30, 120));
 		world.addToWorld(new Block(blockImgLarge, 440, 210, 30, 120));
-		world.addToWorld(new Block(blockImgLarge, 440, 330, 30, 120));
-		world.addToWorld(new Magnet(Pole.PARA, diaImgSmall,  470, 420, 120, 30,150));
-		
+		world.addToWorld(new Block(blockImgLarge, 440, 320, 30, 120));
+		world.addToWorld(new Magnet(Pole.PARA, diaImgSmall,  470, 410, 120, 30,150));
+
 		p = new Player(playerImg, 50, 50, 10, 10);
 		p.addSelfToWorld(world);
-		System.out.println(LevelWriter.writeWorld("2.0", world));
-		
+		System.out.println(LevelWriter.writeWorld("2.0", world));*/
+
 		world = LevelWriter.readWorld(WorldID);
 		p = world.getPlayer();
 		engine = new Engine(world);
@@ -83,7 +83,7 @@ public class GameState extends BasicGameState
 
 		if (gameStep == 0){
 
-			if (i.isKeyDown (Input.KEY_ENTER))
+			if (i.isKeyPressed (Input.KEY_ENTER))
 				gameStep = 1;
 			if (alpha >= 1.0f || alpha <= 0.0f)
 				alphaChange = -alphaChange;
@@ -126,9 +126,9 @@ public class GameState extends BasicGameState
 	throws SlickException
 	{
 		engine.renderImages(g);
-		if (gameStep == 0)
+		if (gameStep == 0){
 			anyKey.draw (250,500);
-		else if (gameStep == 1)
+		}else if (gameStep == 1)
 		{
 			Input i = gc.getInput();
 			double angle = -Math.atan((i.getMouseX()-p.getX())/(i.getMouseY()-p.getY()));
