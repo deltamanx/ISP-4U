@@ -55,12 +55,12 @@ public class HighScoreManager
 		catch (FileNotFoundException e)
 		{
 			createHighScores();
-			e.printStackTrace();
+			//e.printStackTrace();
 			return getHighScores(retries++);
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
 			return getHighScores(retries++);
 		} 
 		catch (ClassNotFoundException e)

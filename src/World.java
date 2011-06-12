@@ -45,7 +45,12 @@ public interface World<E> extends Serializable
 	 * @return All instances of Movable in this World Object.
 	 */
 	public ArrayList<Movable> getAllMovable();
-	
+	/**
+	 * Used by the Game Engine to find all Solid Objects in this World.
+	 * Returns them as an ArrayList\<Solid\>.
+	 * 
+	 * @return All instances of Solid in this World Object.
+	 */
 	public ArrayList<Solid> getAllSolids();
 
 	/**

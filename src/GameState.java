@@ -78,13 +78,24 @@ public class GameState extends BasicGameState
 		}
 	}
 
+	/**
+	 * This method initialises the game itself. This is called every time
+	 * the state is entered, and every time it is reset. It loads the level,
+	 * and sets up the necessary variables to manipulate the world.
+	 * 
+	 * @param gc the GameContainer that this state is drawn on
+	 * @param parent the StateBasedGame that contains this state.
+	 * 
+	 */
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		arrow = new Image ("dat/arrow.png");
-		/*Image playerImg = new Image ("dat/player.png");
+		/*commented out code from level creation.
+		 * 
+		 * Image playerImg = new Image ("dat/player.png");
 		Image dSH = new Image ("dat/Dia-Large.png");
 		Image pLH = new Image ("dat/Para-Large-Horiz.png");
 		Image pL = new Image ("dat/Para-Large.png");
@@ -126,6 +137,16 @@ public class GameState extends BasicGameState
 	}
 
 	@Override
+	/**
+	 * This method contains the game logic of the state. It will check for the
+	 * internal state (what part of the game you are at), and look for input accordingly.
+	 * It will also in some steps notify the engine that action must be taken.
+	 * 
+	 * @param gc the GameContainer that this state is drawn on
+	 * @param parent the StateBasedGame that contains this state.
+	 * @param delta the number of milliseconds since the last update.
+	 * 
+	 */
 	public void update (GameContainer gc, StateBasedGame parent, int delta)
 	throws SlickException
 	{
@@ -174,6 +195,15 @@ public class GameState extends BasicGameState
 	}
 
 	@Override
+	/**
+	 * This method renders the world, as well as any other messages/images that need
+	 * to be rendered in accordance with the update method above.
+	 * 
+	 * @param gc the GameContainer that this state is drawn on
+	 * @param parent the StateBasedGame that contains this state.
+	 * @param g the graphics context of the GameContainer
+	 * 
+	 */
 	public void render (GameContainer gc, StateBasedGame parent, Graphics g)
 	throws SlickException
 	{
@@ -213,6 +243,11 @@ public class GameState extends BasicGameState
 	}
 
 	@Override
+	/**
+	 * This method returns the id of the state, in this case 3.
+	 * 
+	 * @ return the id of the state.
+	 */
 	public int getID()
 	{
 		return 3;

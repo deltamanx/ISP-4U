@@ -6,7 +6,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-
+/**
+ * This state contains the help images in it. It will
+ * cycle through these images at the user's input. These
+ * demonstrate the rules and obstacles of the gameplay, and
+ * give a short backstory as to the plot.
+ * 
+ */
 public class HelpState extends BasicGameState
 {
 	private Image [] slides = new Image [4];

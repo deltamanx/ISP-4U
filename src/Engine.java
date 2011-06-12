@@ -133,6 +133,13 @@ public final class Engine
 		}
 	}
 
+	/*
+	 * Scales the speed down if either of the components is over 250 pps (pixels/second)
+	 * If they are, the other speed is scaled down proportionally.
+	 * This is to make aim truer.
+	 * 
+	 * 
+	 */
 	private void scaleSpeed(Movable o)
 	{
 		double xs = o.getXSpeed();

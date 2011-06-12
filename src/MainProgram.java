@@ -25,12 +25,16 @@ public class MainProgram extends StateBasedGame
 {
 	private static Music m;
 
+	/**
+	 * The default constructor.
+	 */
 	public MainProgram ()
 	{
 		super ("Interrobang!?");
 	}
 
 	@Override
+	// documented in interface.
 	public void keyPressed (int key, char c){
 		if (key == Input.KEY_M){
 			if (m.playing())
@@ -47,6 +51,10 @@ public class MainProgram extends StateBasedGame
 	}
 
 	@Override
+	/**
+	 * This method initialises the various states of the game.
+	 * 
+	 */
 	public void initStatesList(GameContainer container) 
 	throws SlickException
 	{

@@ -64,7 +64,8 @@ public final class Pole implements Serializable
 			return false;
 		return true;
 	}
-
+	//documented in the object class
+	@Override
 	public boolean equals(Object o)
 	{
 		if (!(o instanceof Pole))

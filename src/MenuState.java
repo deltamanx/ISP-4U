@@ -9,7 +9,19 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-
+/**
+ * This state is the menu state, and is the first major screen of the program.
+ * Here, the player chooses their next screen, which can either be the game, the highscore screen,
+ * or the help screen. The user may also choose to print out the high scores or to 
+ * exit the program.
+ * 
+ * Pressing Q at any time leads to this screen.
+ * @author Dan Zapornikov
+ * @version 1.0.0 : May 25, 2011
+ * @since May 25, 2011
+ * 
+ * 
+ */
 public class MenuState extends BasicGameState
 implements ComponentListener
 {
@@ -26,9 +38,19 @@ implements ComponentListener
 	private MouseOverArea highScoreButton;
 	private int nextState = 1;
 
+	/**
+	 * Default Constructor.
+	 */
 	public MenuState() {  }
 
 	@Override
+	/**
+	 * Initialises the various menu buttons and their respective images.
+	 * 
+	 * @param gc the GameContainer that contains this state.
+	 * @param parent the StateBasedGame that conains this state.
+	 * 
+	 */
 	public void init(GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
@@ -46,6 +68,14 @@ implements ComponentListener
 	}
 
 	@Override
+	/**
+	 * Draws the buttons and background image onto the GameContainer.
+	 * 
+	 	 * @param gc the GameContainer that contains this state.
+	 * @param parent the StateBasedGame that conains this state.
+	 * @param g the graphics context of the GameContainer.
+	 * 
+	 */
 	public void render(GameContainer gc, StateBasedGame parent, Graphics g)
 	throws SlickException
 	{
@@ -57,6 +87,13 @@ implements ComponentListener
 		highScoreButton.render(gc, g);
 	}
 
+	/**
+	 * Checks if a button was pressed and if one was, goes to the corresponding state.
+	 * 
+	 	 * @param gc the GameContainer that contains this state.
+	 * @param parent the StateBasedGame that conains this state.
+	 * @param delta the number of milliseconds since the last frame update.
+	 */
 	@Override
 	public void update(GameContainer gc, StateBasedGame parent, int delta)
 	throws SlickException
@@ -67,8 +104,15 @@ implements ComponentListener
 		}
 		nextState = 0;
 	}
-	
+
 	@Override
+	/**
+	 * Checks if the released key was one of the hotkeys. If
+	 * it was, then call the related button listener.
+	 * 
+	 * @param key the key id of the pressed key.
+	 * @param c the character of the pressed key.
+	 */
 	public void keyReleased(int key, char c) 
 	{
 		if(key == Input.KEY_I)
@@ -85,12 +129,25 @@ implements ComponentListener
 	}
 
 	@Override
+	/**
+	 * Returns the id of the state.
+	 * 
+	 * @return the ID of the state, in this case 1.
+	 * 
+	 */
 	public int getID()
 	{
 		return 1;
 	}
 
 	@Override
+	/**
+	 * Checks which component was activated, and sets the next state to be opened to be 
+	 * the relevant state.
+	 * 
+	 * @param com the component that was activated.
+	 * 
+	 */
 	public void componentActivated(AbstractComponent com)
 	{
 		if (com.equals(helpButton))
