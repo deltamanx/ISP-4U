@@ -84,7 +84,7 @@ public class GameState extends BasicGameState
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		arrow = new Image ("dat/arrow.png");
-		Image playerImg = new Image ("dat/player.png");
+		/*Image playerImg = new Image ("dat/player.png");
 		Image dSH = new Image ("dat/Dia-Large.png");
 		Image pLH = new Image ("dat/Para-Large-Horiz.png");
 		Image pL = new Image ("dat/Para-Large.png");
@@ -111,7 +111,7 @@ public class GameState extends BasicGameState
 
 		p = new Player(playerImg, 400, 50, 10, 10);
 		p.addSelfToWorld(world);
-		System.out.println(LevelWriter.writeWorld("3.2", world));
+		System.out.println(LevelWriter.writeWorld("3.2", world));*/
 
 		world = LevelWriter.readWorld(WorldID);
 		font = new UnicodeFont ("dat/segoe.ttf",20,false,false);
