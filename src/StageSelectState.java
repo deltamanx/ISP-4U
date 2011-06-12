@@ -33,8 +33,13 @@ public class StageSelectState extends BasicGameState
 		
 		names [0][0] = "EASY - 1 : DIAMAGNETS";
 		names [0][1] = "EASY - 2 : PARAMAGNETS";
+		names [0][2] = "EASY - 3 : LEVITATION";
 		names [1][0] = "NORMAL - 1 : THE HOOK";
 		names [1][1] = "NORMAL - 2 : BOUNCE, NO BOUNCE";
+		names [1][2] = "NORMAL - 3 : CASCADE";
+		names [2][0] = "HARD - 1 : THE WALL";
+		names [2][1] = "HARD - 2 : PARAMAGNETS PART 2";
+		names [2][2] = "HARD - 3 : SLINGSHOT";
 		
 		e = new Engine (LevelWriter.readWorld("1.0"));
 		font = new UnicodeFont ("dat/segoe.ttf",20,false,false);
@@ -50,9 +55,14 @@ public class StageSelectState extends BasicGameState
 	public void render(GameContainer gc, StateBasedGame parent, Graphics g)
 	throws SlickException
 	{
-		e.renderImages (g);
 		g.setFont (font);
+		e.renderImages (g);
+		g.setColor (org.newdawn.slick.Color.black);
+		g.fillRect(250,500, 400, 70);
+		g.setColor (org.newdawn.slick.Color.white);
 		g.drawString(names [level-1][stage],200,200);
+		g.drawString("LEFT AND RIGHT ARROW KEYS TO CHOOSE",200, 240);
+		g.drawString("ENTER TO SELECT",200, 280);
 	}
 
 	@Override

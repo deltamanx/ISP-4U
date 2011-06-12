@@ -23,6 +23,7 @@ public final class Engine
 	//Fields accessed from Threads
 	private Thread moveCalculator;
 	private Thread moveManager;
+	private int consecutiveBounce;
 	private Image target;
 	private int numBounces;
 	private int timePassed;
@@ -93,16 +94,7 @@ public final class Engine
 			if(moving.get(i).isMoving())
 			{
 				//If the speed is too high, cap it.
-				if (moving.get(i).getXSpeed()>250.0){
-					moving.get(i).setXSpeed (250.0);
-				} else if (moving.get(i).getXSpeed()<-250.0){
-					moving.get(i).setXSpeed (-250.0);
-				} 
-				if (moving.get(i).getYSpeed()>250.0){
-					moving.get(i).setYSpeed (250.0);
-				} else if (moving.get(i).getYSpeed()<-250.0){
-					moving.get(i).setYSpeed (-250.0);
-				}
+				scaleSpeed(moving.get(i));
 				//Find coordinates for Objects next desired move spot.
 				double newX = (moving.get(i).getX() + moving.get(i).getXSpeed() * delta / 1000);
 				double newY = (moving.get(i).getY() + moving.get(i).getYSpeed() * delta / 1000);
@@ -110,6 +102,7 @@ public final class Engine
 					if (moving.get(i).canMoveToX(newX) &&moving.get(i).canMoveToY(newY))
 					{
 						moving.get(i).moveTo(newX,newY);
+						consecutiveBounce = 0;
 					}
 					else if (moving.get(i).canMoveToY(newY))
 					{
@@ -117,6 +110,7 @@ public final class Engine
 						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*-world.getSolidity());
 						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*world.getSolidity());
 						numBounces+=1;
+						consecutiveBounce++;
 					}
 					else if (moving.get(i).canMoveToX(newX))
 					{
@@ -124,17 +118,48 @@ public final class Engine
 						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*world.getSolidity());
 						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*-world.getSolidity());
 						numBounces+=1;
+						consecutiveBounce++;
 					}
 					else
 					{
 						moving.get(i).setXSpeed(moving.get(i).getXSpeed()*-world.getSolidity());
 						moving.get(i).setYSpeed(moving.get(i).getYSpeed()*-world.getSolidity());
+						numBounces+=1;
+						consecutiveBounce++;
 					}
 				}
 			//Air Resistance
 			moving.get(i).setYSpeed(moving.get(i).getYSpeed() * 0.9999);
 			moving.get(i).setXSpeed(moving.get(i).getXSpeed() * 0.9999);
 		}
+	}
+
+	private void scaleSpeed(Movable o)
+	{
+		double xs = o.getXSpeed();
+		double ys = o.getYSpeed();
+		if (Math.abs(xs) >= Math.abs (ys)){
+			if (xs > 250.0){
+				ys = ys*(250/xs);
+				xs = 250;
+			}
+			else if (xs < -250.0){
+				ys = ys*(-250/xs);
+				xs = -250;
+			}
+			
+		}else {
+			if (ys > 250.0){
+				xs = xs*(250/ys);
+				ys = 250;
+			}
+			else if (ys < -250.0){
+				xs = xs*(-250/ys);
+				ys = -250;
+			}
+		}
+		o.setXSpeed(xs);
+		o.setYSpeed(ys);
 	}
 
 	public boolean isInGoal (Player p){
@@ -149,14 +174,18 @@ public final class Engine
 	
 	public void renderImages(Graphics g) throws SlickException
 	{
+		target.drawCentered((float)world.getGoalX(),(float) world.getGoalY());
 		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
 		{
 			i.getImage().draw((float)i.getX(),(float)i.getY());
 		}
-		target.drawCentered((float)world.getGoalX(),(float) world.getGoalY());
-		g.drawString("Score: " + getScore(), 10, 570);
+		g.drawString("SCORE: " + getScore(), 10, 570);
 	}
 
+	public boolean isDoubleBounce (){
+		return consecutiveBounce > 2;
+	}
+	
 	/**
 	 * Counts the total score for the past level.
 	 * 

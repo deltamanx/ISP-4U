@@ -1,8 +1,14 @@
+
+
+import java.awt.Color;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -21,6 +27,7 @@ public class GameState extends BasicGameState
 	private Player p;
 	private String WorldID = "1.0";
 	private int score;
+	private UnicodeFont font;
 
 	public GameState()
 	{
@@ -47,28 +54,40 @@ public class GameState extends BasicGameState
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		arrow = new Image ("dat/arrow.png");
-		/*Image playerImg = new Image ("dat/player.png");
-		Image diaImgSmall = new Image ("dat/Para-Large-Horiz.png");
-		Image blockImgLarge = new Image ("dat/WOOD-Large.png");
-		Image blockHorizLarge = new Image ("dat/WOOD-Large-Horiz.png");
+		Image playerImg = new Image ("dat/player.png");
+		Image dSH = new Image ("dat/Dia-Large.png");
+		Image pLH = new Image ("dat/Para-Large-Horiz.png");
+		Image pL = new Image ("dat/Para-Large.png");
+		Image bS = new Image ("dat/WOOD-Small.png");
+		Image bL = new Image ("dat/WOOD-Large.png");
+		Image bLH = new Image ("dat/WOOD-Large-Horiz.png");
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
-		world = new LimitedWorld<GameObject>(600, 800, 0.85, 450, 550, 50, 75);
+		world = new LimitedWorld<GameObject>(600, 800, 0.85, 270, 550, 50, 100);
 
-		world.addToWorld(new Block(blockHorizLarge, 0, 101, 120, 30));
-		world.addToWorld(new Block(blockHorizLarge, 110, 100, 120, 30));
-		world.addToWorld(new Block(blockHorizLarge, 220, 100, 120, 30));
-		world.addToWorld(new Block(blockHorizLarge, 330, 100, 120, 30));
-		world.addToWorld(new Block(blockImgLarge, 440, 100, 30, 120));
-		world.addToWorld(new Block(blockImgLarge, 440, 210, 30, 120));
-		world.addToWorld(new Block(blockImgLarge, 440, 320, 30, 120));
-		world.addToWorld(new Magnet(Pole.PARA, diaImgSmall,  470, 410, 120, 30,150));
+		world.addToWorld(new Block(bLH, 210, 220, 120, 30));
+		world.addToWorld(new Block(bL, 320, 0, 30, 120));
+		world.addToWorld(new Block(bL, 320, 220, 30, 120));
+		world.addToWorld(new Block(bL, 320, 330, 30, 120));
+		world.addToWorld(new Block(bL, 320, 440, 30, 120));
+		world.addToWorld(new Block(bL, 320, 550, 30, 120));
+		world.addToWorld(new Magnet(Pole.DIA, dSH,  450, 110, 30, 120,300));
+		world.addToWorld(new Block(bL, 450, 220, 30, 120));
+		world.addToWorld(new Block(bL, 450, 330, 30, 120));
+		world.addToWorld(new Block(bL, 450, 440, 30, 120));
+		world.addToWorld(new Block(bL, 450, 550, 30, 120));
+		world.addToWorld(new Block(bL, 450, 0, 30, 120));
 
-		p = new Player(playerImg, 50, 50, 10, 10);
+
+		p = new Player(playerImg, 400, 50, 10, 10);
 		p.addSelfToWorld(world);
-		System.out.println(LevelWriter.writeWorld("2.0", world));*/
+		System.out.println(LevelWriter.writeWorld("3.2", world));
 
 		world = LevelWriter.readWorld(WorldID);
+		font = new UnicodeFont ("dat/segoe.ttf",20,false,false);
+		font.addAsciiGlyphs();
+		font.getEffects().add(new ColorEffect(Color.white));
+		font.loadGlyphs();
 		p = world.getPlayer();
 		engine = new Engine(world);
 		gameStep = 0;
@@ -108,6 +127,9 @@ public class GameState extends BasicGameState
 				gameStep = 3;
 				score = engine.getScore();
 			}
+			if (engine.isDoubleBounce()){
+				gameStep = 4;
+			}
 		}
 		else if (gameStep >= 10)
 		{
@@ -125,6 +147,7 @@ public class GameState extends BasicGameState
 	public void render (GameContainer gc, StateBasedGame parent, Graphics g)
 	throws SlickException
 	{
+		g.setFont (font);
 		engine.renderImages(g);
 		if (gameStep == 0){
 			anyKey.draw (250,500);
@@ -132,7 +155,7 @@ public class GameState extends BasicGameState
 		{
 			Input i = gc.getInput();
 			double angle = -Math.atan((i.getMouseX()-p.getX())/(i.getMouseY()-p.getY()));
-			if (i.getMouseY() > p.getY())
+			if (i.getMouseY() > p.getY()|| Math.abs(i.getMouseY()-p.getY())<0.0001)
 				angle += Math.PI;
 			angle = angle*180/Math.PI;
 			Image temp  = arrow.getScaledCopy((float)Math.min(Math.sqrt(p.getXSpeed()*p.getXSpeed() + 
@@ -140,8 +163,20 @@ public class GameState extends BasicGameState
 			temp.setRotation ((float) angle);
 			temp.drawCentered ((float)(p.getX()+p.getWidth()/2),(float)(p.getY()+p.getHeight()/2));
 		}
-		else if (gameStep == 3)
-			g.drawString("A winner is you! Your score is : " + score + ". Press 'Q' to quit.", 250, 500);
+		else if (gameStep == 3){
+			g.setColor (org.newdawn.slick.Color.black);
+			g.fillRect(150,500, 500, 70);
+			g.setColor (org.newdawn.slick.Color.white);
+			g.drawString("STAGE CLEAR!", 150, 500);
+			g.drawString("PRESS 'R' TO RETRY OR 'Q' TO EXIT TO MENU", 150, 540);
+		}
+		else if (gameStep == 4){
+			g.setColor (org.newdawn.slick.Color.black);
+			g.fillRect(150,500, 500, 70);
+			g.setColor (org.newdawn.slick.Color.white);
+			g.drawString("STAGE LOST : STOPPED MOVING", 150, 500);
+			g.drawString("PRESS 'R' TO RETRY OR 'Q' TO EXIT TO MENU",150, 540);
+		}
 		else if (gameStep >= 10)
 			pause.draw (250, 260);
 	}
