@@ -32,7 +32,7 @@ implements ComponentListener
 	public void render(GameContainer gc, StateBasedGame parent, Graphics g)
 	throws SlickException
 	{
-		ArrayList<HighScore> scores = HighScoreManager.getHighScores();
+		ArrayList<HighScore> scores = HighScoreManager.getHighScores(0);
 		for(int i = 0; i < scores.size(); ++i)
 		{
 			g.drawString((i < 9 ? " " : "") + (i + 1) + ": " + scores.get(i).toString(),
@@ -60,7 +60,6 @@ implements ComponentListener
 	@Override
 	public int getID()
 	{
-		// TODO Auto-generated method stub
 		return 5;
 	}
 

@@ -14,6 +14,24 @@ import javax.swing.JOptionPane;
 
 public class PrintDriver
 {
+	private PrintDriver()
+	{ /* Suppress Default Constructor */ }
+	
+	/**
+	 * This method is called statically by the Program else
+	 * where when the user opts to print out content from the
+	 * game. It will open an interface that will prompt the user
+	 * to select a printer (the system default printer will be
+	 * selected as the default option) that is compatible with
+	 * the file output format for this program. It is declared as
+	 * static because after the user has selected their printer
+	 * of choice and the print request was sent, this Class's
+	 * functionality is no longer necessary, and it performs no
+	 * further tasks, and is therefore never required to use more
+	 * than this sole method.
+	 * 
+	 * @param fileName The path to the file to be printed.
+	 */
 	public static void print(String fileName)
 	{
 		try

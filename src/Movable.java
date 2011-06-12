@@ -34,9 +34,25 @@ public interface Movable extends GameObject
 	 * @return <code>true</code> if it is able, <code>false</code> otherwise.
 	 */
 	boolean canMoveTo(double x, double y);
-
+	/**
+	 * Checks whether this GameObject can move to the
+	 * specified X coordinate. This will always return false
+	 * if the given coordinate  is beyond the edge of the
+	 * GameObject's enclosing World.
+	 * 
+	 * @param x The potential value for the GameObject's X coordinate.
+	 * @return <code>true</code> if it is able, <code>false</code> otherwise.
+	 */
 	boolean canMoveToX(double x);
-
+	/**
+	 * Checks whether this GameObject can move to the
+	 * specified Y coordinate. This will always return false
+	 * if the given coordinate  is beyond the edge of the
+	 * GameObject's enclosing World.
+	 * 
+	 * @param y The potential value for the GameObject's Y coordinate.
+	 * @return <code>true</code> if it is able, <code>false</code> otherwise.
+	 */
 	boolean canMoveToY(double y);
 
 	/**

@@ -6,9 +6,23 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-
+/**
+ * The GameState Class.
+ * <p>
+ * This class handles functionality of the program during
+ * game play. This is when the user actually is manipulating
+ * an instance of a World Object that this class is serving
+ * as a handler for.
+ * 
+ * @author Mihail Kurbako
+ * @author Dan Zapornicov
+ * @version 1.0.1.1 : June 12, 2011
+ * @since ~ May 21, 2011
+ * @see BasicGameState
+ * @see World
+ * @see Engine
+ */
 public class GameState extends BasicGameState
-
 {
 	private World<GameObject> world;
 	private Engine engine;
@@ -22,19 +36,36 @@ public class GameState extends BasicGameState
 	private String WorldID = "1.0";
 	private int score;
 
-	public GameState()
-	{
-	}
+	/**
+	 * The default constructor for GameState.
+	 * It's sole purpose is to create a new instance
+	 * of this Object. It has no further functionality. 
+	 */
+	public GameState() { }
 
-	public void setWorld(String s){
+	/**
+	 * Invoked elsewhere to set the value for the name
+	 * of the World that the user is about to play.
+	 * 
+	 * @param s The name for the World Object to be used.
+	 */
+	public void setWorld(String s)
+	{
 		WorldID = s;
 	}
 
-	public void enter (GameContainer gc, StateBasedGame parent){
+	/**
+	 * This method is invoked in order to create
+	 * the GameState World Object's data. It also
+	 * serves as the outer encompassing error-trap. 
+	 */
+	public void enter (GameContainer gc, StateBasedGame parent)
+	{
 		try
 		{
 			init(gc, parent);
-		} catch (SlickException e)
+		} 
+		catch (SlickException e)
 		{
 			e.printStackTrace();
 		}
@@ -43,7 +74,6 @@ public class GameState extends BasicGameState
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
-
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		arrow = new Image ("dat/arrow.png");
@@ -76,6 +106,7 @@ public class GameState extends BasicGameState
 		alphaChange = -1.0f;
 	}
 
+	@Override
 	public void update (GameContainer gc, StateBasedGame parent, int delta)
 	throws SlickException
 	{
@@ -120,8 +151,7 @@ public class GameState extends BasicGameState
 			init (gc, parent);
 	}
 
-
-
+	@Override
 	public void render (GameContainer gc, StateBasedGame parent, Graphics g)
 	throws SlickException
 	{
@@ -132,12 +162,12 @@ public class GameState extends BasicGameState
 		else if (gameStep == 1)
 		{
 			Input i = gc.getInput();
-			double angle = -Math.atan((i.getMouseX()-p.getX())/(i.getMouseY()-p.getY()));
+			double angle = -Math.atan((i.getMouseX() - p.getX()) / (i.getMouseY() - p.getY()));
 			if (i.getMouseY() > p.getY())
 				angle += Math.PI;
 			angle = angle*180/Math.PI;
 			Image temp  = arrow.getScaledCopy((float)Math.min(Math.sqrt(p.getXSpeed()*p.getXSpeed() + 
-					p.getYSpeed()*p.getYSpeed())/250,1.0));
+					p.getYSpeed() * p.getYSpeed()) / 250, 1.0));
 			temp.setRotation ((float) angle);
 			temp.drawCentered ((float)(p.getX()+p.getWidth()/2),(float)(p.getY()+p.getHeight()/2));
 		}

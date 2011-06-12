@@ -20,9 +20,6 @@ import org.newdawn.slick.SlickException;
 public final class Engine
 {
 	private World<GameObject> world;
-	//Fields accessed from Threads
-	private Thread moveCalculator;
-	private Thread moveManager;
 	private Image target;
 	private int numBounces;
 	private int timePassed;
@@ -56,7 +53,7 @@ public final class Engine
 	 * depends on the time since the last frame, and is in essence
 	 * calculated for each millisecond passed.
 	 * 
-	 * @param delta the number of milliseconds since the last frame.
+	 * @param delta The number of milliseconds since the last frame.
 	 */
 	public void recalculateMovement(int delta)
 	{
@@ -81,6 +78,8 @@ public final class Engine
 	 * This is movement for all GameObjects that implement Movable.
 	 * Other Object are not handled by this method as they cannot move
 	 * therefore need not be processed by this game.
+	 * 
+	 * @param delta The time passed since previous frame update.
 	 */
 	public void handleMovement(int delta)
 	{
@@ -137,6 +136,15 @@ public final class Engine
 		}
 	}
 
+	/**
+	 * This method is used to check whether a Player
+	 * has reached the goal in their World. It is
+	 * determined by X and Y coordinates and distance
+	 * to the goal.
+	 * 
+	 * @param p The Player Object to check for.
+	 * @return <code>true</code> if the Player has reached the goal, <code>false</code> otherwise.
+	 */
 	public boolean isInGoal (Player p){
 		double xDist = Math.abs(p.getX()+p.getWidth()/2-world.getGoalX());
 		double yDist = Math.abs(p.getY()+p.getHeight()/2-world.getGoalY());
@@ -147,7 +155,15 @@ public final class Engine
 			return false;
 	}
 	
-	public void renderImages(Graphics g) throws SlickException
+	/**
+	 * Renders images for the handled World using a
+	 * Graphics Object passed using parameters.
+	 * 
+	 * @param g The Graphics Object that will render the World.
+	 * @throws SlickException If the Graphics Environment isHeadless return true.
+	 */
+	public void renderImages(Graphics g) 
+	throws SlickException
 	{
 		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
 		{
@@ -187,69 +203,4 @@ public final class Engine
 	{
 		return world;
 	}
-
-	/**
-	 * Checks whether a given GameObject can move to given coordinates. 
-	 *
-	 * @param go The GameObject in question.
-	 * @param x The X coordinate in question.
-	 * @param y The Y coordinate in question.
-	 * @return <code>true</code> if able, <code>false</code> otherwise.
-	 */
-	@SuppressWarnings("rawtypes")
-	public boolean canMoveObject(GameObject go, int x, int y)
-	{
-		if (!go.getEnclosingWorld().equals(getWorld()))
-			return false;
-		if (!(go instanceof Movable))
-			return false;
-		if (!((Movable)go).canMoveTo(x, y))
-			return false;
-		if (go instanceof Solid && ((AbstractWorld)go.getEnclosingWorld()).getAtCoords(x, y) != null)
-			return false;
-		return true;
-	}
-
-	/**
-	 * Moves a GameObject to a given location in the World.
-	 * 
-	 * @param go The GameObject in question.
-	 * @param x The X coordinate to be moved to.
-	 * @param y The Y coordinate to be moved to.
-	 */
-	public void performMove(GameObject go, int x, int y)
-	{
-		if (go instanceof Movable)
-		{
-			((Movable)go).moveTo(x, y);
-		}
-		else
-			return;
-	}
-
-	/**
-	 * This method is called by the MoveManager Thread from the context of
-	 * the Engine class to prevent IllegalAccessExceptions. It is used to
-	 * notify the MoveCalculator Thread that it may stop waiting and resume
-	 * its functionality as normal.
-	 * 
-	 * @see MoveCalculator
-	 * @see MoveManager
-	 */
-	@Deprecated
-	public synchronized void notifyMoveCalculator()
-	{ moveCalculator.notify(); }
-
-	/**
-	 * This method is called by the MoveCalculator Thread from the context of
-	 * the Engine class to prevent IllegalAccessExceptions. It is used to
-	 * notify the MoveManager Thread that it may stop waiting and resume
-	 * its functionality as normal.
-	 * 
-	 * @see MoveCalculator
-	 * @see MoveManager
-	 */
-	@Deprecated
-	public synchronized void notifyMoveManager()
-	{ moveManager.notify(); }
 }

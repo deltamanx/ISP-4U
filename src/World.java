@@ -62,16 +62,49 @@ public interface World<E> extends Serializable
 	 * @return The current value for the width of this World Object.
 	 */
 	int getWidth();
-	
+	/**
+	 * Returns the Solidity value for all Objects in this World.
+	 * 
+	 * @return Used by the Engine to calculate Bounce distance and energy loss.
+	 */
 	double getSolidity();
-	
+	/**
+	 * Used to access the X coordinate of the World's goal that
+	 * the Player must touch to complete it.
+	 * 
+	 * @return The X coordinate for the goal.
+	 */
 	double getGoalX();
-	
+	/**
+	 * Used to access the Y coordinate of the World's goal that
+	 * the Player must touch to complete it.
+	 * 
+	 * @return The Y coordinate for the goal.
+	 */
 	double getGoalY();
-	
+	/**
+	 * Return the radius of the goal for this World.
+	 * (How far out it spans from the origin).
+	 * Used by the Engine to render the goal.
+	 * 
+	 * @return The radius for the goal in this World.
+	 */
 	double getGoalR();
-	
+	/**
+	 * The starting value for the Player's score in this instance
+	 * of the World Object. It is then compared to time and number
+	 * of bounces to produce a final score for the level.
+	 * 
+	 * @return The starting value for score.
+	 */
 	int getBaseScore();
-	
+	/**
+	 * Returns the first instance Player Object that is
+	 * contained within this World. <code>null</code> is
+	 * returned if no instance of Player exists within 
+	 * this World.
+	 * 
+	 * @return The Player Object within this World, <code>null</code> otherwise.
+	 */
 	Player getPlayer();
 }

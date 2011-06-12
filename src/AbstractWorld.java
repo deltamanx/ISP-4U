@@ -77,13 +77,7 @@ implements World<E>
 	{
 		return goalY;
 	}
-	/**
-	 * Return the radius of the goal for this World.
-	 * (How far out it spans from the origin).
-	 * Used by the Engine to render the goal.
-	 * 
-	 * @The radius for the goal in this World.
-	 */
+	
 	public double getGoalR()
 	{
 		return goalR;
