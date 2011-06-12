@@ -128,7 +128,8 @@ public class GameState extends BasicGameState
 		engine.renderImages(g);
 		if (gameStep == 0){
 			anyKey.draw (250,500);
-		}else if (gameStep == 1)
+		}
+		else if (gameStep == 1)
 		{
 			Input i = gc.getInput();
 			double angle = -Math.atan((i.getMouseX()-p.getX())/(i.getMouseY()-p.getY()));
@@ -141,7 +142,8 @@ public class GameState extends BasicGameState
 			temp.drawCentered ((float)(p.getX()+p.getWidth()/2),(float)(p.getY()+p.getHeight()/2));
 		}
 		else if (gameStep == 3)
-			g.drawString("A winner is you! Your score is : " + score + ". Press 'Q' to quit.", 250, 500);
+			g.drawString("A winner is you! Your score is : " + score + ". Press 'Q' to quit.\n" + 
+					"Press 'H' to submit your High Score.", 250, 500);
 		else if (gameStep >= 10)
 			pause.draw (250, 260);
 	}

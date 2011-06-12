@@ -54,6 +54,7 @@ public class MainProgram extends StateBasedGame
 		addState (new StageSelectState());
 		addState (new GameState());
 		addState (new HelpState());
+		addState (new HighScoreState());
 	}
 
 	public static void main (String[] args)

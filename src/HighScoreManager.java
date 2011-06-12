@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class HighScoreManager
-{
+{	
 	private HighScoreManager() 
 	{ /*Suppress Default Constructor*/ }
 	
@@ -25,11 +25,13 @@ public class HighScoreManager
 		{
 			createHighScores();
 			e.printStackTrace();
+			return getHighScores();
 		}
 		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return getHighScores();
 		} 
 		catch (ClassNotFoundException e)
 		{
@@ -37,27 +39,28 @@ public class HighScoreManager
 			//earlier release of the program.
 			createHighScores();
 			e.printStackTrace();
+			return getHighScores();
 		}
-		return null;
 	}
 	
-	public static boolean addHighScore(HighScore highScore)
+	public static int addHighScore(HighScore highScore)
 	{
 		ArrayList<HighScore> scores = getHighScores();
-		boolean hasAdded = false;
+		int place = -1;
 		for(int i = 0; i < scores.size(); i++)
 		{
 			if(scores.get(i).getScore() < highScore.getScore())
 			{
 				scores.add(i, highScore);
+				place = i;
 				trim(scores);
 				break;
 			}
 		}
 		//Update file
-		if(hasAdded)
+		if(place != -1)
 			writeHighScores(scores);
-		return hasAdded;
+		return place;
 	}
 	
 	private static void writeHighScores(ArrayList<HighScore> highScores)
