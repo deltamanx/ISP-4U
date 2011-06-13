@@ -267,17 +267,17 @@ public class GameState extends BasicGameState
 			g.setColor (org.newdawn.slick.Color.black);
 			g.fillRect(150,500, 500, 70);
 			g.setColor (org.newdawn.slick.Color.white);
-			g.drawString("STAGE CLEAR!", 150, 500);
+			g.drawString("STAGE CLEAR!", 150, 480);
 			g.drawString("PRESS 'R' TO RETRY OR 'Q' TO EXIT TO MENU" +
-					"\nPRESS 'H' TO SUBMIT YOUR SCORE (THIS WILL EXIT)", 150, 540);
+					"\nPRESS 'H' TO SUBMIT YOUR SCORE (THIS WILL EXIT)", 150, 520);
 		}
 		else if (gameStep == 4)
 		{
 			g.setColor (org.newdawn.slick.Color.black);
 			g.fillRect(150,500, 500, 70);
 			g.setColor (org.newdawn.slick.Color.white);
-			g.drawString("STAGE LOST : STOPPED MOVING", 150, 500);
-			g.drawString("PRESS 'R' TO RETRY OR 'Q' TO EXIT TO MENU",150, 540);
+			g.drawString("STAGE LOST : STOPPED MOVING", 150, 480);
+			g.drawString("PRESS 'R' TO RETRY OR 'Q' TO EXIT TO MENU",150, 520);
 		}
 		else if (gameStep >= 10)
 			pause.draw (250, 260);

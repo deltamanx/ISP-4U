@@ -79,8 +79,15 @@ public class MainProgram extends StateBasedGame
 		try
 		{
 			app = new AppGameContainer (new MainProgram ());
-			m = new Music ("dat/bgm.ogg");
-			m.loop();
+			try
+			{
+				m = new Music ("dat/bgm.ogg");
+				m.loop();
+			}
+			catch(Exception e)
+			{
+				//The user just moved or delete the files. Now what?
+			}
 			app.setDisplayMode (800, 600, false);
 			app.setSmoothDeltas(true);
 			app.setVSync(true);

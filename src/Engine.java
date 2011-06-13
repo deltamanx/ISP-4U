@@ -40,9 +40,10 @@ public final class Engine
 		try
 		{
 			target = new Image ("dat/target.png");
-		} catch (SlickException e)
+		} 
+		catch (Exception e)
 		{
-			e.printStackTrace();
+			target = null;
 		}
 		timePassed = 0;
 		numBounces = 0;
@@ -196,7 +197,10 @@ public final class Engine
 	public void renderImages(Graphics g) 
 	throws SlickException
 	{
-		target.drawCentered((float)world.getGoalX(),(float) world.getGoalY());
+		if(target != null)
+			target.drawCentered((float)world.getGoalX(),(float) world.getGoalY());
+		else
+			g.drawOval((float)world.getGoalX() - 50, (float) world.getGoalY() - 50, 100, 100);
 		for (GameObject i : ((AbstractWorld<GameObject>)getWorld()).getWorld())
 		{
 			i.getImage().draw((float)i.getX(),(float)i.getY());

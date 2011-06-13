@@ -56,7 +56,14 @@ implements ComponentListener
 	public void init(GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
-		bg = new Image("dat/BG.png");
+		try
+		{
+			bg = new Image("dat/BG.png");
+		}
+		catch(Exception e)
+		{
+			bg = new Image(800, 600);
+		}
 		try
 		{
 			helpImage =  new Image ("dat/Instructions.png");
