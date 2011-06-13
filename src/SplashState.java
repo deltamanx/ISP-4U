@@ -1,3 +1,4 @@
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -28,11 +29,10 @@ public class SplashState extends BasicGameState
 	 * Default Constructor.
 	 * 
 	 */
-	public SplashState()
-	{
-	}
+	public SplashState() {  }
+	
 	/**
-	 * This method initialises the images and other variables that this
+	 * This method initializes the images and other variables that this
 	 * state needs.
 	 * 
 	 * @param gc the GameContainer that is displaying this state (the window)
@@ -42,8 +42,22 @@ public class SplashState extends BasicGameState
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
-		bg = new Image("dat/BG.png");
-		anyKey = new Image ("dat/AnyKey.png");
+		try
+		{
+			bg = new Image("dat/BG.png");
+		}
+		catch(Exception e)
+		{
+			bg = new Image(800, 600);
+		}
+		try
+		{
+			anyKey = new Image ("dat/AnyKey.png");
+		}
+		catch(Exception e)
+		{
+			anyKey = new Image(300, 75);
+		}
 		alpha = 0f;
 		alphaChange = -1.0f;
 	}

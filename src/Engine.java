@@ -1,4 +1,5 @@
 
+
 import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
@@ -177,14 +178,12 @@ public final class Engine
 	 * @param p The Player Object to check for.
 	 * @return <code>true</code> if the Player has reached the goal, <code>false</code> otherwise.
 	 */
-	public boolean isInGoal (Player p){
+	public boolean isInGoal (Player p)
+	{
 		double xDist = Math.abs(p.getX()+p.getWidth()/2-world.getGoalX());
 		double yDist = Math.abs(p.getY()+p.getHeight()/2-world.getGoalY());
 		
-		if (Math.sqrt(xDist*xDist + yDist*yDist)<world.getGoalR()){
-			return true;
-		}
-			return false;
+		return Math.sqrt(xDist*xDist + yDist*yDist) < world.getGoalR();
 	}
 	
 	/**
@@ -205,7 +204,14 @@ public final class Engine
 		g.drawString("SCORE: " + getScore(), 10, 570);
 	}
 
-	public boolean isDoubleBounce (){
+	/**
+	 * Checks whether the Player has bounced more than 
+	 * once consecutively.
+	 * 
+	 * @return <code>true</code> if there was more than on consecutive bounce.
+	 */
+	public boolean isDoubleBounce ()
+	{
 		return consecutiveBounce > 2;
 	}
 	

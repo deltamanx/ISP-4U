@@ -1,3 +1,5 @@
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -45,25 +47,65 @@ implements ComponentListener
 
 	@Override
 	/**
-	 * Initialises the various menu buttons and their respective images.
+	 * Initializes the various menu buttons and their respective images.
 	 * 
 	 * @param gc the GameContainer that contains this state.
-	 * @param parent the StateBasedGame that conains this state.
+	 * @param parent the StateBasedGame that contains this state.
 	 * 
 	 */
 	public void init(GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
 		bg = new Image("dat/BG.png");
-		helpImage =  new Image ("dat/Instructions.png");
+		try
+		{
+			helpImage =  new Image ("dat/Instructions.png");
+		}
+		catch(Exception e)
+		{
+			helpImage = new Image(220, 66);
+			helpImage.getGraphics().setBackground(Color.green);
+		}
 		helpButton = new MouseOverArea(gc, helpImage, 50, 100, this);
-		exitImage =  new Image ("dat/Exit.png");
+		try
+		{
+			exitImage =  new Image ("dat/Exit.png");
+		}
+		catch(Exception e)
+		{
+			exitImage = new Image(220, 66);
+			exitImage.getGraphics().setBackground(Color.red);
+		}
 		exitButton = new MouseOverArea(gc, exitImage, 50, 200, this);
-		selectImage =  new Image ("dat/StageSelect.png");
+		try
+		{
+			selectImage =  new Image ("dat/StageSelect.png");
+		}
+		catch(Exception e)
+		{
+			selectImage = new Image(220, 66);
+			selectImage.getGraphics().setBackground(Color.blue);
+		}
 		selectButton = new MouseOverArea(gc, selectImage, 300, 100, this);
-		printImage = new Image("dat/Print.png");
+		try
+		{
+			printImage = new Image("dat/Print.png");
+		}
+		catch(Exception e)
+		{
+			printImage = new Image(220, 66);
+			printImage.getGraphics().setBackground(Color.magenta);
+		}
 		printButton = new MouseOverArea(gc, printImage, 300, 200, this);
-		highScoreImage = new Image("dat/HighScore.png");
+		try
+		{
+			highScoreImage = new Image("dat/HighScore.png");
+		}
+		catch(Exception e)
+		{
+			highScoreImage = new Image(220, 66);
+			highScoreImage.getGraphics().setBackground(Color.yellow);
+		}
 		highScoreButton = new MouseOverArea(gc, highScoreImage, 300, 300, this);
 	}
 
@@ -72,7 +114,7 @@ implements ComponentListener
 	 * Draws the buttons and background image onto the GameContainer.
 	 * 
 	 	 * @param gc the GameContainer that contains this state.
-	 * @param parent the StateBasedGame that conains this state.
+	 * @param parent the StateBasedGame that contains this state.
 	 * @param g the graphics context of the GameContainer.
 	 * 
 	 */
@@ -91,7 +133,7 @@ implements ComponentListener
 	 * Checks if a button was pressed and if one was, goes to the corresponding state.
 	 * 
 	 	 * @param gc the GameContainer that contains this state.
-	 * @param parent the StateBasedGame that conains this state.
+	 * @param parent the StateBasedGame that contains this state.
 	 * @param delta the number of milliseconds since the last frame update.
 	 */
 	@Override

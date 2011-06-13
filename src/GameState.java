@@ -1,6 +1,8 @@
 
 
+
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JOptionPane;
 
@@ -93,11 +95,47 @@ public class GameState extends BasicGameState
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
-		pause = new Image ("dat/Pause.png");
-		anyKey = new Image ("dat/AnyKey.png");
-		arrow = new Image ("dat/arrow.png");
+		try
+		{
+			pause = new Image ("dat/Pause.png");
+		}
+		catch(Exception e)
+		{
+			pause = new Image(303, 136);
+		}
+		try
+		{
+			anyKey = new Image ("dat/AnyKey.png");
+		}
+		catch(Exception e)
+		{
+			anyKey = new Image(300, 75);
+		}
+		try
+		{
+			arrow = new Image ("dat/arrow.png");
+		}
+		catch(Exception e)
+		{
+			arrow = new Image(50, 500);
+			arrow.getGraphics().setBackground(org.newdawn.slick.Color.white);
+		}
 		world = LevelWriter.readWorld(WorldID);
-		font = new UnicodeFont ("dat/segoe.ttf", 20, false, false);
+		if (world == null)
+		{
+			JOptionPane.showMessageDialog(null, "Error! Level file missing!\n" +
+					"Program will now terminate! Please re-install!", "Error!", 
+					JOptionPane.ERROR_MESSAGE);
+			System.exit(-1);
+		}
+		try
+		{
+			font = new UnicodeFont ("dat/segoe.ttf",20,false,false);
+		}
+		catch(Exception e)
+		{
+			font = new UnicodeFont (new Font("sans-serif", Font.PLAIN, 12));
+		}
 		font.addAsciiGlyphs();
 		font.getEffects().add(new ColorEffect(Color.white));
 		font.loadGlyphs();

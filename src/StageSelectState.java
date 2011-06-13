@@ -1,6 +1,11 @@
+
 import java.io.File;
 
 import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JOptionPane;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -60,7 +65,14 @@ public class StageSelectState extends BasicGameState
 		names [2][2] = "HARD - 3 : SLINGSHOT";
 		
 		e = new Engine (LevelWriter.readWorld("1.0"));
-		font = new UnicodeFont ("dat/segoe.ttf",20,false,false);
+		try
+		{
+			font = new UnicodeFont ("dat/segoe.ttf",20,false,false);
+		}
+		catch(Exception e)
+		{
+			font = new UnicodeFont (new Font("sans-serif", Font.PLAIN, 12));
+		}
 		font.addAsciiGlyphs();
 		font.getEffects().add(new ColorEffect(Color.white));
 		font.loadGlyphs();
@@ -95,7 +107,6 @@ public class StageSelectState extends BasicGameState
 	 * 
 	 * @param gc the GameContainer that is displaying this state (the window)
 	 * @param parent the StateBasedGame that contains this state.
-	 * 
 	 */
 	public void update(GameContainer gc, StateBasedGame parent, int delta)
 	throws SlickException
@@ -114,11 +125,19 @@ public class StageSelectState extends BasicGameState
 						level = 1;
 					}
 				}
-				f = new File ("levelData/" + level+"."+stage+".dat");
+				f = new File ("levelData/" + level + "." + stage + ".dat");
 				if (f.exists())
 					break;
 			}
-			e = new Engine (LevelWriter.readWorld(level + "." + stage));
+			World<GameObject> w = LevelWriter.readWorld(level + "." + stage);
+			if (w == null)
+			{
+				JOptionPane.showMessageDialog(null, "Error! Level file missing!\n" +
+						"Program will now terminate! Please re-install!", "Error!", 
+						JOptionPane.ERROR_MESSAGE);
+				System.exit(-1);
+			}
+			e = new Engine (w);
 		}
 		if (i.isKeyPressed(Input.KEY_LEFT))
 		{
@@ -134,11 +153,19 @@ public class StageSelectState extends BasicGameState
 						level = 3;
 					}
 				}
-				f = new File ("levelData/" + level+"."+stage+".dat");
+				f = new File ("levelData/" + level + "." + stage + ".dat");
 				if (f.exists())
 					break;
 			}
-			e = new Engine (LevelWriter.readWorld(level + "." + stage));
+			World<GameObject> w = LevelWriter.readWorld(level + "." + stage);
+			if (w == null)
+			{
+				JOptionPane.showMessageDialog(null, "Error! Level file missing!\n" +
+						"Program will now terminate! Please re-install!", "Error!", 
+						JOptionPane.ERROR_MESSAGE);
+				System.exit(-1);
+			}
+			e = new Engine (w);
 		}
 		if (i.isKeyDown(Input.KEY_ENTER)){
 				((GameState)(parent.getState(3))).setWorld(level + "." + stage);

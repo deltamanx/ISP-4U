@@ -1,4 +1,5 @@
 
+
 import java.io.Serializable;
 
 /**
@@ -130,7 +131,7 @@ public final class HighScore implements Serializable
 	 * Returns a String representation of this HighScore
 	 * in the format of:
 	 * <p>
-	 * [Name]: [Score] ([Level Name])
+	 * [Name]: [Score] (Level: [Level Name])
 	 * 
 	 * @return The String value for this HighScore.
 	 */

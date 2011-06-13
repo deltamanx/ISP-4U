@@ -1,5 +1,11 @@
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -12,9 +18,11 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 /**
  * This state shows the high scores read from the HighScore.dat file.
+ * It is also capable of clearing the HighScores from the File, and
+ * printing them using a printer.
  * 
  * @author Mihail Kurbako
- * @version 1.0.0, June 11, 2011
+ * @version 1.0.0.0, June 11, 2011
  * @since June 11, 2011
  */
 public class HighScoreState extends BasicGameState
@@ -22,8 +30,10 @@ implements ComponentListener
 {
 	private Image backImage;
 	private Image clearImage;
+	private Image printImage;
 	private MouseOverArea backButton;
 	private MouseOverArea clearButton;
+	private MouseOverArea printButton;
 	private int nextState = 0;
 	
 	/**
@@ -42,10 +52,36 @@ implements ComponentListener
 	public void init(GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
-		backImage = new Image("dat/Back.png");
+		try
+		{
+			backImage = new Image("dat/Back.png");
+		}
+		catch(Exception e)
+		{
+			backImage = new Image(220, 66);
+			backImage.getGraphics().setBackground(Color.blue);
+		}
 		backButton = new MouseOverArea(gc, backImage, 550, 500, this);
-		clearImage = new Image("dat/Clear.png");
+		try
+		{
+			clearImage = new Image("dat/Clear.png");
+		}
+		catch(Exception e)
+		{
+			clearImage = new Image(220, 66);
+			clearImage.getGraphics().setBackground(Color.red);
+		}
 		clearButton = new MouseOverArea(gc, clearImage, 550, 400, this);
+		try
+		{
+			printImage = new Image("dat/Print.png");
+		}
+		catch(Exception e)
+		{
+			printImage = new Image(220, 66);
+			printImage.getGraphics().setBackground(Color.magenta);
+		}
+		printButton = new MouseOverArea(gc, printImage, 550, 300, this);
 	}
 
 	@Override
@@ -67,6 +103,7 @@ implements ComponentListener
 		}
 		backButton.render(gc, g);
 		clearButton.render(gc, g);
+		printButton.render(gc, g);
 	}
 
 	@Override
@@ -99,6 +136,8 @@ implements ComponentListener
 			componentActivated(backButton);
 		else if(key == Input.KEY_C)
 			componentActivated(clearButton);
+		else if(key == Input.KEY_P)
+			componentActivated(printButton);
 		else return;
 	}
 
@@ -126,6 +165,23 @@ implements ComponentListener
 			nextState = 1;
 		else if(com.equals(clearButton))
 			HighScoreManager.getHighScores(10);
+		else if (com.equals(printButton))
+		{
+			try
+			{
+				PrintWriter out = new PrintWriter(new FileWriter("TempScores.txt"));
+				for(HighScore hs : HighScoreManager.getHighScores(0))
+					out.println(hs.toString());
+				out.close();
+				PrintDriver.print("TempScores.txt");
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(null, "An Error has occured. If you are using " +
+						"Windows 7 or Vista,\n please run this program as an Administrator.", 
+						"Error.", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 		else return;
 	}
 

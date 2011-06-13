@@ -1,4 +1,5 @@
 
+
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
@@ -35,7 +36,6 @@ public class LevelWriter
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -56,7 +56,6 @@ public class LevelWriter
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
 			return null;
 		}
 	}

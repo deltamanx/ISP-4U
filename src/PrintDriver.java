@@ -1,3 +1,4 @@
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -11,7 +12,18 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JOptionPane;
 
-
+/**
+ * The PrintDriver Class.
+ * <p>
+ * This class is used to handle printing of documents.
+ * It holds a single method that create a request to the
+ * user specified printer to print a given file.
+ * 
+ * @author Mihail Kurbako
+ * @version 1.0.0.0 : April 11, 2011
+ * @see HighScoreSate
+ * @see MenuState
+ */
 public class PrintDriver
 {
 	private PrintDriver()
@@ -73,7 +85,10 @@ public class PrintDriver
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"Failed to find a printer that supports file format.\n" +
+					"Please ensure a compatible printer is conected and powered on.",
+					"Error.", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }
