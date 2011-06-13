@@ -28,7 +28,7 @@ public class HighScoreManager
 {	
 	private HighScoreManager() 
 	{ /*Suppress Default Constructor*/ }
-	
+
 	/**
 	 * This method attempt to retrieve the HighScores
 	 * from a File. If it unsuccessful, which is likely
@@ -36,7 +36,9 @@ public class HighScoreManager
 	 * will create a new blank File filled with Empty slots
 	 * and retry. It will attempt to do so up to a maximum
 	 * of 3 times, after which point, if unsuccessful it will
-	 * return null.
+	 * return a set of empty scores. If the number of retries
+	 * entered was 10, it will clear the HighScore File, and
+	 * return <code>null</code>.
 	 * 
 	 * @param retries The number of retries it has attempted.
 	 * @return The HighScores from a File, or <code>null</code>.
@@ -44,35 +46,49 @@ public class HighScoreManager
 	@SuppressWarnings("unchecked")
 	public static ArrayList<HighScore> getHighScores(int retries)
 	{
-		if(retries >= 3)
+		if(retries == 10)
+		{
+			createHighScores();
 			return null;
-		try
-		{
-			ObjectInputStream ois = new ObjectInputStream (
-					new FileInputStream("dat/HighScores.dat"));
-			return (ArrayList<HighScore>)ois.readObject();
 		}
-		catch (FileNotFoundException e)
+		else if(retries >= 3)
 		{
-			createHighScores();
-			//e.printStackTrace();
-			return getHighScores(retries++);
+			//Uncrashable this way.
+			ArrayList<HighScore> scores = new ArrayList<HighScore>(10);
+			for(int i = 0; i < 10; i++)
+				scores.add(new HighScore(0, "Empty", "Empty"));
+			return scores;
 		}
-		catch (IOException e)
+		else
 		{
-			//e.printStackTrace();
-			return getHighScores(retries++);
-		} 
-		catch (ClassNotFoundException e)
-		{
-			//File is probably corrupt or intended for an
-			//earlier release of the program.
-			createHighScores();
-			e.printStackTrace();
-			return getHighScores(retries++);
+			try
+			{
+				ObjectInputStream ois = new ObjectInputStream (
+						new FileInputStream("dat/HighScores.dat"));
+				return (ArrayList<HighScore>)ois.readObject();
+			}
+			catch (FileNotFoundException e)
+			{
+				createHighScores();
+				//e.printStackTrace();
+				return getHighScores(retries++);
+			}
+			catch (IOException e)
+			{
+				//e.printStackTrace();
+				return getHighScores(retries++);
+			} 
+			catch (ClassNotFoundException e)
+			{
+				//File is probably corrupt or intended for an
+				//earlier release of the program.
+				createHighScores();
+				e.printStackTrace();
+				return getHighScores(retries++);
+			}
 		}
 	}
-	
+
 	/**
 	 * This method attempts to add a HighScore to the
 	 * list of existing HighScores. It will only do so if
@@ -111,7 +127,7 @@ public class HighScoreManager
 			writeHighScores(scores);
 		return place + 1;
 	}
-	
+
 	private static void writeHighScores(ArrayList<HighScore> highScores)
 	{
 		try
@@ -125,7 +141,7 @@ public class HighScoreManager
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void createHighScores()
 	{
 		ArrayList<HighScore> scores = new ArrayList<HighScore>(10);
@@ -133,7 +149,7 @@ public class HighScoreManager
 			scores.add(new HighScore(0, "Empty", "Empty"));
 		writeHighScores(scores);
 	}
-	
+
 	private static void trim(ArrayList<HighScore> highScores)
 	{
 		if(highScores.size() <= 10)

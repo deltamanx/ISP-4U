@@ -21,7 +21,9 @@ public class HighScoreState extends BasicGameState
 implements ComponentListener
 {
 	private Image backImage;
+	private Image clearImage;
 	private MouseOverArea backButton;
+	private MouseOverArea clearButton;
 	private int nextState = 0;
 	
 	/**
@@ -32,7 +34,7 @@ implements ComponentListener
 
 	@Override
 	/**
-	 * Initialises this state's back button and image.
+	 * Initializes this state's back button and image.
 	 * 
 	 * @param gc the GameContainer that houses this state.
 	 * @param parent the StateBasedGame that houses this state.
@@ -42,11 +44,13 @@ implements ComponentListener
 	{
 		backImage = new Image("dat/Back.png");
 		backButton = new MouseOverArea(gc, backImage, 550, 500, this);
+		clearImage = new Image("dat/Clear.png");
+		clearButton = new MouseOverArea(gc, clearImage, 550, 400, this);
 	}
 
 	@Override
 	/**
-	 * Draws the highscores table, as well as the button.
+	 * Draws the high scores table, as well as the button.
 	 * 
 	 * @param gc the GameContainer that houses this state.
 	 * @param parent the StateBasedGame that houses this state.
@@ -62,6 +66,7 @@ implements ComponentListener
 					50, 80 + (i * 25));
 		}
 		backButton.render(gc, g);
+		clearButton.render(gc, g);
 	}
 
 	@Override
@@ -82,7 +87,7 @@ implements ComponentListener
 	
 	@Override
 	/**
-	 * Checks if the key that was released was the hotkey for
+	 * Checks if the key that was released was the hot key for
 	 * the back button. If yes fires the button's event.
 	 * 
 	 * @param key the key id of the released key.
@@ -92,6 +97,9 @@ implements ComponentListener
 	{
 		if(key == Input.KEY_B)
 			componentActivated(backButton);
+		else if(key == Input.KEY_C)
+			componentActivated(clearButton);
+		else return;
 	}
 
 	@Override
@@ -116,6 +124,9 @@ implements ComponentListener
 	{
 		if(com.equals(backButton))
 			nextState = 1;
+		else if(com.equals(clearButton))
+			HighScoreManager.getHighScores(10);
+		else return;
 	}
 
 }

@@ -136,6 +136,6 @@ public final class HighScore implements Serializable
 	 */
 	public String toString()
 	{
-		return getName() + ": " + getScore() + " (" + getLevelName() + ")";
+		return getName() + ": " + getScore() + " (Level: " + getLevelName() + ")";
 	}
 }

@@ -2,6 +2,8 @@
 
 import java.awt.Color;
 
+import javax.swing.JOptionPane;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -79,7 +81,7 @@ public class GameState extends BasicGameState
 	}
 
 	/**
-	 * This method initialises the game itself. This is called every time
+	 * This method initializes the game itself. This is called every time
 	 * the state is entered, and every time it is reset. It loads the level,
 	 * and sets up the necessary variables to manipulate the world.
 	 * 
@@ -87,45 +89,15 @@ public class GameState extends BasicGameState
 	 * @param parent the StateBasedGame that contains this state.
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public void init (GameContainer gc, StateBasedGame parent)
 	throws SlickException
 	{
 		pause = new Image ("dat/Pause.png");
 		anyKey = new Image ("dat/AnyKey.png");
 		arrow = new Image ("dat/arrow.png");
-		/*commented out code from level creation.
-		 * 
-		 * Image playerImg = new Image ("dat/player.png");
-		Image dSH = new Image ("dat/Dia-Large.png");
-		Image pLH = new Image ("dat/Para-Large-Horiz.png");
-		Image pL = new Image ("dat/Para-Large.png");
-		Image bS = new Image ("dat/WOOD-Small.png");
-		Image bL = new Image ("dat/WOOD-Large.png");
-		Image bLH = new Image ("dat/WOOD-Large-Horiz.png");
-		pause = new Image ("dat/Pause.png");
-		anyKey = new Image ("dat/AnyKey.png");
-		world = new LimitedWorld<GameObject>(600, 800, 0.85, 270, 550, 50, 100);
-
-		world.addToWorld(new Block(bLH, 210, 220, 120, 30));
-		world.addToWorld(new Block(bL, 320, 0, 30, 120));
-		world.addToWorld(new Block(bL, 320, 220, 30, 120));
-		world.addToWorld(new Block(bL, 320, 330, 30, 120));
-		world.addToWorld(new Block(bL, 320, 440, 30, 120));
-		world.addToWorld(new Block(bL, 320, 550, 30, 120));
-		world.addToWorld(new Magnet(Pole.DIA, dSH,  450, 110, 30, 120,300));
-		world.addToWorld(new Block(bL, 450, 220, 30, 120));
-		world.addToWorld(new Block(bL, 450, 330, 30, 120));
-		world.addToWorld(new Block(bL, 450, 440, 30, 120));
-		world.addToWorld(new Block(bL, 450, 550, 30, 120));
-		world.addToWorld(new Block(bL, 450, 0, 30, 120));
-
-
-		p = new Player(playerImg, 400, 50, 10, 10);
-		p.addSelfToWorld(world);
-		System.out.println(LevelWriter.writeWorld("3.2", world));*/
-
 		world = LevelWriter.readWorld(WorldID);
-		font = new UnicodeFont ("dat/segoe.ttf",20,false,false);
+		font = new UnicodeFont ("dat/segoe.ttf", 20, false, false);
 		font.addAsciiGlyphs();
 		font.getEffects().add(new ColorEffect(Color.white));
 		font.loadGlyphs();
@@ -152,8 +124,8 @@ public class GameState extends BasicGameState
 	{
 		Input i = gc.getInput();
 
-		if (gameStep == 0){
-
+		if (gameStep == 0)
+		{
 			if (i.isKeyPressed (Input.KEY_ENTER))
 				gameStep = 1;
 			if (alpha >= 1.0f || alpha <= 0.0f)
@@ -179,7 +151,8 @@ public class GameState extends BasicGameState
 				gameStep = 3;
 				score = engine.getScore();
 			}
-			if (engine.isDoubleBounce()){
+			if (engine.isDoubleBounce())
+			{
 				gameStep = 4;
 			}
 		}
@@ -187,6 +160,32 @@ public class GameState extends BasicGameState
 		{
 			if (i.isKeyPressed (Input.KEY_P))
 				gameStep -= 10;
+		}
+		if (i.isKeyPressed(Input.KEY_H) && gameStep == 3)
+		{
+			String name = JOptionPane.showInputDialog("Please enter your name:");
+			HighScore hs = new HighScore(score, name, WorldID);
+			int place = HighScoreManager.addHighScore(hs);
+			if(place != -1)
+			{
+				String ending;
+				if(place == 1)
+					ending = "st";
+				else if(place == 2)
+					ending = "nd";
+				else if(place == 3)
+					ending = "rd";
+				else
+					ending = "th";
+				JOptionPane.showMessageDialog(null,
+						"Congratulations, you scored " + place + ending + " place!");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null,
+						"Sorry, your score wasn't high enough to be in the HighScores table.");
+			}
+			parent.enterState(1);
 		}
 		if (i.isKeyPressed (Input.KEY_P) && gameStep <9)
 			gameStep += 10;
@@ -209,7 +208,8 @@ public class GameState extends BasicGameState
 	{
 		g.setFont (font);
 		engine.renderImages(g);
-		if (gameStep == 0){
+		if (gameStep == 0)
+		{
 			anyKey.draw (250,500);
 		}
 		else if (gameStep == 1)
@@ -224,14 +224,17 @@ public class GameState extends BasicGameState
 			temp.setRotation ((float) angle);
 			temp.drawCentered ((float)(p.getX()+p.getWidth()/2),(float)(p.getY()+p.getHeight()/2));
 		}
-		else if (gameStep == 3){
+		else if (gameStep == 3)
+		{
 			g.setColor (org.newdawn.slick.Color.black);
 			g.fillRect(150,500, 500, 70);
 			g.setColor (org.newdawn.slick.Color.white);
 			g.drawString("STAGE CLEAR!", 150, 500);
-			g.drawString("PRESS 'R' TO RETRY OR 'Q' TO EXIT TO MENU", 150, 540);
+			g.drawString("PRESS 'R' TO RETRY OR 'Q' TO EXIT TO MENU" +
+					"\nPRESS 'H' TO SUBMIT YOUR SCORE (THIS WILL EXIT)", 150, 540);
 		}
-		else if (gameStep == 4){
+		else if (gameStep == 4)
+		{
 			g.setColor (org.newdawn.slick.Color.black);
 			g.fillRect(150,500, 500, 70);
 			g.setColor (org.newdawn.slick.Color.white);
